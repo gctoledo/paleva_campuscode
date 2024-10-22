@@ -8,8 +8,8 @@ describe 'User visits homepage' do
     visit root_path
 
     #Assert
+    expect(current_path).to eq new_user_session_path
     expect(page).to have_content('Para continuar, faça login ou registre-se.')
     expect(page).to have_content('Não possui conta? Cadastre-se agora!')
-    expect(page).to have_content('Esqueceu sua senha?')
   end
 end
