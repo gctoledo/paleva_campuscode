@@ -1,29 +1,90 @@
-<h2>Sign up</h2>
+<div class="w-[450px] py-6 rounded-lg">
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: 'flex flex-col gap-4 w-full px-6' }) do |f| %>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+    <div class="space-y-1">
+      <%= f.label :first_name, "Primeiro nome" %>
+      <%= f.text_field :first_name, autocomplete: "first_name", class: "w-full text-black" %>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
+      <% if resource.errors[:first_name].any? %>
+        <div class="text-red-600">
+          <% resource.errors.full_messages_for(:first_name).each do |message| %>
+            <p><%= message %></p>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
 
-  <div class="field">
-    <%= f.label :password %>
-    <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-  </div>
+    <div class="space-y-1">
+      <%= f.label :last_name, "Sobrenome" %>
+      <%= f.text_field :last_name, autocomplete: "last_name", class: "w-full text-black" %>
 
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
+      <% if resource.errors[:last_name].any? %>
+        <div class="text-red-600">
+          <% resource.errors.full_messages_for(:last_name).each do |message| %>
+            <p><%= message %></p>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
 
-  <div class="actions">
-    <%= f.submit "Sign up" %>
-  </div>
-<% end %>
+    <div class="space-y-1">
+      <%= f.label :cpf, "CPF" %>
+      <%= f.text_field :cpf, autocomplete: "cpf", class: "w-full text-black" %>
 
-<%= render "devise/shared/links" %>
+      <% if resource.errors[:email].any? %>
+        <div class="text-red-600">
+          <% resource.errors.full_messages_for(:cpf).each do |message| %>
+            <p><%= message %></p>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="space-y-1">
+      <%= f.label :email %>
+      <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "w-full text-black" %>
+
+      <% if resource.errors[:email].any? %>
+        <div class="text-red-600">
+          <% resource.errors.full_messages_for(:email).each do |message| %>
+            <p><%= message %></p>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="space-y-1">
+      <%= f.label :password %>
+      <% if @minimum_password_length %>
+        <em>(mínimo de <%= @minimum_password_length %> caracteres)</em>
+      <% end %>
+      <%= f.password_field :password, autocomplete: "new-password", class: "w-full text-black" %>
+
+      <% if resource.errors[:password].any? %>
+        <div class="text-red-600">
+          <% resource.errors.full_messages_for(:password).each do |message| %>
+            <p><%= message %></p>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="space-y-1">
+      <%= f.label :password_confirmation %>
+      <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "w-full text-black" %>
+
+      <% if resource.errors[:password_confirmation].any? %>
+        <div class="text-red-600">
+          <% resource.errors.full_messages_for(:password_confirmation).each do |message| %>
+            <p><%= message %></p>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+
+    <%= f.submit "Cadastrar", class: "cursor-pointer bg-[#5395cf] py-3 rounded-lg font-bold hover:bg-[#3f729e] duration-200" %>
+
+  <% end %>
+
+  <%= link_to "Se já possuir uma conta, faça login!", new_user_session_path, class: "flex w-full justify-center mt-5" %>
+</div>
