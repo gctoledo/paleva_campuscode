@@ -4,4 +4,5 @@ Rails.application.routes.draw do
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 
   devise_for :users
+  root to: "dashboard#index"
 end
