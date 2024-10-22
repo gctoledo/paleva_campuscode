@@ -22,6 +22,8 @@ gem "jbuilder"
 # gem "redis", ">= 4.0.1"
 gem "ostruct"
 
+gem "devise", "~> 4.9"
+
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
 
@@ -48,4 +50,3 @@ group :development do
   # Highlight the fine-grained location where an error occurred [https://github.com/ruby/error_highlight]
   gem "error_highlight", ">= 0.4.0", platforms: [:ruby]
 end
-
