@@ -2,7 +2,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  validates :first_name, :last_name, :cpf, presence: true, uniqueness: true
+  validates :first_name, :last_name, :cpf, presence: true
   validates :cpf, uniqueness: true
   validate :cpf_must_be_valid
 

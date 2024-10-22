@@ -3,7 +3,7 @@ require 'rails_helper'
 describe 'User visits login page' do 
   it 'and login' do
     #Arrange
-    user = User.create!(email: 'john@doe.com', cpf: '51264637721', first_name: 'John', last_name: 'Doe', password: 'password123456')
+    user = User.create!(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456')
 
     #Act
     visit root_path
@@ -19,7 +19,7 @@ describe 'User visits login page' do
 
   it 'and tries to log in with invalid params' do
     #Arrange
-    User.create!(email: 'john@doe.com', cpf: '51264637721', first_name: 'John', last_name: 'Doe', password: 'password123456')
+    User.create!(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456')
 
     #Act
     visit root_path
