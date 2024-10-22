@@ -1,0 +1,13 @@
+<div id="flash-messages" class="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 transition-opacity duration-500">
+  <% if flash[:notice] %>
+    <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4 shadow-lg rounded">
+      <p><%= flash[:notice] %></p>
+    </div>
+  <% end %>
+
+  <% if flash[:alert] %>
+    <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4 shadow-lg rounded">
+      <p><%= flash[:alert] %></p>
+    </div>
+  <% end %>
+</div>
