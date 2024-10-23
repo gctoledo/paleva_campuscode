@@ -8,7 +8,7 @@ describe 'User visits login page' do
 
     #Act
     visit root_path
-    within('form') do
+    within('#login-form') do
       fill_in 'E-mail', with: 'john@doe.com'
       fill_in 'Senha', with: 'password123456'
     end
@@ -24,7 +24,7 @@ describe 'User visits login page' do
 
     #Act
     visit root_path
-    within('form') do
+    within('#login-form') do
       fill_in 'E-mail', with: 'john@doe.com'
       fill_in 'Senha', with: 'password123456'
     end
@@ -40,7 +40,7 @@ describe 'User visits login page' do
 
     #Act
     visit root_path
-    within('form') do
+    within('#login-form') do
       fill_in 'E-mail', with: 'john@doe.com'
       fill_in 'Senha', with: 'invalid_password'
     end

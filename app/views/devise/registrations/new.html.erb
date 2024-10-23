@@ -1,5 +1,5 @@
 <div class="w-[450px] py-6 rounded-lg">
-  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: 'flex flex-col gap-4 w-full px-6' }) do |f| %>
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: 'flex flex-col gap-4 w-full px-6', id: 'create-user-form' }) do |f| %>
 
     <div class="space-y-1 flex flex-col">
       <%= f.label :first_name %>

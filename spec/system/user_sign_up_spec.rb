@@ -23,7 +23,7 @@ describe 'User visits registration page' do
     #Act
     visit root_path
     click_on 'Não possui conta? Cadastre-se agora!'
-    within('form') do
+    within('#create-user-form') do
       fill_in 'Nome', with: 'John'
       fill_in 'Sobrenome', with: 'Doe'
       fill_in 'E-mail', with: 'john@doe.com'
@@ -61,7 +61,7 @@ describe 'User visits registration page' do
     #Act
     visit root_path
     click_on 'Não possui conta? Cadastre-se agora!'
-    within('form') do
+    within('#create-user-form') do
       fill_in 'Nome', with: 'John'
       fill_in 'Sobrenome', with: 'Doe'
       fill_in 'E-mail', with: 'john@doe.com'

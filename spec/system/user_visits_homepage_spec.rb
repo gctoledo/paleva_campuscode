@@ -13,7 +13,7 @@ describe 'User visits homepage' do
     expect(page).to have_content('Não possui conta? Cadastre-se agora!')
   end
 
-  it 'and is kicked out because not have a restaurant registered' do
+  it 'and is redirected because not have a restaurant registered' do
     #Arrange
     
     #Act

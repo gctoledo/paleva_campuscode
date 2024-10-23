@@ -1,5 +1,5 @@
 <div class="w-96 py-6 rounded-lg">
-  <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'flex flex-col gap-4 w-full px-6' }) do |f| %>
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'flex flex-col gap-4 w-full px-6', id: 'login-form' }) do |f| %>
     <div class="space-y-1">
       <%= f.label :email %>
       <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "w-full text-black" %>
