@@ -1,8 +1,6 @@
 class Restaurant < ApplicationRecord
   belongs_to :user
   has_many :opentimes, dependent: :destroy
-  accepts_nested_attributes_for :opentimes, allow_destroy: true
-
 
   validates :trade_name, :legal_name, :cnpj, :address, :phone, :email, presence: true
 

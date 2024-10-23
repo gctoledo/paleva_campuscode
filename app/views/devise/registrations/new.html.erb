@@ -1,9 +1,9 @@
 <div class="w-[450px] py-6 rounded-lg">
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: 'flex flex-col gap-4 w-full px-6' }) do |f| %>
 
-    <div class="space-y-1">
+    <div class="space-y-1 flex flex-col">
       <%= f.label :first_name %>
-      <%= f.text_field :first_name, autocomplete: "first_name", class: "w-full text-black" %>
+      <%= f.text_field :first_name, autocomplete: "first_name", class: "form-input" %>
 
       <% if resource.errors[:first_name].any? %>
         <div class="text-red-600">
@@ -14,9 +14,9 @@
       <% end %>
     </div>
 
-    <div class="space-y-1">
+    <div class="space-y-1 flex flex-col">
       <%= f.label :last_name %>
-      <%= f.text_field :last_name, autocomplete: "last_name", class: "w-full text-black" %>
+      <%= f.text_field :last_name, autocomplete: "last_name", class: "form-input" %>
 
       <% if resource.errors[:last_name].any? %>
         <div class="text-red-600">
@@ -27,9 +27,9 @@
       <% end %>
     </div>
 
-    <div class="space-y-1">
+    <div class="space-y-1 flex flex-col">
       <%= f.label :cpf %>
-      <%= f.text_field :cpf, autocomplete: "cpf", class: "w-full text-black" %>
+      <%= f.text_field :cpf, autocomplete: "cpf", class: "form-input" %>
 
       <% if resource.errors[:email].any? %>
         <div class="text-red-600">
@@ -40,9 +40,9 @@
       <% end %>
     </div>
 
-    <div class="space-y-1">
+    <div class="space-y-1 flex flex-col">
       <%= f.label :email %>
-      <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "w-full text-black" %>
+      <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-input" %>
 
       <% if resource.errors[:email].any? %>
         <div class="text-red-600">
@@ -53,12 +53,12 @@
       <% end %>
     </div>
 
-    <div class="space-y-1">
+    <div class="space-y-1 flex flex-col">
       <%= f.label :password %>
       <% if @minimum_password_length %>
         <em>(mínimo de <%= @minimum_password_length %> caracteres)</em>
       <% end %>
-      <%= f.password_field :password, autocomplete: "new-password", class: "w-full text-black" %>
+      <%= f.password_field :password, autocomplete: "new-password", class: "form-input" %>
 
       <% if resource.errors[:password].any? %>
         <div class="text-red-600">
@@ -69,9 +69,9 @@
       <% end %>
     </div>
 
-    <div class="space-y-1">
+    <div class="space-y-1 flex flex-col">
       <%= f.label :password_confirmation %>
-      <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "w-full text-black" %>
+      <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-input" %>
 
       <% if resource.errors[:password_confirmation].any? %>
         <div class="text-red-600">
