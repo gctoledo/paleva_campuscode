@@ -2,9 +2,18 @@ pt-BR:
   activerecord:
     models:
       user: 'Usuário'
+      restaurant: 'Restaurante'
     attributes:
       user:
         password: 'Senha'
         first_name: 'Nome'
         last_name: 'Sobrenome'
         cpf: 'CPF'
+      restaurant:
+        trade_name: 'Nome fantasia'
+        legal_name: 'Razão social'
+        cnpj: 'CNPJ'
+        address: 'Endereço'
+        phone: 'Telefone'
+        email: 'E-mail'
+        code: 'Código'
