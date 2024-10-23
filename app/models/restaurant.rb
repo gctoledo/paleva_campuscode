@@ -2,11 +2,16 @@ class Restaurant < ApplicationRecord
   belongs_to :user
 
   validates :trade_name, :legal_name, :cnpj, :address, :phone, :email, presence: true
-  
+
   validates :cnpj, :email, :legal_name, uniqueness: true
+
+  validates :phone, format: { with: /\A\d{10,11}\z/, message: "deve ter 10 ou 11 dígitos" }
+
+  validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
+
   validate :cnpj_must_be_valid
 
-  before_create :generate_unique_code
+  after_initialize :generate_unique_code, if: :new_record?
 
   private
 
