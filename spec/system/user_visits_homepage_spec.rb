@@ -30,7 +30,7 @@ describe 'User visits homepage' do
     #Arrange
     user = User.create!(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456')
     login_as(user)
-    create_restaurant(user.id)
+    create_restaurant(user)
     
     #Act
     visit root_path
