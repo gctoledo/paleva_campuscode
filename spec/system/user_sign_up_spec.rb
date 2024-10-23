@@ -74,4 +74,17 @@ describe 'User visits registration page' do
     #Assert
     expect(page).to have_content('Senha de confirmação não é igual a Senha')
   end
+
+  it 'and try sign up if already authenticated' do
+    #Arrange
+    user = User.create!(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456')
+    login_as(user)
+
+    #Act
+    visit new_user_registration_path
+    
+    #Assert
+    expect(current_path).to eq root_path
+    expect(page).to have_content('Você já está autenticado.')
+  end
 end
