@@ -12,4 +12,17 @@ describe 'User visits homepage' do
     expect(page).to have_content('Para continuar, faça login ou registre-se.')
     expect(page).to have_content('Não possui conta? Cadastre-se agora!')
   end
+
+  it 'with success' do
+    #Arrange
+    user = User.create!(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456')
+    login_as(user)
+    
+    #Act
+    visit root_path
+
+    #Assert
+    expect(current_path).to eq root_path
+    expect(page).to have_content(user.first_name)
+  end
 end
