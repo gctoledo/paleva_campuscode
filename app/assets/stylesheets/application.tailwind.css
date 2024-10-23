@@ -11,4 +11,8 @@ body {
   .form-input {
     @apply w-full text-black;
   }
+
+  .nav-item {
+    @apply w-full cursor-pointer bg-[#5395cf] py-3 font-bold rounded px-3 text-center hover:bg-[#3f729e] duration-200;
+  }
 }

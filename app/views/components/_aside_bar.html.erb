@@ -1,7 +1,18 @@
-      
-<aside class="w-80 h-screen bg-black bg-opacity-50 p-6 flex flex-col justify-between">
+<aside class="w-[428px] h-screen bg-black bg-opacity-50 p-6 flex flex-col justify-between">
   <div>
+    <h1 class="font-bold text-3xl text-center mb-4"><%= current_user&.restaurant&.trade_name || "" %></h1>
+
     <p class="text-xl text-center">Olá, <span class="font-bold"><%= current_user.first_name %></span></p>
+
+    <nav class="w-full mt-10">
+      <ul class="flex flex-col gap-4">
+        <%= link_to root_path do %>
+          <li class="nav-item">
+            Início
+          </li>
+        <% end %>
+      </ul>
+    </nav>
   </div>
 
   <%= button_to 'Sair', destroy_user_session_path, method: :delete, class: 'bg-red-500 w-full rounded-lg py-3' %>
