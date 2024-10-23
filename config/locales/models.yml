@@ -3,6 +3,7 @@ pt-BR:
     models:
       user: 'Usuário'
       restaurant: 'Restaurante'
+      opentime: 'Horário de funcionamento'
     attributes:
       user:
         password: 'Senha'
@@ -17,3 +18,8 @@ pt-BR:
         phone: 'Telefone'
         email: 'E-mail'
         code: 'Código'
+      opentime:
+        week_day: 'Dia da semana'
+        open: 'Horário de abertura'
+        close: 'Horário de encerramento'
+        closed: 'Fechado'
