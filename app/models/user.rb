@@ -6,6 +6,8 @@ class User < ApplicationRecord
   validates :cpf, uniqueness: true
   validate :cpf_must_be_valid
 
+  has_one :restaurant, dependent: :destroy
+
   private
 
   def cpf_must_be_valid

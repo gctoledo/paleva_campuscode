@@ -10,7 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_22_122548) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_23_013127) do
+  create_table "restaurants", force: :cascade do |t|
+    t.string "trade_name", null: false
+    t.string "legal_name", null: false
+    t.string "cnpj", null: false
+    t.string "address", null: false
+    t.string "phone", null: false
+    t.string "email", null: false
+    t.string "code", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cnpj"], name: "index_restaurants_on_cnpj", unique: true
+    t.index ["code"], name: "index_restaurants_on_code", unique: true
+    t.index ["user_id"], name: "index_restaurants_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -26,4 +42,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_22_122548) do
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
+
+  add_foreign_key "restaurants", "users"
 end
