@@ -13,10 +13,24 @@ describe 'User visits homepage' do
     expect(page).to have_content('Não possui conta? Cadastre-se agora!')
   end
 
+  it 'and is kicked out because not have a restaurant registered' do
+    #Arrange
+    
+    #Act
+    user = User.create!(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456')
+    login_as(user)
+    visit root_path
+
+    #Assert
+    expect(current_path).to eq new_restaurant_path
+    expect(page).to have_content('Você precisa cadastrar seu restaurante antes de continuar.')
+  end
+
   it 'with success' do
     #Arrange
     user = User.create!(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456')
     login_as(user)
+    create_restaurant(user.id)
     
     #Act
     visit root_path

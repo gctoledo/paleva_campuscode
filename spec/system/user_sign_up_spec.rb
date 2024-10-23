@@ -34,8 +34,8 @@ describe 'User visits registration page' do
     click_on 'Cadastrar'
     
     #Assert
-    expect(current_path).to eq root_path
-    expect(page).to have_content('John')
+    expect(current_path).to eq new_restaurant_path
+    expect(page).to have_content('Você precisa cadastrar seu restaurante antes de continuar.')
   end
 
   it 'and try sign up with incorrect params' do
@@ -79,6 +79,7 @@ describe 'User visits registration page' do
     #Arrange
     user = User.create!(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456')
     login_as(user)
+    create_restaurant(user.id)
 
     #Act
     visit new_user_registration_path
