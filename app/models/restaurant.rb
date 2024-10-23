@@ -3,7 +3,7 @@ class Restaurant < ApplicationRecord
 
   validates :trade_name, :legal_name, :cnpj, :address, :phone, :email, presence: true
   
-  validates :cnpj, uniqueness: true
+  validates :cnpj, :email, :legal_name, uniqueness: true
   validate :cnpj_must_be_valid
 
   before_create :generate_unique_code

@@ -24,6 +24,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_23_013127) do
     t.datetime "updated_at", null: false
     t.index ["cnpj"], name: "index_restaurants_on_cnpj", unique: true
     t.index ["code"], name: "index_restaurants_on_code", unique: true
+    t.index ["email"], name: "index_restaurants_on_email", unique: true
+    t.index ["legal_name"], name: "index_restaurants_on_legal_name", unique: true
     t.index ["user_id"], name: "index_restaurants_on_user_id"
   end
 

@@ -15,5 +15,7 @@ class CreateRestaurants < ActiveRecord::Migration[7.2]
 
     add_index :restaurants, :cnpj, unique: true
     add_index :restaurants, :code, unique: true
+    add_index :restaurants, :email, unique: true
+    add_index :restaurants, :legal_name, unique: true
   end
 end
