@@ -31,7 +31,7 @@ describe 'User visits login page' do
     click_on 'Entrar'
     
     #Assert
-    expect(current_path).to eq new_restaurant_path
+    expect(current_path).to eq new_restaurants_path
   end
 
   it 'and tries to log in with invalid params' do

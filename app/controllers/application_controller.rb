@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
 
   def check_restaurant
     if !current_user.restaurant
-      redirect_to new_restaurant_path, alert: "Você precisa cadastrar seu restaurante antes de continuar."
+      redirect_to new_restaurants_path, alert: "Você precisa cadastrar seu restaurante antes de continuar."
     end
   end
 
@@ -19,6 +19,6 @@ class ApplicationController < ActionController::Base
   end
 
   def devise_or_root_or_restaurant_new_path?
-    devise_controller? || request.path == root_path || request.path == new_restaurant_path
+    devise_controller? || request.path == root_path || request.path == new_restaurants_path
   end
 end

@@ -11,6 +11,5 @@ Rails.application.routes.draw do
   root to: "home#index"
 
   resource :restaurants, only: [ :new, :create ]
-
   resources :opentimes, only: [ :index, :new, :create ]
 end

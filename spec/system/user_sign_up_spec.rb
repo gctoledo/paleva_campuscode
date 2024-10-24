@@ -34,7 +34,7 @@ describe 'User visits registration page' do
     click_on 'Cadastrar'
     
     #Assert
-    expect(current_path).to eq new_restaurant_path
+    expect(current_path).to eq new_restaurants_path
     expect(page).to have_content('Você precisa cadastrar seu restaurante antes de continuar.')
   end
 

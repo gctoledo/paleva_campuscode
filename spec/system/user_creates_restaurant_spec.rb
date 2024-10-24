@@ -25,7 +25,7 @@ describe 'User visits restaurant creation page' do
     create_restaurant(user)
 
     #Act
-    visit new_restaurant_path
+    visit new_restaurants_path
 
     #Assert
     expect(current_path).to eq root_path
