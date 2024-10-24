@@ -8,7 +8,7 @@ class Restaurant < ApplicationRecord
 
   validates :phone, format: { with: /\A\d{10,11}\z/, message: "deve ter 10 ou 11 dígitos" }
 
-  validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
+  validates :email, format: { with: /\A[\w\-\.]+@([\w\-]+\.)+[\w\-]{2,4}\z/, message: "não é válido" }
 
   validate :cnpj_must_be_valid
 

@@ -3,7 +3,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   validates :first_name, :last_name, :cpf, presence: true
-  validates :cpf, uniqueness: true
+  validates :cpf, :email, uniqueness: true
   validate :cpf_must_be_valid
 
   has_one :restaurant, dependent: :destroy
