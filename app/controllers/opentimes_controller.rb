@@ -1,5 +1,6 @@
 class OpentimesController < ApplicationController
   skip_before_action :check_opentimes, only: [:index, :new, :create]
+
   before_action :set_restaurant
 
   def index
@@ -7,45 +8,36 @@ class OpentimesController < ApplicationController
   end
 
   def new
-    @opentimes = (0..6).map do |day|
-      @restaurant.opentimes.find_or_initialize_by(week_day: day)
-    end
+    @opentime = @restaurant.opentimes.new
   end
 
   def create
-    ActiveRecord::Base.transaction do
-      (0..6).each do |day|
-        open_time = params[:open][day.to_s].presence
-        close_time = params[:close][day.to_s].presence
+    @opentime = @restaurant.opentimes.new(opentime_params)
 
-        is_closed = open_time.nil? && close_time.nil?
-
-        opentime = @restaurant.opentimes.new(
-          week_day: day,
-          open: open_time,
-          close: close_time,
-          closed: is_closed
-        )
-
-        unless opentime.save
-          flash.now[:alert] = "Erro ao salvar horários de funcionamento para #{I18n.t('date.day_names')[day]}"
-          render :new, status: :unprocessable_entity
-          raise ActiveRecord::Rollback
-        end
-      end
+    if Opentime.exists?(restaurant_id: @restaurant.id, week_day: opentime_params[:week_day])
+      flash.now[:alert] = 'Você já cadastratou esse dia.'
+      render :new, status: :unprocessable_entity
+      return
     end
 
-    flash[:notice] = "Horários cadastrados com sucesso!"
-    redirect_to root_path
+    if @opentime.save
+      redirect_to opentimes_path, notice: 'Horário cadastrado com sucesso!'
+    else
+      flash.now[:alert] = 'Erro ao cadastrar o horário. Verifique os campos.'
+      render :new, status: :unprocessable_entity
+    end
   end
 
   private
 
   def set_restaurant
-    @restaurant = current_user.restaurant  # Assumindo que o usuário só tem um restaurante
+    @restaurant = current_user.restaurant
   end
 
   def opentime_params
-    params.require(:opentime).permit(:open, :close)
+    params.require(:opentime).permit(:week_day, :open, :close, :closed).tap do |whitelisted|
+      whitelisted[:closed] = whitelisted[:closed] == "1"
+    end
   end
+  
 end

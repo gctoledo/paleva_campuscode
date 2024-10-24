@@ -1,42 +1,51 @@
 <%= render partial: 'components/session_title', locals: { title: 'Cadastro de horários' } %>
 
-<% if @restaurant.opentimes.any? && @restaurant.opentimes.first.errors.any? %>
-  <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-    <strong>Verifique os erros abaixo:</strong>
-    <ul>
-      <% @restaurant.opentimes.first.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-    </ul>
-  </div>
-<% end %>
-
-<%= form_with url: opentimes_path, method: :post, local: true do |f| %>
+<%= form_with model: @opentime, local: true do |f| %>
   <div class="grid grid-cols-3 gap-y-20">
-    <% (0..6).each do |day| %>
-      <div class="flex flex-col gap-4 px-8">
-        <h3 class="capitalize"><%= I18n.t('date.day_names')[day] %></h3>
-
-        <div class="flex items-center justify-between">
-          <%= label_tag "open[#{day}]", "Horário de Abertura" %>
-          <%= time_field_tag "open[#{day}]", nil, class: "form-input w-auto" %>
-          <% if @restaurant.opentimes.first&.errors[:open].any? %>
-            <p class="text-red-600"><%= @restaurant.opentimes.first.errors[:open].first %></p>
+    <div class="flex flex-col gap-4 px-8">
+      <h3 class="capitalize">Selecione o dia</h3>
+      <%= f.label :week_day, "Dia da Semana" %>
+      <%= f.select :week_day, options_for_select([['Domingo', 0], ['Segunda-feira', 1], ['Terça-feira', 2], ['Quarta-feira', 3], ['Quinta-feira', 4], ['Sexta-feira', 5], ['Sábado', 6]]), {}, class: "form-select w-full bg-white text-black border-gray-300 rounded-md shadow-sm focus:ring focus:ring-indigo-200 focus:border-indigo-300" %>
+      <% if @opentime.errors[:week_day].any? %>
+        <div class="text-red-600">
+          <% @opentime.errors.full_messages_for(:week_day).each do |message| %>
+            <p><%= message %></p>
           <% end %>
         </div>
+      <% end %>
 
-        <div class="flex items-center justify-between">
-          <%= label_tag "close[#{day}]", "Horário de Fechamento" %>
-          <%= time_field_tag "close[#{day}]", nil, class: "form-input w-auto" %>
-          <% if @restaurant.opentimes.first&.errors[:close].any? %>
-            <p class="text-red-600"><%= @restaurant.opentimes.first.errors[:close].first %></p>
-          <% end %>
-        </div>
+      <div class="flex items-center justify-between">
+        <%= f.label :open, "Horário de Abertura" %>
+        <%= f.time_field :open, class: "form-input w-auto" %>
       </div>
-    <% end %>
-  </div>
 
-  <p class="text-red-500 mt-10 text-center">🔴 Os dias que não forem preenchidos, vão ser considerados como fechados!</p>
+      <% if @opentime.errors[:open].any? %>
+        <div class="text-red-600">
+          <% @opentime.errors.full_messages_for(:open).each do |message| %>
+            <p><%= message %></p>
+          <% end %>
+        </div>
+      <% end %>
+
+      <div class="flex items-center justify-between">
+        <%= f.label :close, "Horário de Fechamento" %>
+        <%= f.time_field :close, class: "form-input w-auto" %>
+      </div>
+
+      <% if @opentime.errors[:close].any? %>
+        <div class="text-red-600">
+          <% @opentime.errors.full_messages_for(:close).each do |message| %>
+            <p><%= message %></p>
+          <% end %>
+        </div>
+      <% end %>
+
+      <div class="flex items-center justify-between">
+        <%= f.label :closed, "Fechado?" %>
+        <%= f.check_box :closed %>
+      </div>
+    </div>
+  </div>
 
   <div class="flex justify-center">
     <%= f.submit "Salvar horários", class: "mt-8 cursor-pointer bg-[#5395cf] py-3 px-4 rounded-lg font-bold hover:bg-[#3f729e] duration-200" %>
