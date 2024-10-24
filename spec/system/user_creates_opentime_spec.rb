@@ -38,7 +38,8 @@ describe 'User visits opentime creation page' do
 
     #Assert
     expect(page).to have_selector('form#create-opentime-form')
-    expect(page).to have_content('Você já cadastratou esse dia.')
+    expect(page).to have_content('Erro ao cadastrar o horário.')
+    expect(page).to have_content('Dia da semana já foi cadastrado para esse restaurante')
   end
 
   it 'and cant create a opentime with invalid params' do

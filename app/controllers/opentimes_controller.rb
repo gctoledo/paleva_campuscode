@@ -14,16 +14,10 @@ class OpentimesController < ApplicationController
   def create
     @opentime = @restaurant.opentimes.new(opentime_params)
 
-    if Opentime.exists?(restaurant_id: @restaurant.id, week_day: opentime_params[:week_day])
-      flash.now[:alert] = 'Você já cadastratou esse dia.'
-      render :new, status: :unprocessable_entity
-      return
-    end
-
     if @opentime.save
       redirect_to opentimes_path, notice: 'Horário cadastrado com sucesso!'
     else
-      flash.now[:alert] = 'Erro ao cadastrar o horário. Verifique os campos.'
+      flash.now[:alert] = 'Erro ao cadastrar o horário.'
       render :new, status: :unprocessable_entity
     end
   end
