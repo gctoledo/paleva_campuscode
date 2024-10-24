@@ -35,6 +35,17 @@ RSpec.describe User, type: :model do
       expect(result).to eq false
     end
 
+    it 'false when email is invalid' do
+      #Arrange
+      user = User.new(cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456', email: 'invalid_email')
+
+      #Act
+      result = user.valid?
+
+      #Assert
+      expect(result).to eq false
+    end
+
     it 'false when password is empty' do
       #Arrange
       user = User.new(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe')
