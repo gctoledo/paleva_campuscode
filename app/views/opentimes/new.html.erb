@@ -1,49 +1,47 @@
 <%= render partial: 'components/session_title', locals: { title: 'Cadastro de horários' } %>
 
-<%= form_with model: @opentime, local: true do |f| %>
-  <div class="grid grid-cols-3 gap-y-20">
-    <div class="flex flex-col gap-4 px-8">
-      <h3 class="capitalize">Selecione o dia</h3>
-      <%= f.label :week_day, "Dia da Semana" %>
-      <%= f.select :week_day, options_for_select([['Domingo', 0], ['Segunda-feira', 1], ['Terça-feira', 2], ['Quarta-feira', 3], ['Quinta-feira', 4], ['Sexta-feira', 5], ['Sábado', 6]]), {}, class: "form-select w-full bg-white text-black border-gray-300 rounded-md shadow-sm focus:ring focus:ring-indigo-200 focus:border-indigo-300" %>
-      <% if @opentime.errors[:week_day].any? %>
-        <div class="text-red-600">
-          <% @opentime.errors.full_messages_for(:week_day).each do |message| %>
-            <p><%= message %></p>
-          <% end %>
-        </div>
-      <% end %>
-
-      <div class="flex items-center justify-between">
-        <%= f.label :open, "Horário de Abertura" %>
-        <%= f.time_field :open, class: "form-input w-auto" %>
+<%= form_with model: @opentime, html: { class: 'flex flex-col gap-4 w-1/3 mt-6', id: 'create-opentime-form' } do |f| %>
+  <div class="flex flex-col gap-4 px-8">
+    <h3 class="capitalize">Selecione o dia</h3>
+    <%= f.label :week_day, "Dia da Semana" %>
+    <%= f.select :week_day, options_for_select([['Domingo', 0], ['Segunda-feira', 1], ['Terça-feira', 2], ['Quarta-feira', 3], ['Quinta-feira', 4], ['Sexta-feira', 5], ['Sábado', 6]]), {}, class: "form-select w-full bg-white text-black border-gray-300 rounded-md shadow-sm focus:ring focus:ring-indigo-200 focus:border-indigo-300" %>
+    <% if @opentime.errors[:week_day].any? %>
+      <div class="text-red-600">
+        <% @opentime.errors.full_messages_for(:week_day).each do |message| %>
+          <p><%= message %></p>
+        <% end %>
       </div>
+    <% end %>
 
-      <% if @opentime.errors[:open].any? %>
-        <div class="text-red-600">
-          <% @opentime.errors.full_messages_for(:open).each do |message| %>
-            <p><%= message %></p>
-          <% end %>
-        </div>
-      <% end %>
+    <div class="flex items-center justify-between">
+      <%= f.label :open, "Horário de Abertura" %>
+      <%= f.time_field :open, class: "form-input w-auto" %>
+    </div>
 
-      <div class="flex items-center justify-between">
-        <%= f.label :close, "Horário de Fechamento" %>
-        <%= f.time_field :close, class: "form-input w-auto" %>
+    <% if @opentime.errors[:open].any? %>
+      <div class="text-red-600">
+        <% @opentime.errors.full_messages_for(:open).each do |message| %>
+          <p><%= message %></p>
+        <% end %>
       </div>
+    <% end %>
 
-      <% if @opentime.errors[:close].any? %>
-        <div class="text-red-600">
-          <% @opentime.errors.full_messages_for(:close).each do |message| %>
-            <p><%= message %></p>
-          <% end %>
-        </div>
-      <% end %>
+    <div class="flex items-center justify-between">
+      <%= f.label :close, "Horário de Fechamento" %>
+      <%= f.time_field :close, class: "form-input w-auto" %>
+    </div>
 
-      <div class="flex items-center justify-between">
-        <%= f.label :closed, "Fechado?" %>
-        <%= f.check_box :closed %>
+    <% if @opentime.errors[:close].any? %>
+      <div class="text-red-600">
+        <% @opentime.errors.full_messages_for(:close).each do |message| %>
+          <p><%= message %></p>
+        <% end %>
       </div>
+    <% end %>
+
+    <div class="flex items-center justify-between">
+      <%= f.label :closed, "Fechado?" %>
+      <%= f.check_box :closed %>
     </div>
   </div>
 

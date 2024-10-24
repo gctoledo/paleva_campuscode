@@ -55,7 +55,7 @@
 
   <div class="space-y-1 flex flex-col">
     <%= f.label :phone %>
-    <%= f.number_field :phone, class: "form-input" %>
+    <%= f.telephone_field :phone, class: "form-input" %>
 
     <% if @restaurant.errors[:phone].any? %>
       <div class="text-red-600">
