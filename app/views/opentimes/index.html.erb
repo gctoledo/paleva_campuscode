@@ -1,0 +1,18 @@
+<div class="flex items-center justify-between mb-10">
+  <h1 class="text-xl">Horário de funcionamento</h1>
+
+  <%= link_to 'Cadastrar', new_opentime_path, class: "cursor-pointer bg-[#5395cf] py-3 rounded-lg font-bold hover:bg-[#3f729e] duration-200 px-3"%>
+
+  <%= link_to 'Atualizar', edit_opentimes_path, class: "cursor-pointer bg-[#5395cf] py-3 rounded-lg font-bold hover:bg-[#3f729e] duration-200 px-3"%>
+</div>
+
+<div>
+  <% if !@opentimes.empty? %>
+    <% @opentimes.each do |o| %>
+      <%= o.week_day %>
+    <% end %>
+  <% else %>
+    <p class="text-lg">Você não possui horários cadastrados. Por favor, adicione-os.</p>
+  <% end %>
+
+</div>

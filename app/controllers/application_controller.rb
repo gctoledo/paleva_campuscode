@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
   end
 
   def check_opentimes
-    if current_user.restaurant && current_user.restaurant.opentimes.empty?
+    if current_user.restaurant && (current_user.restaurant.opentimes.empty? || current_user.restaurant.opentimes.length < 7)
       redirect_to new_opentime_path, alert: "Você precisa cadastrar os horários de funcionamento do seu restaurante."
     end
   end

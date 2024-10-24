@@ -9,6 +9,8 @@ Rails.application.routes.draw do
 }
 
   root to: "home#index"
-  resources :restaurants, only: [ :new, :create ]
-  resources :opentimes, only: [ :new, :create ]
+
+  resource :restaurants, only: [ :new, :create ]
+
+  resources :opentimes, only: [ :index, :new, :create ]
 end
