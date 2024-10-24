@@ -1,4 +1,4 @@
-<h1 class="text-xl">Cadastro de restaurante</h1>
+<%= render partial: 'components/session_title', locals: { title: 'Cadastro de restaurante' } %>
 
 <%= form_with model: @restaurant, html: { class: 'flex flex-col gap-4 w-1/3 mt-6', id: 'create-restaurant-form' } do |f| %>
   <div class="space-y-1 flex flex-col">
