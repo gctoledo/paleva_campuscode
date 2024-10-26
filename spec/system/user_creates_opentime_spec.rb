@@ -33,8 +33,8 @@ describe 'User visits opentime creation page' do
       select 'Domingo', from: 'opentime_week_day'
       fill_in 'Horário de Abertura', with: '08:30'
       fill_in 'Horário de Fechamento', with: '18:00'
-      click_on 'Salvar horário'
     end
+    click_on 'Salvar horário'
 
     #Assert
     expect(page).to have_selector('form#create-opentime-form')
@@ -70,8 +70,8 @@ describe 'User visits opentime creation page' do
       select 'Domingo', from: 'opentime_week_day'
       fill_in 'Horário de Abertura', with: '18:30'
       fill_in 'Horário de Fechamento', with: '08:00'
-      click_on 'Salvar horário'
     end
+    click_on 'Salvar horário'
 
     #Assert
     expect(page).to have_selector('form#create-opentime-form')
@@ -90,8 +90,8 @@ describe 'User visits opentime creation page' do
       select 'Domingo', from: 'opentime_week_day'
       fill_in 'Horário de Abertura', with: '08:30'
       fill_in 'Horário de Fechamento', with: '18:00'
-      click_on 'Salvar horário'
     end
+    click_on 'Salvar horário'
 
     #Assert
     expect(current_path).to eq opentimes_path
