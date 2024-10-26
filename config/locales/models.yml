@@ -4,6 +4,7 @@ pt-BR:
       user: 'Usuário'
       restaurant: 'Restaurante'
       opentime: 'Horário de funcionamento'
+      dish: 'Prato'
     attributes:
       user:
         password: 'Senha'
@@ -23,3 +24,8 @@ pt-BR:
         open: 'Horário de abertura'
         close: 'Horário de encerramento'
         closed: 'Fechado'
+      dish:
+        name: 'Nome'
+        description: 'Descrição'
+        calories: 'Calorias'
+        image: 'Imagem'
