@@ -9,7 +9,7 @@ body {
 
 @layer components {
   .form-input {
-    @apply w-full text-black;
+    @apply w-full text-black rounded;
   }
 
   .nav-item {

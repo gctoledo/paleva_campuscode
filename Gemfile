@@ -23,6 +23,7 @@ gem "jbuilder"
 gem "ostruct"
 gem "devise", "~> 4.9"
 gem "cpf_cnpj"
+gem "active_storage_validations"
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
