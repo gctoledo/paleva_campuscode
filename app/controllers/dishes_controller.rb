@@ -1,6 +1,6 @@
 class DishesController < ApplicationController
   before_action :set_restaurant
-  before_action :authorize_dishes_access, only: [:show]
+  before_action :authorize_dishes_access, only: [:show, :edit, :update]
 
   def index
     @dishes = @restaurant.dishes
@@ -23,6 +23,22 @@ class DishesController < ApplicationController
     else
       flash.now[:alert] = "Erro ao cadastrar prato"
       render :new, status: :unprocessable_entity
+    end
+  end
+
+  def edit
+    @dish = Dish.find(params[:id])
+  end
+
+  def update
+    @dish = Dish.find(params[:id])
+
+    if @dish.update(dish_params)
+      flash[:notice] = "Prato atualizado com sucesso!"
+      redirect_to dish_path(@dish.id)
+    else
+      flash.now[:alert] = "Erro ao atualizar prato"
+      render :edit, status: :unprocessable_entity
     end
   end
 
