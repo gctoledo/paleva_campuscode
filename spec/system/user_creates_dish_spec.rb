@@ -30,7 +30,13 @@ describe 'User visits dish page' do
     create_restaurant(first_user)
     create_opentime(first_user)
     create_opentime(second_user)
-    dish = first_user.restaurant.dishes.create!(name: 'Parmegiana', description: 'É bom!')
+    dish = first_user.restaurant.dishes.new(name: 'Parmegiana', description: 'É bom!')
+    dish.image.attach(
+      io: File.open('spec/fixtures/test_image.png'),
+      filename: 'test_image.png',
+      content_type: 'image/png'
+    )
+    dish.save
 
     #Act
     visit dish_path(dish.id)
@@ -46,7 +52,13 @@ describe 'User visits dish page' do
     login_as(user)
     create_restaurant(user)
     create_opentime(user)
-    dish = user.restaurant.dishes.create!(name: 'Parmegiana', description: 'É bom!')
+    dish = user.restaurant.dishes.new(name: 'Parmegiana', description: 'É bom!')
+    dish.image.attach(
+      io: File.open('spec/fixtures/test_image.png'),
+      filename: 'test_image.png',
+      content_type: 'image/png'
+    )
+    dish.save
 
     #Act
     visit root_path
