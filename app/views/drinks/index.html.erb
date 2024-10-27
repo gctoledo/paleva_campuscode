@@ -1,0 +1,24 @@
+<div class="flex items-center justify-between mb-10">
+  <h1 class="text-xl">Bebidas</h1>
+
+  <%= link_to 'Cadastrar', new_drink_path, class: "cursor-pointer bg-[#5395cf] py-3 rounded-lg font-bold hover:bg-[#3f729e] duration-200 px-3"%>
+</div>
+
+<% if @drinks.empty? %>
+  <p class="text-lg">Você não possui bebidas cadastradas.</p>
+<% else %>
+  <div class="grid grid-cols-4 gap-6">
+    <% @drinks.each do |d| %>
+      <div>
+        <% if d.image.attached? %>
+          <%= image_tag url_for(d.image), alt: d.name, class: "rounded mb-2" %>
+        <% else %>
+          <p>Imagem não disponível</p>
+        <% end %>
+
+        <h3 class="text-lg font-bold mb-1"></h3>
+        <%= link_to d.name, drink_path(d.id), class: "text-xl font-bold" %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
