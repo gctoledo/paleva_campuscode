@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-describe 'User visits dish creation page' do
-  it 'and sees all form inputs' do
+describe 'User visits dish page' do
+  it 'and sees all form inputs in creation form' do
     #Arrange
     user = User.create!(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456')
     login_as(user)
@@ -21,7 +21,7 @@ describe 'User visits dish creation page' do
     expect(page).to have_field('Imagem')
   end
 
-  it 'cant access dishes from other restaurants' do
+  it 'and cant access dishes from other restaurants' do
     #Arrange
     first_user = User.create!(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456')
     second_user = User.create!(email: 'mary@jane.com', cpf: CPF.generate, first_name: 'Mary', last_name: 'Jane', password: 'password123456')
@@ -40,7 +40,7 @@ describe 'User visits dish creation page' do
     expect(page).to have_content('Acesso não autorizado.')
   end
 
-  it 'can access your dishes' do
+  it 'and can access your dishes' do
     #Arrange
     user = User.create!(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456')
     login_as(user)
