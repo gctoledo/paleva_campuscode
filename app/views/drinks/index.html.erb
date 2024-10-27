@@ -11,7 +11,7 @@
     <% @drinks.each do |d| %>
       <div>
         <% if d.image.attached? %>
-          <%= image_tag url_for(d.image), alt: d.name, class: "rounded mb-2" %>
+          <%= image_tag url_for(d.image), alt: d.name, class: "rounded mb-2 w-full w-full h-56 object-cover" %>
         <% else %>
           <p>Imagem não disponível</p>
         <% end %>

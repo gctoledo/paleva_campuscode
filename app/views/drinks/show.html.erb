@@ -1,1 +1,5 @@
-<h2><%= @drink.name %></h2>
+<div class="flex items-center justify-between mb-10">
+  <h1 class="text-xl"><%= @drink.name %></h1>
+
+  <%= link_to 'Editar', edit_drink_path(@drink.id), class: "cursor-pointer bg-[#5395cf] py-3 rounded-lg font-bold hover:bg-[#3f729e] duration-200 px-3"%>
+</div>

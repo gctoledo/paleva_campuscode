@@ -1,6 +1,6 @@
 class DrinksController < ApplicationController
   before_action :set_restaurant
-  before_action :authorize_drinks_access, only: [:show]
+  before_action :authorize_drinks_access, only: [:show, :edit, :update]
 
   def index
     @drinks = @restaurant.drinks
@@ -23,6 +23,22 @@ class DrinksController < ApplicationController
     else
       flash.now[:alert] = "Erro ao cadastrar bebida"
       render :new, status: :unprocessable_entity
+    end
+  end
+
+  def edit
+    @drink = Drink.find(params[:id])
+  end
+
+  def update
+    @drink = Drink.find(params[:id])
+
+    if @drink.update(drink_params)
+      flash[:notice] = "Bebida atualizada com sucesso!"
+      redirect_to drink_path(@drink.id)
+    else
+      flash.now[:alert] = "Erro ao atualizar bebida"
+      render :edit, status: :unprocessable_entity
     end
   end
 
