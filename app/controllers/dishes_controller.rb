@@ -1,8 +1,13 @@
 class DishesController < ApplicationController
   before_action :set_restaurant
+  before_action :authorize_dishes_access, only: [:show]
 
   def index
     @dishes = @restaurant.dishes
+  end
+
+  def show
+    @dish = Dish.find(params[:id])
   end
 
   def new
@@ -29,5 +34,12 @@ class DishesController < ApplicationController
 
   def dish_params
     params.require(:dish).permit(:name, :description, :calories, :image)
+  end
+
+  def authorize_dishes_access
+    dish = Dish.find(params[:id])
+    unless dish.restaurant == current_user.restaurant
+      redirect_to root_path, alert: "Acesso não autorizado."
+    end
   end
 end
