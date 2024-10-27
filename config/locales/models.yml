@@ -5,6 +5,7 @@ pt-BR:
       restaurant: 'Restaurante'
       opentime: 'Horário de funcionamento'
       dish: 'Prato'
+      drink: 'Bebida'
     attributes:
       user:
         password: 'Senha'
@@ -28,4 +29,9 @@ pt-BR:
         name: 'Nome'
         description: 'Descrição'
         calories: 'Calorias'
+        image: 'Imagem'
+      drink:
+        name: 'Nome'
+        description: 'Descrição'
+        alcoholic: 'Alcoólica?'
         image: 'Imagem'
