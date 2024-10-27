@@ -28,7 +28,7 @@ describe 'User visits dish creation page' do
     click_on 'Salvar prato'
 
     #Assert
-    expect(page).to have_selector('form#create-dish-form')
+    expect(page).to have_selector('form#dish-form')
     expect(page).to have_content('Nome não pode ficar em branco')
     expect(page).to have_content('Descrição não pode ficar em branco')
   end
@@ -36,7 +36,7 @@ describe 'User visits dish creation page' do
   it 'and creates a dish' do
     #Act
     visit new_dish_path
-    within('#create-dish-form') do
+    within('#dish-form') do
       fill_in 'Nome', with: 'Parmegiana'
       fill_in 'Descrição', with: 'É um prato italiano feito com berinjela frita e fatiada, coberta com queijo e molho de tomate e depois assada.'
       attach_file('Imagem', Rails.root.join('spec/fixtures/test_image.png'))
