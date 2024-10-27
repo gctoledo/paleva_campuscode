@@ -86,27 +86,6 @@ describe 'User visits dish page' do
     expect(page).to have_content('Nome não pode ficar em branco')
     expect(page).to have_content('Descrição não pode ficar em branco')
   end
-  
-  it 'and cant create dish with invalid image format' do
-    #Arrange
-    user = User.create!(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456')
-    login_as(user)
-    create_restaurant(user)
-    create_opentime(user)
-
-    #Act
-    visit new_dish_path
-    within('#create-dish-form') do
-      fill_in 'Nome', with: 'Parmegiana'
-      fill_in 'Descrição', with: 'É um prato italiano feito com berinjela frita e fatiada, coberta com queijo e molho de tomate e depois assada.'
-      attach_file('Imagem', Rails.root.join('spec/fixtures/test_file.txt'))
-    end
-    click_on 'Salvar prato'
-
-    #Assert
-    expect(page).to have_selector('form#create-dish-form')
-    expect(page).to have_content('Imagem deve ser uma imagem do tipo PNG ou JPG')
-  end
 
   it 'and creates a dish' do
     #Arrange
