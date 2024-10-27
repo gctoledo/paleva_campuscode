@@ -28,7 +28,7 @@ describe 'User visits drink creation page' do
     click_on 'Salvar bebida'
 
     #Assert
-    expect(page).to have_selector('form#create-drink-form')
+    expect(page).to have_selector('form#drink-form')
     expect(page).to have_content('Nome não pode ficar em branco')
     expect(page).to have_content('Descrição não pode ficar em branco')
   end
@@ -36,7 +36,7 @@ describe 'User visits drink creation page' do
   it 'and creates a drink' do
     #Act
     visit new_drink_path
-    within('#create-drink-form') do
+    within('#drink-form') do
       fill_in 'Nome', with: 'Coca-cola'
       fill_in 'Descrição', with: 'Bebida de cola'
       attach_file('Imagem', Rails.root.join('spec/fixtures/test_image.png'))
