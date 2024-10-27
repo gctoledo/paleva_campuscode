@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_26_161106) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_27_161259) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -47,6 +47,16 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_26_161106) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["restaurant_id"], name: "index_dishes_on_restaurant_id"
+  end
+
+  create_table "drinks", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "description", null: false
+    t.boolean "alcoholic", default: false, null: false
+    t.integer "restaurant_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["restaurant_id"], name: "index_drinks_on_restaurant_id"
   end
 
   create_table "opentimes", force: :cascade do |t|
@@ -97,6 +107,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_26_161106) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "dishes", "restaurants"
+  add_foreign_key "drinks", "restaurants"
   add_foreign_key "opentimes", "restaurants"
   add_foreign_key "restaurants", "users"
 end
