@@ -1,13 +1,14 @@
 require 'rails_helper'
 
 describe 'User visits dish creation page' do
-  it 'and sees all form inputs in creation form' do
-    #Arrange
+  before(:each) do
     user = User.create!(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456')
     login_as(user)
     create_restaurant(user)
     create_opentime(user)
+  end
 
+  it 'and sees all form inputs in creation form' do
     #Act
     visit root_path
     click_on 'Pratos'
@@ -22,12 +23,6 @@ describe 'User visits dish creation page' do
   end
 
   it 'and cant create dish with incorrect params' do
-    #Arrange
-    user = User.create!(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456')
-    login_as(user)
-    create_restaurant(user)
-    create_opentime(user)
-
     #Act
     visit new_dish_path
     click_on 'Salvar prato'
@@ -39,12 +34,6 @@ describe 'User visits dish creation page' do
   end
 
   it 'and creates a dish' do
-    #Arrange
-    user = User.create!(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456')
-    login_as(user)
-    create_restaurant(user)
-    create_opentime(user)
-
     #Act
     visit new_dish_path
     within('#create-dish-form') do
