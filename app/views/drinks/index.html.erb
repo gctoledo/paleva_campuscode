@@ -7,7 +7,7 @@
 <% if @drinks.empty? %>
   <p class="text-lg">Você não possui bebidas cadastradas.</p>
 <% else %>
-  <div class="grid grid-cols-4 gap-6">
+  <div class="grid grid-cols-5 gap-6">
     <% @drinks.each do |d| %>
       <%= render partial: 'components/items_display', locals: { item: d, href: drink_path(d.id) } %>
     <% end %>

@@ -1,11 +1,11 @@
-      
 <div>
-  <% if item.image.attached? %>
-    <%= image_tag url_for(item.image), alt: item.name, class: "rounded mb-2 w-full w-full h-56 object-cover" %>
-  <% else %>
-    <p>Imagem não disponível</p>
-  <% end %>
+  <%= link_to href do %>
+    <% if item.image.attached? %>
+      <%= image_tag url_for(item.image), alt: item.name, class: "rounded mb-2 w-full w-full h-32 object-cover opacity-85 hover:opacity-100 duration-200" %>
+    <% else %>
+      <p>Imagem não disponível</p>
+    <% end %>
 
-  <h3 class="text-lg font-bold mb-1"></h3>
-  <%= link_to item.name, href, class: "text-xl font-bold" %>
+    <h3 class="text-xl"><%= item.name %></h3>
+  <% end %>
 </div>
