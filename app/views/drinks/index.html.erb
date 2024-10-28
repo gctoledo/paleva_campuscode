@@ -9,16 +9,7 @@
 <% else %>
   <div class="grid grid-cols-4 gap-6">
     <% @drinks.each do |d| %>
-      <div>
-        <% if d.image.attached? %>
-          <%= image_tag url_for(d.image), alt: d.name, class: "rounded mb-2 w-full w-full h-56 object-cover" %>
-        <% else %>
-          <p>Imagem não disponível</p>
-        <% end %>
-
-        <h3 class="text-lg font-bold mb-1"></h3>
-        <%= link_to d.name, drink_path(d.id), class: "text-xl font-bold" %>
-      </div>
+      <%= render partial: 'components/items_display', locals: { item: d, href: drink_path(d.id) } %>
     <% end %>
   </div>
 <% end %>
