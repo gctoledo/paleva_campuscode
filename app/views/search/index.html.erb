@@ -1,0 +1,29 @@
+<% if @dishes.empty? && @drinks.empty? %>
+  <h2 class="text-xl mb-2 font-bold">Nenhum cadastro encontrado!</h2>
+<% else %>
+  <div class="flex flex-col gap-6">
+    <div>
+      <% if @dishes.any? %>
+        <h2 class="text-xl mb-2 font-bold">Pratos Encontrados</h2>
+
+        <div class="grid grid-cols-4 gap-6">
+          <% @dishes.each do |d| %>
+            <%= render partial: 'components/items_display', locals: { item: d, href: dish_path(d.id) } %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+
+    <div>
+      <% if @drinks.any? %>
+        <h2 class="text-xl mb-2 font-bold">Bebidas Encontradas</h2>
+
+        <div class="grid grid-cols-4 gap-6">
+          <% @drinks.each do |d| %>
+            <%= render partial: 'components/items_display', locals: { item: d, href: drink_path(d.id) } %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>

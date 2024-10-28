@@ -10,6 +10,8 @@ Rails.application.routes.draw do
 
   root to: "home#index"
 
+  get 'search', to: 'search#index'
+  
   resource :restaurants, only: [ :new, :create ]
   resources :opentimes, only: [ :index, :new, :create ]
   resources :dishes, only: [ :index, :new, :create, :show, :edit, :update ]
