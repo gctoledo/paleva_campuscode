@@ -33,5 +33,15 @@
     </nav>
   </div>
 
-  <%= button_to 'Sair', destroy_user_session_path, method: :delete, class: 'bg-red-500 w-full rounded-lg py-3' %>
+  <div class="space-y-6 items-center text-center">
+    <%= form_with url: search_path, method: :get, html: { class: 'space-y-2', id: 'search-form' } do %>
+      <%= label_tag :query, "Buque por pratos ou bebidas:" %>
+      <div class="flex">
+        <%= text_field_tag :query, params[:query], class: "bg-gray-100 text-black border p-2" %>
+        <%= submit_tag "Buscar", class: 'w-full py-3 bg-[#5395cf] hover:bg-[#3f729e] duration-200' %>
+      </div>
+    <% end %>
+
+    <%= button_to 'Sair', destroy_user_session_path, method: :delete, class: 'bg-red-500 w-full rounded-lg py-3' %>
+  </div>
 </aside>
