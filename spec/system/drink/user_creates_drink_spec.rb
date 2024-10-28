@@ -11,7 +11,9 @@ describe 'User visits drink creation page' do
   it 'and sees all form inputs in creation form' do
     #Act
     visit root_path
-    click_on 'Bebidas'
+    within('nav') do
+      click_on 'Bebidas'
+    end
     click_on 'Cadastrar'
 
     #Assert

@@ -42,7 +42,9 @@ describe 'User visits dishes pages' do
 
     #Act
     visit root_path
-    click_on 'Pratos'
+    within('nav') do
+      click_on 'Pratos'
+    end
     click_on 'Parmegiana'
 
     #Assert

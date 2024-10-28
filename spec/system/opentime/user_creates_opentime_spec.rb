@@ -9,7 +9,9 @@ describe 'User visits opentime creation page' do
 
     #Act
     visit root_path
-    click_on 'Meus horários'
+    within('nav') do
+      click_on 'Meus horários'
+    end
     click_on 'Cadastrar'
 
     #Assert

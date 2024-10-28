@@ -16,7 +16,9 @@ describe 'User visits dish edition page' do
 
     #Act
     visit root_path
-    click_on 'Pratos'
+    within('nav') do
+      click_on 'Pratos'
+    end
     click_on 'Parmegiana'
     click_on 'Editar'
 

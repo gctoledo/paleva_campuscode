@@ -42,7 +42,9 @@ describe 'User visits drinks pages' do
 
     #Act
     visit root_path
-    click_on 'Bebidas'
+    within('nav') do
+      click_on 'Bebidas'
+    end
     click_on 'Coca-cola'
 
     #Assert

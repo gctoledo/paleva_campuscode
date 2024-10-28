@@ -11,7 +11,9 @@ describe 'User visits dish creation page' do
   it 'and sees all form inputs in creation form' do
     #Act
     visit root_path
-    click_on 'Pratos'
+    within('nav') do
+      click_on 'Pratos'
+    end
     click_on 'Cadastrar'
 
     #Assert
