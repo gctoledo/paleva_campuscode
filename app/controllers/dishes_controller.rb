@@ -6,9 +6,7 @@ class DishesController < ApplicationController
     @dishes = @restaurant.dishes
   end
 
-  def show
-    @dish = Dish.find(params[:id])
-  end
+  def show; end
 
   def new
     @dish = @restaurant.dishes.new
@@ -26,13 +24,9 @@ class DishesController < ApplicationController
     end
   end
 
-  def edit
-    @dish = Dish.find(params[:id])
-  end
+  def edit; end
 
   def update
-    @dish = Dish.find(params[:id])
-
     if @dish.update(dish_params)
       flash[:notice] = "Prato atualizado com sucesso!"
       redirect_to dish_path(@dish.id)
@@ -53,8 +47,9 @@ class DishesController < ApplicationController
   end
 
   def authorize_dishes_access
-    dish = Dish.find(params[:id])
-    unless dish.restaurant == current_user.restaurant
+    @dish = Dish.find(params[:id])
+
+    unless @dish.restaurant == current_user.restaurant
       redirect_to root_path, alert: "Acesso não autorizado."
     end
   end

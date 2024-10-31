@@ -13,12 +13,8 @@ class ApplicationController < ActionController::Base
   end
 
   def check_opentimes
-    if current_user.restaurant && (current_user.restaurant.opentimes.empty?)
+    if current_user.restaurant && current_user.restaurant.opentimes.empty?
       redirect_to new_opentime_path, alert: "Você precisa cadastrar os horários de funcionamento do seu restaurante."
     end
-  end
-
-  def devise_or_root_or_restaurant_new_path?
-    devise_controller? || request.path == root_path || request.path == new_restaurants_path
   end
 end
