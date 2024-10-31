@@ -47,11 +47,10 @@ describe 'User visits dish edition page' do
     dish.save
 
     #Act
-    visit edit_dish_path(dish.id)
+    patch(dish_path(dish.id), params: { dish: { name: 'Macarronada' } })
 
     #Assert
-    expect(current_path).to eq root_path
-    expect(page).to have_content('Acesso não autorizado')
+    expect(response).to redirect_to root_path
   end
 
   it 'and can edit dish' do

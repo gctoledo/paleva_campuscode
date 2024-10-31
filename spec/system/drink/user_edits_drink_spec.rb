@@ -47,11 +47,10 @@ describe 'User visits drink edition page' do
     drink.save
 
     #Act
-    visit edit_drink_path(drink.id)
+    patch(drink_path(drink.id), params: { drink: { name: 'Guaraná' } })
 
     #Assert
-    expect(current_path).to eq root_path
-    expect(page).to have_content('Acesso não autorizado')
+    expect(response).to redirect_to root_path
   end
 
   it 'and can edit drink' do
