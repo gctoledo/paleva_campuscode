@@ -1,6 +1,6 @@
 class PortionsController < ApplicationController
   before_action :set_portionable
-  before_action :authorize_portions_access, only: [:edit, :update]
+  before_action :authorize_portions_access, only: [:edit, :update, :price_history]
 
   def new
     @portion = @portionable.portions.new
@@ -28,6 +28,11 @@ class PortionsController < ApplicationController
     else
       render :edit, status: :unprocessable_entity
     end
+  end
+
+  def price_history
+    @portion = @portionable.portions.find(params[:id])
+    @price_histories = @portion.price_histories.order(changed_at: :desc)
   end
 
   private

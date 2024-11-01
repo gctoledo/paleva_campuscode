@@ -1,0 +1,22 @@
+<% if @price_histories.empty? %>
+  <p class="mt-4 text-lg font-bold">Não houve alteração de preço dessa porção!</p>
+<% else %>
+  <h2 class="text-lg font-semibold mb-4">Histórico de Preços: <%= @portion.description %></h2>
+
+  <table class="w-1/2 text-center border-collapse border border-gray-700 rounded-lg shadow-md overflow-hidden bg-black">
+    <thead>
+      <tr class="bg-gray-700 bg-opacity-60">
+        <th class="px-4 py-2 border border-gray-700 w-1/2">Preço Anterior</th>
+        <th class="px-4 py-2 border border-gray-700 w-1/2">Data de Alteração</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @price_histories.each_with_index do |history, index| %>
+        <tr class="<%= index.even? ? 'bg-gray-800 bg-opacity-60' : 'bg-gray-700 bg-opacity-60' %>">
+          <td class="px-4 py-2 border border-gray-700"><%= number_to_currency(history.price) %></td>
+          <td class="px-4 py-2 border border-gray-700"><%= history.changed_at.strftime("%d/%m/%Y %H:%M") %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

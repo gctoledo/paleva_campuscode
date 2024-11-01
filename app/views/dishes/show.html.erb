@@ -41,14 +41,16 @@
       <tbody>
         <% @dish.portions.each_with_index do |p, index| %>
           <tr class="<%= index.even? ? 'bg-gray-800 bg-opacity-60' : 'bg-gray-700 bg-opacity-60' %>">
-            <td class="px-4 py-2 border border-gray-600"><%= p.description %></td>
+            <td class="px-4 py-2 border border-gray-600"><%= link_to p.description, price_history_dish_portion_path(@dish.id, p.id)  %></td>
             <td class="px-4 py-2 border border-gray-600"><%= number_to_currency(p.price) %></td>
             <td class="px-2 py-2 border border-gray-600 text-center">
-              <%= link_to 'Editar', edit_drink_portion_path(@dish, p), class: "text-blue-400 hover:text-blue-600" %>
+              <%= link_to 'Editar', edit_dish_portion_path(@dish, p), class: "text-blue-400 hover:text-blue-600" %>
             </td>
           </tr>
         <% end %>
       </tbody>
     </table>
+
+    <p class="mt-6 font-bold text-red-400">Veja o histórico de preço clicando na porção!</p>
   </div>
 <% end %>

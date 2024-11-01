@@ -17,10 +17,14 @@ Rails.application.routes.draw do
   resources :opentimes, only: [ :index, :new, :create ]
 
   resources :dishes, only: [ :index, :new, :create, :show, :edit, :update ] do
-    resources :portions, only: [ :new, :create, :edit, :update]
+    resources :portions, only: [ :new, :create, :edit, :update] do
+      get :price_history, on: :member
+    end
   end
 
   resources :drinks, only: [ :index, :new, :create, :show, :edit, :update ] do
-    resources :portions, only: [ :new, :create, :edit, :update]
+    resources :portions, only: [ :new, :create, :edit, :update] do
+      get :price_history, on: :member
+    end
   end
 end
