@@ -6,6 +6,7 @@ pt-BR:
       opentime: 'Horário de funcionamento'
       dish: 'Prato'
       drink: 'Bebida'
+      portion: 'Porção'
     attributes:
       user:
         password: 'Senha'
@@ -35,3 +36,6 @@ pt-BR:
         description: 'Descrição'
         alcoholic: 'Alcoólica?'
         image: 'Imagem'
+      portion:
+        description: 'Descrição'
+        price: 'Preço'

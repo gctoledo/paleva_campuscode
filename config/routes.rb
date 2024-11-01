@@ -13,7 +13,14 @@ Rails.application.routes.draw do
   get 'search', to: 'search#index'
   
   resource :restaurants, only: [ :new, :create ]
+
   resources :opentimes, only: [ :index, :new, :create ]
-  resources :dishes, only: [ :index, :new, :create, :show, :edit, :update ]
-  resources :drinks, only: [ :index, :new, :create, :show, :edit, :update ]
+
+  resources :dishes, only: [ :index, :new, :create, :show, :edit, :update ] do
+    resources :portions, only: [ :new, :create, :edit, :update]
+  end
+
+  resources :drinks, only: [ :index, :new, :create, :show, :edit, :update ] do
+    resources :portions, only: [ :new, :create, :edit, :update]
+  end
 end
