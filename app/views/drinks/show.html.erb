@@ -1,5 +1,54 @@
 <div class="flex items-center justify-between mb-10">
-  <h1 class="text-xl"><%= @drink.name %></h1>
+  <h1 class="text-xl font-bold"><%= @drink.name %></h1>
 
-  <%= link_to 'Editar', edit_drink_path(@drink.id), class: "cursor-pointer bg-[#5395cf] py-3 rounded-lg font-bold hover:bg-[#3f729e] duration-200 px-3"%>
+  <div>
+    <%= link_to 'Editar', edit_drink_path(@drink.id), class: "cursor-pointer bg-[#5395cf] py-3 rounded-lg font-bold hover:bg-[#3f729e] duration-200 px-3"%>
+    <%= link_to 'Adicionar porção', new_drink_portion_path(@drink.id), class: "cursor-pointer bg-[#5395cf] py-3 rounded-lg font-bold hover:bg-[#3f729e] duration-200 px-3"%>
+  </div>
 </div>
+
+<div class="flex gap-4">
+  <%= image_tag url_for(@drink.image), alt: @drink.name, class: "rounded mb-2 w-48 h-48 object-cover opacity-85 hover:opacity-100 duration-200" %>
+
+  <div class="space-y-1 w-full break-words whitespace-normal">
+    <p>
+      <span class="text-lg font-bold">Descrição:</span>
+      <%= @drink.description %>
+    </p>
+
+    <p class="<%= @drink.alcoholic ? 'text-red-500' : 'text-green-500' %>">
+      Essa bebida é <%= @drink.alcoholic ? 'alcoólica' : 'não alcoólica' %>!
+    </p>
+
+  </div>
+</div>
+
+<% if @drink.portions.empty? %>
+  <p class="text-lg text-red-500 font-bold mt-6">Você não possui porções cadastradas!</p>
+<% else %>
+  <div class="mt-4">
+    <h2 class="text-xl font-bold">Porções:</h2>
+
+    <table class="w-1/2 border-collapse border border-gray-600 rounded-lg shadow-md overflow-hidden bg-gray-800 mt-2 text-center bg-opacity-60">
+      <thead>
+        <tr class="bg-gray-700 bg-opacity-60">
+          <th class="px-4 py-2 border border-gray-600 font-semibold">Descrição</th>
+          <th class="px-4 py-2 border border-gray-600 font-semibold">Preço</th>
+          <th class="px-2 py-2 border border-gray-600 w-20 text-center"></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @drink.portions.each_with_index do |p, index| %>
+          <tr class="<%= index.even? ? 'bg-gray-800 bg-opacity-60' : 'bg-gray-700 bg-opacity-60' %>">
+            <td class="px-4 py-2 border border-gray-600"><%= p.description %></td>
+            <td class="px-4 py-2 border border-gray-600"><%= number_to_currency(p.price) %></td>
+            <td class="px-2 py-2 border border-gray-600 text-center">
+              <%= link_to 'Editar', edit_drink_portion_path(@drink, p), class: "text-blue-400 hover:text-blue-600" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>
