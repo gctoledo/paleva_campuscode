@@ -43,7 +43,6 @@ describe 'User visists portion' do
       content_type: 'image/png'
     )
     dish.portions.new(description: 'Grande', price: 25)
-
     dish.save
 
     #Act
