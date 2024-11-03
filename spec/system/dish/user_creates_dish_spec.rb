@@ -49,4 +49,18 @@ describe 'User visits dish creation page' do
     expect(current_path).to eq dishes_path
     expect(page).to have_content('Prato cadastrado com sucesso!')
   end
+
+  it 'and created dishes must be activated' do
+    #Act
+    visit new_dish_path
+    within('#dish-form') do
+      fill_in 'Nome', with: 'Parmegiana'
+      fill_in 'Descrição', with: 'É um prato italiano feito com berinjela frita e fatiada, coberta com queijo e molho de tomate e depois assada.'
+      attach_file('Imagem', Rails.root.join('spec/fixtures/test_image.png'))
+    end
+    click_on 'Salvar prato'
+
+    #Assert
+    expect(page).to have_content('Ativo')
+  end
 end

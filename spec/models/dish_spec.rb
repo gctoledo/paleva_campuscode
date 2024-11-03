@@ -69,6 +69,25 @@ RSpec.describe Dish, type: :model do
       expect(result).to eq false
     end
 
+    it 'creates dish with active status being true' do
+      #Arrange
+      user = User.new(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456')
+      restaurant = Restaurant.new(trade_name: 'Burguer King', legal_name: 'Burguer King', cnpj: CNPJ.generate, address: 'United Stated', phone: '11111111111', email: 'burger@king.com', user: user)
+      
+      #Act
+      dish = restaurant.dishes.new(name: 'Parmegiana', description: 'É muito bom!')
+      dish.image.attach(
+        io: File.open('spec/fixtures/test_image.png'),
+        filename: 'test_image.png',
+        content_type: 'image/png'
+      )
+      result = dish.valid?
+
+      #Assert
+      expect(dish.active).to eq true
+      expect(result).to eq true
+    end
+
     it 'success' do
       #Arrange
       user = User.new(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456')

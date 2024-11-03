@@ -49,4 +49,18 @@ describe 'User visits drink creation page' do
     expect(current_path).to eq drinks_path
     expect(page).to have_content('Bebida cadastrada com sucesso!')
   end
+
+  it 'and created drinks must be activated' do
+    #Act
+    visit new_drink_path
+    within('#drink-form') do
+      fill_in 'Nome', with: 'Coca-cola'
+      fill_in 'Descrição', with: 'Bebida de cola'
+      attach_file('Imagem', Rails.root.join('spec/fixtures/test_image.png'))
+    end
+    click_on 'Salvar bebida'
+
+    #Assert
+    expect(page).to have_content('Ativo')
+  end
 end

@@ -76,4 +76,29 @@ describe 'User visits dishes pages' do
     expect(current_path).to eq dish_path(dish.id)
     expect(page).to have_content('Parmegiana')
   end
+
+  it 'and can see status of your dishes' do
+    #Arrange
+    user = User.create!(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456')
+    login_as(user)
+    create_restaurant(user)
+    create_opentime(user)
+    dish = user.restaurant.dishes.new(name: 'Parmegiana', description: 'É bom!')
+    dish.image.attach(
+      io: File.open('spec/fixtures/test_image.png'),
+      filename: 'test_image.png',
+      content_type: 'image/png'
+    )
+    dish.save
+
+    #Act
+    visit root_path
+    within('nav') do
+      click_on 'Pratos'
+    end
+
+    #Assert
+    expect(page).to have_content('Parmegiana')
+    expect(page).to have_content('Ativo')
+  end
 end
