@@ -46,7 +46,7 @@ describe 'User visits price history page' do
 
     expect(current_path).to eq price_history_dish_portion_path(dish.id, p.id)
     expect(page).to have_content 'R$ 25,00'
-    expect(page).to have_content "#{Date.today.strftime("%d/%m/%Y")}"
+    expect(page).to have_content p.price_histories.last.changed_at.strftime("%d/%m/%Y")
   end
 
   it 'and cant access price histories from other restaurants' do
