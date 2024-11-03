@@ -1,14 +1,37 @@
 class DrinksController < ApplicationController
   before_action :set_restaurant
-  before_action :authorize_drinks_access, only: [:show, :edit, :update]
+  before_action :set_drink, only: [:show, :edit, :update, :activate, :disable]
+  before_action :authorize_drinks_access, only: [:show, :edit, :update, :activate, :disable]
 
   def index
     @drinks = @restaurant.drinks
   end
 
-  def show
-    @drink = Drink.find(params[:id])
+  def activate
+    if @drink.active
+      return redirect_to @drink, alert: 'Essa bebida já está ativa.'
+    end
+
+    if @drink.update(active: true)
+      redirect_to @drink, notice: 'Bebida ativada com sucesso.'
+    else
+      redirect_to @drink, alert: 'Não foi possível ativar a bebida. Tente novamente.'
+    end
   end
+
+  def disable
+    if !@drink.active
+      return redirect_to @drink, alert: 'Essa bebida já está inativa.'
+    end
+
+    if @drink.update(active: false)
+      redirect_to @drink, notice: 'Bebida desativada com sucesso.'
+    else
+      redirect_to @drink, alert: 'Não foi possível desativar a bebida. Tente novamente.'
+    end
+  end
+
+  def show;  end
 
   def new
     @drink = @restaurant.drinks.new
@@ -26,13 +49,9 @@ class DrinksController < ApplicationController
     end
   end
 
-  def edit
-    @drink = Drink.find(params[:id])
-  end
+  def edit;  end
 
   def update
-    @drink = Drink.find(params[:id])
-
     if @drink.update(drink_params)
       flash[:notice] = "Bebida atualizada com sucesso!"
       redirect_to drink_path(@drink.id)
@@ -43,6 +62,10 @@ class DrinksController < ApplicationController
   end
 
   private
+
+  def set_drink
+    @drink = Drink.find(params[:id])
+  end
 
   def set_restaurant
     @restaurant = current_user.restaurant
