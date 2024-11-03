@@ -1,5 +1,15 @@
-<div>
+<div class="relative">
   <%= link_to href do %>
+    <% if item.active %>
+      <div class="absolute top-2 left-2 bg-green-500 text-white text-xs font-semibold px-2 py-1 rounded shadow-lg z-10">
+        Ativo
+      </div>
+    <% else %>
+      <div class="absolute top-2 left-2 bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded shadow-lg z-10">
+        Inativo
+      </div>
+    <% end %>
+
     <% if item.image.attached? %>
       <%= image_tag url_for(item.image), alt: item.name, class: "rounded mb-2 w-full h-32 object-cover opacity-85 hover:opacity-100 duration-200" %>
     <% else %>

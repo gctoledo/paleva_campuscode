@@ -1,10 +1,28 @@
 <div class="flex items-center justify-between mb-10">
-  <h1 class="text-xl font-bold"><%= @dish.name %></h1>
+  <div class="flex gap-6 items-center">
+    <h1 class="text-xl font-bold">
+      <%= @dish.name %>
+    </h1>
 
-  <div class="flex gap-4">
+    <% if @dish.active %>
+      <div class="bg-green-500 text-white text-xs font-semibold px-2 py-1 rounded shadow-lg z-10">
+        Ativo
+      </div>
+    <% else %>
+      <div class="bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded shadow-lg z-10">
+        Inativo
+      </div>
+    <% end %>
+  </div>
+
+  <div class="flex gap-6 items-center">
     <%= link_to 'Editar', edit_dish_path(@dish.id), class: "cursor-pointer bg-[#5395cf] py-3 rounded-lg font-bold hover:bg-[#3f729e] duration-200 px-3"%>
-
     <%= link_to 'Adicionar porção', new_dish_portion_path(@dish.id), class: "cursor-pointer bg-[#5395cf] py-3 rounded-lg font-bold hover:bg-[#3f729e] duration-200 px-3"%>
+    <% if @dish.active %>
+      <%= button_to 'Desativar', disable_dish_path(@dish), method: :patch, class: 'cursor-pointer bg-red-500 py-3 rounded-lg font-bold hover:bg-red-700 duration-200 px-3' %>
+    <% else %>
+      <%= button_to 'Ativar', activate_dish_path(@dish), method: :patch, class: 'cursor-pointer bg-green-500 py-3 rounded-lg font-bold hover:bg-green-700 duration-200 px-3' %>
+    <% end %>
   </div>
 </div>
 
