@@ -29,15 +29,25 @@
 <div class="flex gap-4">
   <%= image_tag url_for(@dish.image), alt: @dish.name, class: "rounded mb-2 w-48 h-48 object-cover opacity-85 hover:opacity-100 duration-200" %>
 
-  <div class="space-y-1 w-full break-words whitespace-normal">
+  <div class="space-y-2 w-full break-words whitespace-normal">
+    <div class="flex gap-4 items-center">
+      <% @dish.tags.each do |tag| %>
+        <p class="bg-[#a39440] py-2 rounded-lg font-bold text-sm hover:bg-[#685e28] duration-200 px-2">
+          <%= tag.name %>
+        </p>
+      <% end %>
+    </div>
+
     <p>
       <span class="text-lg font-bold">Descrição:</span>
       <%= @dish.description %>
     </p>
 
-    <p>
-      Possui <%= @dish.calories %> calorias.
-    </p>
+    <% if @dish.calories %>
+      <p>
+        Possui <%= @dish.calories %> calorias.
+      </p>
+    <% end %>
   </div>
 </div>
 

@@ -39,6 +39,34 @@
         <% end %>
       </div>
     <% end %>
+
+    <% if @dish.restaurant.tags.empty? %>
+
+      <p class="text-center text-red-500">Você não possui marcadores registrados.</p>
+
+    <% else %>
+      <%= f.label :tags, "Marcadores", class: "text-center font-bold" %>
+      <div class="flex flex-wrap gap-4 mt-2">
+        <% @dish.restaurant.tags.each do |tag| %>
+          <div class="flex items-center space-x-2 bg-gray-700 p-2 rounded-md">
+            <%= check_box_tag "dish[tag_ids][]", tag.id, @dish.tags.include?(tag), id: "tag_#{tag.id}", class: "form-checkbox text-indigo-500 bg-gray-800 border-gray-600 focus:ring-indigo-400" %>
+            <%= label_tag "tag_#{tag.id}", tag.name, class: "text-gray-300" %>
+          </div>
+        <% end %>
+      </div>
+
+      <span class="font-bold text-center text-[#85bff1]">OU</span>
+    <% end %>
+
+    <%= f.label :new_tags, "Adicione novos marcadores (separados por vírgulas)" %>
+    <%= text_field_tag :new_tags, nil, placeholder: "ex: vegetariano, sem glúten", class: "form-input" %>
+    <% if @dish.errors[:tags].any? %>
+      <div class="text-red-600">
+        <% @dish.errors.full_messages_for(:tags).each do |message| %>
+          <p><%= message %></p>
+        <% end %>
+      </div>
+    <% end %>
   </div>
 
   <div class="flex justify-center">

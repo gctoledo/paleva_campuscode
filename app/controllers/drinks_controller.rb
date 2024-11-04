@@ -1,7 +1,7 @@
 class DrinksController < ApplicationController
+  before_action :authorize_drinks_access, only: [:show, :edit, :update, :activate, :disable]
   before_action :set_restaurant
   before_action :set_drink, only: [:show, :edit, :update, :activate, :disable]
-  before_action :authorize_drinks_access, only: [:show, :edit, :update, :activate, :disable]
 
   def index
     @drinks = @restaurant.drinks

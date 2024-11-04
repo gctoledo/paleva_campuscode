@@ -1,10 +1,14 @@
 class DishesController < ApplicationController
+  before_action :authorize_dishes_access, only: [:show, :edit, :update, :activate, :disable]
   before_action :set_restaurant
   before_action :set_dish, only: [:show, :edit, :update, :activate, :disable]
-  before_action :authorize_dishes_access, only: [:show, :edit, :update, :activate, :disable]
 
   def index
-    @dishes = @restaurant.dishes
+    @dishes = current_user.restaurant.dishes.includes(:tags)
+
+    if params[:tag_names].present?
+      @dishes = @dishes.joins(:tags).where(tags: { name: params[:tag_names] }).distinct
+    end
   end
 
   def show; end
@@ -39,8 +43,9 @@ class DishesController < ApplicationController
 
   def create
     @dish = @restaurant.dishes.new(dish_params)
-
+    
     if @dish.save
+      add_tags if params[:new_tags].present?
       flash[:notice] = "Prato cadastrado com sucesso!"
       redirect_to dishes_path
     else
@@ -52,7 +57,10 @@ class DishesController < ApplicationController
   def edit; end
 
   def update
+    params[:dish][:tag_ids] ||= []
+    
     if @dish.update(dish_params)
+      add_tags if params[:new_tags].present?
       flash[:notice] = "Prato atualizado com sucesso!"
       redirect_to dish_path(@dish.id)
     else
@@ -72,7 +80,7 @@ class DishesController < ApplicationController
   end
 
   def dish_params
-    params.require(:dish).permit(:name, :description, :calories, :image)
+    params.require(:dish).permit(:name, :description, :calories, :image, tag_ids: [])
   end
 
   def authorize_dishes_access
@@ -80,6 +88,17 @@ class DishesController < ApplicationController
 
     unless dish.restaurant == current_user.restaurant
       redirect_to root_path, alert: "Acesso não autorizado."
+    end
+  end
+
+  def add_tags
+    tags = params[:new_tags].split(',').map(&:strip).reject(&:empty?)
+  
+    tags.each do |tag_name|
+      tag = @dish.restaurant.tags.find_or_create_by(name: tag_name)
+      
+      @dish.tags << tag unless @dish.tags.include?(tag)
+      @dish.save
     end
   end
 end

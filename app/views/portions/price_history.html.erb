@@ -12,9 +12,9 @@
     </thead>
     <tbody>
       <% @price_histories.each_with_index do |history, index| %>
-        <tr class="<%= index.even? ? 'bg-gray-800 bg-opacity-60' : 'bg-gray-700 bg-opacity-60' %>">
+        <tr class="<%= index.even? ? 'bg-gray-800' : 'bg-gray-700' %> bg-opacity-80">
           <td class="px-4 py-2 border border-gray-700"><%= number_to_currency(history.price) %></td>
-          <td class="px-4 py-2 border border-gray-700"><%= history.changed_at.strftime("%d/%m/%Y %H:%M") %></td>
+          <td class="px-4 py-2 border border-gray-700"><%= I18n.l(history.changed_at, format: "%d/%m/%Y") %></td>
         </tr>
       <% end %>
     </tbody>

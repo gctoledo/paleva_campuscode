@@ -3,6 +3,7 @@ class Restaurant < ApplicationRecord
   has_many :opentimes, dependent: :destroy
   has_many :dishes, dependent: :destroy
   has_many :drinks, dependent: :destroy
+  has_many :tags, dependent: :destroy
 
   validates :trade_name, :legal_name, :cnpj, :address, :phone, :email, presence: true
 
