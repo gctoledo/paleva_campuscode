@@ -1,13 +1,16 @@
 require 'rails_helper'
 
 describe 'User visists portion' do 
-  it 'through drinks page' do
-    #Arrange
+  before(:each) do
     user = User.create!(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456')
     login_as(user)
-    create_restaurant(user)
+    @r = create_restaurant(user)
     create_opentime(user)
-    drink = user.restaurant.drinks.new(name: 'Coca-cola', description: 'Refrigerante de cola.')
+  end
+
+  it 'through drinks page' do
+    #Arrange
+    drink = @r.drinks.new(name: 'Coca-cola', description: 'Refrigerante de cola.')
     drink.image.attach(
       io: File.open('spec/fixtures/test_image.png'),
       filename: 'test_image.png',
@@ -32,11 +35,7 @@ describe 'User visists portion' do
 
   it 'through dishes page' do
     #Arrange
-    user = User.create!(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456')
-    login_as(user)
-    create_restaurant(user)
-    create_opentime(user)
-    dish = user.restaurant.dishes.new(name: 'Parmegiana', description: 'É bom!')
+    dish = @r.dishes.new(name: 'Parmegiana', description: 'É bom!')
     dish.image.attach(
       io: File.open('spec/fixtures/test_image.png'),
       filename: 'test_image.png',
@@ -61,11 +60,7 @@ describe 'User visists portion' do
 
   it 'and have not portions registred' do
     #Arrange
-    user = User.create!(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456')
-    login_as(user)
-    create_restaurant(user)
-    create_opentime(user)
-    dish = user.restaurant.dishes.new(name: 'Parmegiana', description: 'É bom!')
+    dish = @r.dishes.new(name: 'Parmegiana', description: 'É bom!')
     dish.image.attach(
       io: File.open('spec/fixtures/test_image.png'),
       filename: 'test_image.png',

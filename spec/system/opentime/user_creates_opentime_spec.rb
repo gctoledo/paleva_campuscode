@@ -1,12 +1,13 @@
 require 'rails_helper'
 
 describe 'User visits opentime creation page' do
-  it 'and sees all form inputs' do
-    #Arrange
+  before(:each) do
     user = User.create!(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456')
     login_as(user)
-    create_restaurant(user)
+    @r = create_restaurant(user)
+  end
 
+  it 'and sees all form inputs' do
     #Act
     visit root_path
     within('nav') do
@@ -24,10 +25,7 @@ describe 'User visits opentime creation page' do
 
   it 'and cant create a opentime when week day already registered' do
     #Arrange
-    user = User.create!(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456')
-    login_as(user)
-    r = create_restaurant(user)
-    r.opentimes.create!(week_day: 0, open: '08:30', close: '18:00')
+    @r.opentimes.create!(week_day: 0, open: '08:30', close: '18:00')
 
     #Act
     visit new_opentime_path
@@ -45,11 +43,6 @@ describe 'User visits opentime creation page' do
   end
 
   it 'and cant create a opentime with invalid params' do
-    #Arrange
-    user = User.create!(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456')
-    login_as(user)
-    create_restaurant(user)
-
     #Act
     visit new_opentime_path
     click_on 'Salvar horário'
@@ -61,11 +54,6 @@ describe 'User visits opentime creation page' do
   end
 
   it 'and cant create a opentime because close time is less then open time' do
-    #Arrange
-    user = User.create!(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456')
-    login_as(user)
-    create_restaurant(user)
-
     #Act
     visit new_opentime_path
     within('#create-opentime-form') do
@@ -81,11 +69,6 @@ describe 'User visits opentime creation page' do
   end
 
   it 'and creates a opentime' do
-    #Arrange
-    user = User.create!(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456')
-    login_as(user)
-    create_restaurant(user)
-
     #Act
     visit new_opentime_path
     within('#create-opentime-form') do
