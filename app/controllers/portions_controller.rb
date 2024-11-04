@@ -1,6 +1,6 @@
 class PortionsController < ApplicationController
   before_action :set_portionable
-  before_action :authorize_portions_access, only: [:edit, :update, :price_history]
+  before_action :authorize_portions_access, only: [:new, :edit, :update, :price_history]
 
   def new
     @portion = @portionable.portions.new

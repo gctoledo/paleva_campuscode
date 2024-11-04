@@ -76,6 +76,28 @@ describe 'User visits portion creation page' do
     expect(page).to have_content('Preço não pode ficar em branco')
   end
 
+  it 'and cant visit create page to dishes and drinks from another restaurant' do
+    #Arrange
+    second_user = User.create!(email: 'mary@jane.com', cpf: CPF.generate, first_name: 'Mary', last_name: 'Jane', password: 'password123456')
+    Restaurant.create!(trade_name: 'McDonalds', legal_name: 'McDonalds', cnpj: CNPJ.generate, address: 'United Stated', phone: '11111111111', email: 'mc@donalds.com', user: second_user)
+    create_opentime(second_user)
+    login_as(second_user)
+    drink = @user.restaurant.drinks.new(name: 'Coca-cola', description: 'Refrigerante de cola.')
+    drink.image.attach(
+      io: File.open('spec/fixtures/test_image.png'),
+      filename: 'test_image.png',
+      content_type: 'image/png'
+    )
+    drink.save
+
+    #Act
+    visit new_drink_portion_path(drink.id)
+
+    #Assert
+    expect(current_path).to eq root_path
+    expect(page).to have_content('Acesso não autorizado')
+  end
+
   it 'and creates a portion' do
     #Arrange
     drink = @user.restaurant.drinks.new(name: 'Coca-cola', description: 'Refrigerante de cola.')
