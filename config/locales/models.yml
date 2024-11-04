@@ -7,6 +7,7 @@ pt-BR:
       dish: 'Prato'
       drink: 'Bebida'
       portion: 'Porção'
+      tag: 'Marcador'
     attributes:
       user:
         password: 'Senha'
@@ -31,6 +32,7 @@ pt-BR:
         description: 'Descrição'
         calories: 'Calorias'
         image: 'Imagem'
+        tags: 'Marcadores'
       drink:
         name: 'Nome'
         description: 'Descrição'
@@ -39,3 +41,5 @@ pt-BR:
       portion:
         description: 'Descrição'
         price: 'Preço'
+      tag:
+        name: 'Nome'
