@@ -41,9 +41,7 @@
     <% end %>
 
     <% if @dish.restaurant.tags.empty? %>
-
       <p class="text-center text-red-500">Você não possui marcadores registrados.</p>
-
     <% else %>
       <%= f.label :tags, "Marcadores", class: "text-center font-bold" %>
       <div class="flex flex-wrap gap-4 mt-2">

@@ -70,14 +70,66 @@ describe 'User visits dish edition page' do
     #Act
     visit edit_dish_path(dish.id)
     within('#dish-form') do
-    fill_in 'Nome', with: 'Parmegiana'
-    fill_in 'Descrição', with: 'É um prato italiano feito com berinjela frita e fatiada, coberta com queijo e molho de tomate e depois assada.'
-    attach_file('Imagem', Rails.root.join('spec/fixtures/test_image.png'))
-    click_on 'Salvar prato'
-  end
+      fill_in 'Descrição', with: 'É um prato italiano feito com berinjela frita e fatiada, coberta com queijo e molho de tomate e depois assada.'
+      click_on 'Salvar prato'
+    end
 
     #Assert
     expect(current_path).to eq(dish_path(dish.id))
     expect(page).to have_content('Prato atualizado com sucesso')
+  end
+
+  it 'and can create new tags' do
+    user = User.create!(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456')
+    login_as(user)
+    r = create_restaurant(user)
+    create_opentime(user)
+    dish = r.dishes.new(name: 'Parmegiana', description: 'É bom!')
+    dish.image.attach(
+      io: File.open('spec/fixtures/test_image.png'),
+      filename: 'test_image.png',
+      content_type: 'image/png'
+    )
+    dish.save
+
+    #Act
+    visit edit_dish_path(dish.id)
+    within('#dish-form') do
+      fill_in 'new_tags', with: 'Vegetariano, sem glúten'
+      click_on 'Salvar prato'
+    end
+
+    #Assert
+    expect(current_path).to eq(dish_path(dish.id))
+    expect(page).to have_content('Prato atualizado com sucesso')
+    expect(page).to have_content('Vegetariano')
+    expect(page).to have_content('Sem glúten')
+  end
+
+  it 'and can select tags already registered to your dish' do
+    user = User.create!(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456')
+    login_as(user)
+    r = create_restaurant(user)
+    create_opentime(user)
+    dish = r.dishes.new(name: 'Parmegiana', description: 'É bom!')
+    dish.image.attach(
+      io: File.open('spec/fixtures/test_image.png'),
+      filename: 'test_image.png',
+      content_type: 'image/png'
+    )
+    dish.save
+    r.tags.create!(name: 'Vegetariano')
+
+    #Act
+    visit edit_dish_path(dish.id)
+    within('#dish-form') do
+      check 'Vegetariano'
+      click_on 'Salvar prato'
+    end
+
+    #Assert
+    expect(current_path).to eq(dish_path(dish.id))
+    expect(page).to have_content('Prato atualizado com sucesso')
+    expect(page).to have_content('Vegetariano')
   end
 end
