@@ -1,0 +1,28 @@
+<div class="flex items-center justify-between mb-10">
+  <h1 class="text-xl">Marcadores</h1>
+
+  <%= link_to 'Cadastrar', new_tag_path, class: "cursor-pointer bg-[#5395cf] py-3 rounded-lg font-bold hover:bg-[#3f729e] duration-200 px-3"%>
+</div>
+
+<% if @tags.empty? %>
+  <p class="text-lg">Você não possui marcadores cadastrados.</p>
+<% else %>
+  <table class="w-1/2 text-center border-collapse border border-gray-700 rounded-lg shadow-md overflow-hidden bg-black">
+    <thead>
+      <tr class="bg-gray-700">
+        <th class="px-4 py-2 border border-gray-700 w-1/2">Nome</th>
+        <th class="px-4 py-2 border border-gray-700 w-1/2">Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @tags.each_with_index do |tag, index| %>
+        <tr class="<%= index.even? ? 'bg-gray-800' : 'bg-gray-700' %> bg-opacity-80">
+          <td class="px-4 py-2 border border-gray-700"><%= tag.name %></td>
+          <td class="px-4 py-2 border border-gray-700">
+            <%= button_to 'Excluir', tag_path(tag), method: :delete, data: { confirm: 'Tem certeza?' }, class: "bg-red-500 text-white px-2 py-1 rounded" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

@@ -37,4 +37,7 @@ Rails.application.routes.draw do
       get :price_history, on: :member
     end
   end
+
+  resources :tags, only: [ :index, :new, :create, :destroy ]
+
 end
