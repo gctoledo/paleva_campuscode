@@ -101,4 +101,66 @@ describe 'User visits dishes pages' do
     expect(page).to have_content('Parmegiana')
     expect(page).to have_content('Ativo')
   end
+
+  it 'and can see created tags filter' do
+    #Arrange
+    user = User.create!(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456')
+    login_as(user)
+    r = create_restaurant(user)
+    create_opentime(user)
+    dish = user.restaurant.dishes.new(name: 'Parmegiana', description: 'É bom!')
+    dish.image.attach(
+      io: File.open('spec/fixtures/test_image.png'),
+      filename: 'test_image.png',
+      content_type: 'image/png'
+    )
+    tag = r.tags.create!(name: 'Vegetariano')
+    dish.tags << tag
+    dish.save
+
+    #Act
+    visit root_path
+    within('nav') do
+      click_on 'Pratos'
+    end
+
+    #Assert
+    expect(page).to have_content('Parmegiana')
+    expect(page).to have_content('Vegetariano')
+  end
+
+  it 'and can filter dishes from tags' do
+    #Arrange
+    user = User.create!(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456')
+    login_as(user)
+    r = create_restaurant(user)
+    create_opentime(user)
+    dish = user.restaurant.dishes.new(name: 'Parmegiana', description: 'É bom!')
+    dish.image.attach(
+      io: File.open('spec/fixtures/test_image.png'),
+      filename: 'test_image.png',
+      content_type: 'image/png'
+    )
+    tag = r.tags.create!(name: 'Vegetariano')
+    dish.tags << tag
+    dish.save
+    second_dish = user.restaurant.dishes.new(name: 'Macarronada', description: 'Também é bom!')
+    second_dish.image.attach(
+      io: File.open('spec/fixtures/test_image.png'),
+      filename: 'test_image.png',
+      content_type: 'image/png'
+    )
+    second_dish.save
+
+    #Act
+    visit root_path
+    within('nav') do
+      click_on 'Pratos'
+    end
+    click_on 'Vegetariano'
+
+    #Assert
+    expect(page).to have_content('Parmegiana')
+    expect(page).not_to have_content('Macarronada')
+  end
 end

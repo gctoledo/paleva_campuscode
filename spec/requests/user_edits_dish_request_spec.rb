@@ -23,6 +23,7 @@ describe 'User try edits a dish' do
 
     #Assert
     expect(response).to redirect_to root_path
+    expect(response).not_to be_successful
     expect(dish.name).to eq 'Parmegiana'
   end
 
@@ -49,6 +50,7 @@ describe 'User try edits a dish' do
 
     #Assert
     expect(response).to redirect_to root_path
+    expect(response).not_to be_successful
     expect(dish.active).to eq true
   end
 end
