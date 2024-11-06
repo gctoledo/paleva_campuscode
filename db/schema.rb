@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_11_03_205803) do
+ActiveRecord::Schema[7.2].define(version: 2024_11_05_165036) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -68,6 +68,33 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_03_205803) do
     t.datetime "updated_at", null: false
     t.boolean "active", default: true
     t.index ["restaurant_id"], name: "index_drinks_on_restaurant_id"
+  end
+
+  create_table "menu_dishes", force: :cascade do |t|
+    t.integer "menu_id", null: false
+    t.integer "dish_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["dish_id"], name: "index_menu_dishes_on_dish_id"
+    t.index ["menu_id"], name: "index_menu_dishes_on_menu_id"
+  end
+
+  create_table "menu_drinks", force: :cascade do |t|
+    t.integer "menu_id", null: false
+    t.integer "drink_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["drink_id"], name: "index_menu_drinks_on_drink_id"
+    t.index ["menu_id"], name: "index_menu_drinks_on_menu_id"
+  end
+
+  create_table "menus", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "restaurant_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["restaurant_id", "name"], name: "index_menus_on_restaurant_id_and_name", unique: true
+    t.index ["restaurant_id"], name: "index_menus_on_restaurant_id"
   end
 
   create_table "opentimes", force: :cascade do |t|
@@ -146,6 +173,11 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_03_205803) do
   add_foreign_key "dishes_tags", "dishes"
   add_foreign_key "dishes_tags", "tags"
   add_foreign_key "drinks", "restaurants"
+  add_foreign_key "menu_dishes", "dishes"
+  add_foreign_key "menu_dishes", "menus"
+  add_foreign_key "menu_drinks", "drinks"
+  add_foreign_key "menu_drinks", "menus"
+  add_foreign_key "menus", "restaurants"
   add_foreign_key "opentimes", "restaurants"
   add_foreign_key "portion_price_histories", "portions"
   add_foreign_key "restaurants", "users"
