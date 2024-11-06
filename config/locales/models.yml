@@ -8,6 +8,7 @@ pt-BR:
       drink: 'Bebida'
       portion: 'Porção'
       tag: 'Marcador'
+      menu: 'Cardápio'
     attributes:
       user:
         password: 'Senha'
@@ -42,4 +43,6 @@ pt-BR:
         description: 'Descrição'
         price: 'Preço'
       tag:
+        name: 'Nome'
+      menu:
         name: 'Nome'
