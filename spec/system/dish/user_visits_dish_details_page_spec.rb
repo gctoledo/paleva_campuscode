@@ -28,11 +28,7 @@ describe 'User visits dish details page' do
   end
 
   it 'and disable the dish' do
-    visit root_path
-    within('nav') do
-    click_on 'Pratos'
-    end
-    click_on 'Parmegiana'
+    visit dish_path(@dish.id)
     click_on 'Desativar'
 
     expect(current_path).to eq dish_path(@dish.id)
@@ -44,11 +40,7 @@ describe 'User visits dish details page' do
   it 'and active the dish' do
     @dish.update!(active: false)
 
-    visit root_path
-    within('nav') do
-      click_on 'Pratos'
-    end
-    click_on 'Parmegiana'
+    visit dish_path(@dish.id)
     click_on 'Ativar'
 
     expect(current_path).to eq dish_path(@dish.id)
@@ -61,14 +53,19 @@ describe 'User visits dish details page' do
     tag = @r.tags.create!(name: 'Vegetariano')
     @dish.tags << tag
 
-    visit root_path
-    within('nav') do
-    click_on 'Pratos'
-    end
-    click_on 'Parmegiana'
+    visit dish_path(@dish.id)
 
     expect(current_path).to eq dish_path(@dish.id)
     expect(page).to have_content('Parmegiana')
     expect(page).to have_content('Vegetariano')
+  end
+
+  it 'and deletes the dish' do
+    visit dish_path(@dish.id)
+    click_on 'Apagar'
+
+    expect(current_path).to eq dishes_path
+    expect(page).to have_content('Prato excluído com sucesso.')
+    expect(page).not_to have_content('Parmegiana')
   end
 end

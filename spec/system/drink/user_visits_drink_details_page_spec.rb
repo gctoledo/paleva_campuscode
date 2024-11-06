@@ -48,4 +48,13 @@ describe 'User visits drink details page' do
     expect(page).to have_content('Desativar')
     expect(page).to have_content('Coca-cola')
   end
+
+  it 'and deletes the drink' do
+    visit drink_path(@drink.id)
+    click_on 'Apagar'
+
+    expect(current_path).to eq drinks_path
+    expect(page).to have_content('Bebida excluída com sucesso.')
+    expect(page).not_to have_content('Coca-cola')
+  end
 end
