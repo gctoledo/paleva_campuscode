@@ -1,0 +1,45 @@
+<%= form_with model: @menu, html: { class: 'flex flex-col gap-4 w-1/3 mt-6', id: 'menu-form' } do |f| %>
+  <div class="flex flex-col gap-4">
+    <%= f.label :name, class: "font-bold text-gray-300" %>
+    <%= f.text_field :name, class: "form-input bg-gray-800 text-gray-300 border-gray-600" %>
+    <% if @menu.errors[:name].any? %>
+      <div class="text-red-600">
+        <% @menu.errors.full_messages_for(:name).each do |message| %>
+          <p><%= message %></p>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <h3 class="text-lg font-semibold text-[#85bff1] mt-4">Selecionar pratos</h3>
+  <% if @restaurant.dishes.empty? %>
+    <h3 class="font-semibold text-red-500">Você não possui pratos cadastrados</h3>
+  <% else %>
+    <div class="flex flex-wrap gap-2">
+      <% @restaurant.dishes.each do |dish| %>
+        <div class="flex items-center space-x-2 bg-gray-700 p-2 rounded-md">
+          <%= check_box_tag "menu[dish_ids][]", dish.id, @menu.dishes.include?(dish), id: "dish_#{dish.id}", class: "form-checkbox text-indigo-500 bg-gray-800 border-gray-600 focus:ring-indigo-400" %>
+          <%= label_tag "dish_#{dish.id}", dish.name, class: "text-gray-300" %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
+  <h3 class="text-lg font-semibold text-[#85bff1] mt-4">Selecionar bebidas</h3>
+  <% if @restaurant.drinks.empty? %>
+    <h3 class="font-semibold text-red-500">Você não possui bebidas cadastradas</h3>
+  <% else %>
+    <div class="flex flex-wrap gap-2">
+      <% @restaurant.drinks.each do |drink| %>
+        <div class="flex items-center space-x-2 bg-gray-700 p-2 rounded-md">
+          <%= check_box_tag "menu[drink_ids][]", drink.id, @menu.drinks.include?(drink), id: "drink_#{drink.id}", class: "form-checkbox text-indigo-500 bg-gray-800 border-gray-600 focus:ring-indigo-400" %>
+          <%= label_tag "drink_#{drink.id}", drink.name, class: "text-gray-300" %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div class="flex justify-center">
+    <%= f.submit "Salvar cardápio", class: "mt-8 cursor-pointer bg-[#5395cf] py-3 px-4 rounded-lg font-bold hover:bg-[#3f729e] duration-200" %>
+  </div>
+<% end %>
