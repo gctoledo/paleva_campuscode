@@ -37,7 +37,7 @@ class MenusController < ApplicationController
   end
 
   def destroy
-    @menu.destroy
+    @menu.destroy!
     redirect_to menus_path, notice: 'Cardápio excluído com sucesso.'
   end
 

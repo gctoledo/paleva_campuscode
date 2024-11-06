@@ -1,10 +1,11 @@
 class Dish < ApplicationRecord
   belongs_to :restaurant
   has_one_attached :image
-  has_many :portions, as: :portionable
+
+  has_many :portions, as: :portionable, dependent: :destroy
   has_many :dishes_tags
   has_many :tags, through: :dishes_tags
-  has_many :menu_dishes, dependent: :destroy
+  has_many :menu_dishes
   has_many :menus, through: :menu_dishes
 
   validates :name, :description, :image, presence: true

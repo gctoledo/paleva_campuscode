@@ -23,6 +23,8 @@
     <% else %>
       <%= button_to 'Ativar', activate_dish_path(@dish), method: :patch, class: 'cursor-pointer bg-green-500 py-3 rounded-lg font-bold hover:bg-green-700 duration-200 px-3' %>
     <% end %>
+    <%= button_to 'Apagar', dish_path(@dish), method: :delete, data: { confirm: 'Tem certeza que deseja excluir este prato?' }, class: 'cursor-pointer bg-red-500 py-3 rounded-lg font-bold hover:bg-red-700 duration-200 px-3' %>
+
   </div>
 </div>
 

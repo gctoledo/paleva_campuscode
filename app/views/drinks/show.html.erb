@@ -23,6 +23,7 @@
     <% else %>
       <%= button_to 'Ativar', activate_drink_path(@drink), method: :patch, class: 'cursor-pointer bg-green-500 py-3 rounded-lg font-bold hover:bg-green-700 duration-200 px-3' %>
     <% end %>
+    <%= button_to 'Apagar', drink_path(@drink), method: :delete, data: { confirm: 'Tem certeza que deseja excluir essa bebida?' }, class: 'cursor-pointer bg-red-500 py-3 rounded-lg font-bold hover:bg-red-700 duration-200 px-3' %>
   </div>
 </div>
 

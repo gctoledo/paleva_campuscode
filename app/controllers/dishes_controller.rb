@@ -1,6 +1,6 @@
 class DishesController < ApplicationController
-  before_action :authorize_dishes_access, only: [:show, :edit, :update, :activate, :disable]
-  before_action :set_dish, only: [:show, :edit, :update, :activate, :disable]
+  before_action :authorize_dishes_access, only: [:show, :edit, :update, :activate, :disable, :destroy]
+  before_action :set_dish, only: [:show, :edit, :update, :activate, :disable, :destroy]
 
   def index
     @dishes = current_user.restaurant.dishes.includes(:tags)
@@ -66,6 +66,11 @@ class DishesController < ApplicationController
       flash.now[:alert] = "Erro ao atualizar prato"
       render :edit, status: :unprocessable_entity
     end
+  end
+
+  def destroy
+    @dish.destroy!
+    redirect_to dishes_path, notice: 'Prato excluído com sucesso.'
   end
 
   private

@@ -1,6 +1,6 @@
 class DrinksController < ApplicationController
-  before_action :authorize_drinks_access, only: [:show, :edit, :update, :activate, :disable]
-  before_action :set_drink, only: [:show, :edit, :update, :activate, :disable]
+  before_action :authorize_drinks_access, only: [:show, :edit, :update, :activate, :disable, :destroy]
+  before_action :set_drink, only: [:show, :edit, :update, :activate, :disable, :destroy]
 
   def index
     @drinks = @restaurant.drinks
@@ -58,6 +58,11 @@ class DrinksController < ApplicationController
       flash.now[:alert] = "Erro ao atualizar bebida"
       render :edit, status: :unprocessable_entity
     end
+  end
+
+  def destroy
+    @drink.destroy!
+    redirect_to drinks_path, notice: 'Bebida excluída com sucesso.'
   end
 
   private
