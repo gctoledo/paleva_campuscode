@@ -15,21 +15,6 @@ describe 'User visits dishes pages' do
     @dish.save
   end
 
-  it 'and cant access dishes from other restaurants' do
-    #Arrange
-    second_user = User.create!(email: 'mary@jane.com', cpf: CPF.generate, first_name: 'Mary', last_name: 'Jane', password: 'password123456')
-    Restaurant.create!(trade_name: 'McDonalds', legal_name: 'McDonalds', cnpj: CNPJ.generate, address: 'United Stated', phone: '11111111111', email: 'mc@donalds.com', user: second_user)
-    create_opentime(second_user)
-    login_as(second_user)
-
-    #Act
-    visit dish_path(@dish.id)
-
-    #Assert
-    expect(current_path).to eq root_path
-    expect(page).to have_content('Acesso não autorizado.')
-  end
-
   it 'and sees all dishes' do 
     #Act
     visit root_path

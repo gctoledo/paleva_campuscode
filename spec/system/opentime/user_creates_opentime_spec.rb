@@ -11,7 +11,7 @@ describe 'User visits opentime creation page' do
     #Act
     visit root_path
     within('nav') do
-      click_on 'Meus horários'
+      click_on 'Horários'
     end
     click_on 'Cadastrar'
 
@@ -24,7 +24,7 @@ describe 'User visits opentime creation page' do
   end
 
   it 'and cant create a opentime when week day already registered' do
-    #Arrange
+    
     @r.opentimes.create!(week_day: 0, open: '08:30', close: '18:00')
 
     #Act

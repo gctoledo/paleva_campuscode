@@ -16,7 +16,6 @@ describe 'User try edits a menu' do
 
     login_as(second_user)
     patch(menu_path(@menu.id), params: { menu: { name: 'Jantar' } })
-    @menu.reload
 
     expect(response).to redirect_to root_path
     expect(response).not_to be_successful
