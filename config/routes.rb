@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   registrations: 'users/registrations'
 }
 
-  root to: "home#index"
+  root to: "menus#index"
 
   get 'search', to: 'search#index'
   
@@ -40,4 +40,5 @@ Rails.application.routes.draw do
 
   resources :tags, only: [ :index, :new, :create, :destroy ]
 
+  resources :menus
 end
