@@ -1,6 +1,5 @@
 class TagsController < ApplicationController
   before_action :authorize_tags_access, only: [:destroy]
-  before_action :set_restaurant
   before_action :set_tag, only: [:destroy]
 
   def index
@@ -28,10 +27,6 @@ class TagsController < ApplicationController
   end
 
   private
-
-  def set_restaurant
-    @restaurant = current_user.restaurant
-  end
 
   def set_tag
     @tag = Tag.find(params[:id])

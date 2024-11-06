@@ -1,8 +1,6 @@
 class OpentimesController < ApplicationController
   skip_before_action :check_opentimes, only: [:index, :new, :create]
 
-  before_action :set_restaurant
-
   def index
     @opentimes = @restaurant.opentimes
   end
@@ -23,10 +21,6 @@ class OpentimesController < ApplicationController
   end
 
   private
-
-  def set_restaurant
-    @restaurant = current_user.restaurant
-  end
 
   def opentime_params
     params.require(:opentime).permit(:week_day, :open, :close, :closed).tap do |whitelisted|

@@ -1,6 +1,5 @@
 class DishesController < ApplicationController
   before_action :authorize_dishes_access, only: [:show, :edit, :update, :activate, :disable]
-  before_action :set_restaurant
   before_action :set_dish, only: [:show, :edit, :update, :activate, :disable]
 
   def index
@@ -73,10 +72,6 @@ class DishesController < ApplicationController
 
   def set_dish
     @dish = Dish.find(params[:id])
-  end
-
-  def set_restaurant
-    @restaurant = current_user.restaurant
   end
 
   def dish_params

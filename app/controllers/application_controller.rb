@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!
   before_action :check_restaurant, unless: :devise_controller?
   before_action :check_opentimes, unless: :devise_controller?
+  before_action :set_restaurant, unless: :devise_controller?
 
   private
 
@@ -16,5 +17,9 @@ class ApplicationController < ActionController::Base
     if current_user.restaurant && current_user.restaurant.opentimes.empty?
       redirect_to new_opentime_path, alert: "Você precisa cadastrar os horários de funcionamento do seu restaurante."
     end
+  end
+
+  def set_restaurant
+    @restaurant = current_user.restaurant
   end
 end

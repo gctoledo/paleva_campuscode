@@ -1,6 +1,5 @@
 class DrinksController < ApplicationController
   before_action :authorize_drinks_access, only: [:show, :edit, :update, :activate, :disable]
-  before_action :set_restaurant
   before_action :set_drink, only: [:show, :edit, :update, :activate, :disable]
 
   def index
@@ -65,10 +64,6 @@ class DrinksController < ApplicationController
 
   def set_drink
     @drink = Drink.find(params[:id])
-  end
-
-  def set_restaurant
-    @restaurant = current_user.restaurant
   end
 
   def drink_params

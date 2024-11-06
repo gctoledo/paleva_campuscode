@@ -1,6 +1,7 @@
 class RestaurantsController < ApplicationController
   skip_before_action :check_restaurant, only: [:new, :create]
   skip_before_action :check_opentimes
+  skip_before_action :set_restaurant
 
   before_action :check_already_have_restaurant, only: [:new, :create]
 
