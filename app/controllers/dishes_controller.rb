@@ -3,7 +3,7 @@ class DishesController < ApplicationController
   before_action :set_dish, only: [:show, :edit, :update, :activate, :disable, :destroy]
 
   def index
-    @dishes = current_user.restaurant.dishes.includes(:tags)
+    @dishes = @restaurant.dishes.where(deleted_at: nil).includes(:tags)
 
     if params[:tag_names].present?
       @dishes = @dishes.joins(:tags).where(tags: { name: params[:tag_names] }).distinct
@@ -69,8 +69,12 @@ class DishesController < ApplicationController
   end
 
   def destroy
-    @dish.destroy!
-    redirect_to dishes_path, notice: 'Prato excluído com sucesso.'
+    if @dish.soft_delete
+      flash[:notice] = "Prato excluído com sucesso."
+    else
+      flash[:alert] = "Erro ao excluir prato."
+    end
+    redirect_to dishes_path
   end
 
   private

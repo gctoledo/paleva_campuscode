@@ -5,12 +5,17 @@ class Drink < ApplicationRecord
   has_many :portions, as: :portionable, dependent: :destroy
   has_many :menu_drinks
   has_many :menus, through: :menu_drinks
+  has_many :order_items, dependent: :nullify
 
   validates :name, :description, :image, presence: true
   validates :image, content_type: { in: ['image/png', 'image/jpg', 'image/jpeg'], message: 'deve ser uma imagem do tipo PNG ou JPG' }
   validates :active, inclusion: { in: [true, false] }
 
   before_create :set_default_active
+
+  def soft_delete
+    update(deleted_at: Time.current)
+  end
 
   private
 

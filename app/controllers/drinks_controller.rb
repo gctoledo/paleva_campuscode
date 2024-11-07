@@ -3,7 +3,7 @@ class DrinksController < ApplicationController
   before_action :set_drink, only: [:show, :edit, :update, :activate, :disable, :destroy]
 
   def index
-    @drinks = @restaurant.drinks
+    @drinks = @restaurant.drinks.where(deleted_at: nil)
   end
 
   def activate
@@ -61,8 +61,12 @@ class DrinksController < ApplicationController
   end
 
   def destroy
-    @drink.destroy!
-    redirect_to drinks_path, notice: 'Bebida excluída com sucesso.'
+    if @drink.soft_delete
+      flash[:notice] = "Bebida excluída com sucesso."
+    else
+      flash[:alert] = "Erro ao excluir bebida."
+    end
+    redirect_to drinks_path
   end
 
   private
