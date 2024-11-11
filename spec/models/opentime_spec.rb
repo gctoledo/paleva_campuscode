@@ -5,7 +5,6 @@ RSpec.describe Opentime, type: :model do
     it 'false when week_day is empty' do
       #Arrange
       restaurant = Restaurant.new(trade_name: 'Burguer King', legal_name: 'Burguer King', cnpj: CNPJ.generate, address: 'United Stated', phone: '11111111111', email: 'burger@king.com')
-      User.new(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456', restaurant_id: restaurant.id)
       
       #Act
       opentime = restaurant.opentimes.new(open: '08:30', close: '18:00')
@@ -18,7 +17,6 @@ RSpec.describe Opentime, type: :model do
     it 'false when open is empty' do
       #Arrange
       restaurant = Restaurant.new(trade_name: 'Burguer King', legal_name: 'Burguer King', cnpj: CNPJ.generate, address: 'United Stated', phone: '11111111111', email: 'burger@king.com')
-      User.new(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456', restaurant_id: restaurant.id)
       
       #Act
       opentime = restaurant.opentimes.new(week_day: 0, close: '18:00')
@@ -31,7 +29,6 @@ RSpec.describe Opentime, type: :model do
     it 'false when close is empty' do
       #Arrange
       restaurant = Restaurant.new(trade_name: 'Burguer King', legal_name: 'Burguer King', cnpj: CNPJ.generate, address: 'United Stated', phone: '11111111111', email: 'burger@king.com')
-      User.new(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456', restaurant_id: restaurant.id)
       
       #Act
       opentime = restaurant.opentimes.new(week_day: 0, open: '08:30')
@@ -44,7 +41,6 @@ RSpec.describe Opentime, type: :model do
     it 'false when close time is less than open time' do
       #Arrange
       restaurant = Restaurant.new(trade_name: 'Burguer King', legal_name: 'Burguer King', cnpj: CNPJ.generate, address: 'United Stated', phone: '11111111111', email: 'burger@king.com')
-      User.new(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456', restaurant_id: restaurant.id)
       
       #Act
       opentime = restaurant.opentimes.new(week_day: 0, open: '18:00', close: '08:30')
@@ -57,7 +53,6 @@ RSpec.describe Opentime, type: :model do
     it 'false when week day already exists' do
       #Arrange
       restaurant = Restaurant.new(trade_name: 'Burguer King', legal_name: 'Burguer King', cnpj: CNPJ.generate, address: 'United Stated', phone: '11111111111', email: 'burger@king.com')
-      User.new(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456', restaurant_id: restaurant.id)
       restaurant.opentimes.new(week_day: 0, open: '18:00', close: '08:30')
       
       #Act
@@ -71,7 +66,6 @@ RSpec.describe Opentime, type: :model do
     it 'false when week day is different than 0..6' do
       #Arrange
       restaurant = Restaurant.new(trade_name: 'Burguer King', legal_name: 'Burguer King', cnpj: CNPJ.generate, address: 'United Stated', phone: '11111111111', email: 'burger@king.com')
-      User.new(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456', restaurant_id: restaurant.id)
       
       #Act
       opentime = restaurant.opentimes.new(week_day: 10, open: '18:00', close: '08:30')
@@ -84,7 +78,6 @@ RSpec.describe Opentime, type: :model do
     it 'with success' do
       #Arrange
       restaurant = Restaurant.new(trade_name: 'Burguer King', legal_name: 'Burguer King', cnpj: CNPJ.generate, address: 'United Stated', phone: '11111111111', email: 'burger@king.com')
-      User.new(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456', restaurant_id: restaurant.id)
       
       #Act
       opentime = restaurant.opentimes.new(week_day: 0, open: '08:30', close: '18:00')
