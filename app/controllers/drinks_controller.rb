@@ -3,7 +3,7 @@ class DrinksController < ApplicationController
   before_action :set_drink, only: [:show, :edit, :update, :activate, :disable, :destroy]
 
   def index
-    @drinks = @restaurant.drinks.where(deleted_at: nil)
+    @drinks = @restaurant.drinks
   end
 
   def activate
@@ -72,7 +72,7 @@ class DrinksController < ApplicationController
   private
 
   def set_drink
-    @drink = Drink.find(params[:id])
+    @drink = Drink.unscoped.find(params[:id])
   end
 
   def drink_params
@@ -80,7 +80,7 @@ class DrinksController < ApplicationController
   end
 
   def authorize_drinks_access
-    drink = Drink.find(params[:id])
+    drink = Drink.unscoped.find(params[:id])
     unless drink.restaurant == current_user.restaurant
       redirect_to root_path, alert: "Acesso não autorizado."
     end

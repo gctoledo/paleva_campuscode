@@ -4,8 +4,14 @@ class ApplicationController < ActionController::Base
   before_action :check_restaurant, unless: :devise_controller?
   before_action :check_opentimes, unless: :devise_controller?
   before_action :set_restaurant, unless: :devise_controller?
+  rescue_from ActiveRecord::RecordNotFound, with: :not_found
 
   private
+
+  def not_found
+    flash[:alert] = "O item que você tentou acessar não existe."
+    redirect_to root_path
+  end
 
   def check_restaurant
     if !current_user.restaurant

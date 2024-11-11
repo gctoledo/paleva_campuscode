@@ -3,7 +3,7 @@ class DishesController < ApplicationController
   before_action :set_dish, only: [:show, :edit, :update, :activate, :disable, :destroy]
 
   def index
-    @dishes = @restaurant.dishes.where(deleted_at: nil).includes(:tags)
+    @dishes = @restaurant.dishes.includes(:tags)
 
     if params[:tag_names].present?
       @dishes = @dishes.joins(:tags).where(tags: { name: params[:tag_names] }).distinct
@@ -80,7 +80,7 @@ class DishesController < ApplicationController
   private
 
   def set_dish
-    @dish = Dish.find(params[:id])
+    @dish = Dish.unscoped.find(params[:id])
   end
 
   def dish_params
@@ -88,7 +88,7 @@ class DishesController < ApplicationController
   end
 
   def authorize_dishes_access
-    dish = Dish.find(params[:id])
+    dish = Dish.unscoped.find(params[:id])
 
     unless dish.restaurant == current_user.restaurant
       redirect_to root_path, alert: "Acesso não autorizado."

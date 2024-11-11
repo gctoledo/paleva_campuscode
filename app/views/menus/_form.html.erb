@@ -16,7 +16,7 @@
     <h3 class="font-semibold text-red-500">Você não possui pratos cadastrados</h3>
   <% else %>
     <div class="flex flex-wrap gap-2">
-      <% @restaurant.dishes.each do |dish| %>
+      <% @restaurant.dishes.where(active: true).each do |dish| %>
         <div class="flex items-center space-x-2 bg-gray-700 p-2 rounded-md">
           <%= check_box_tag "menu[dish_ids][]", dish.id, @menu.dishes.include?(dish), id: "dish_#{dish.id}", class: "form-checkbox text-indigo-500 bg-gray-800 border-gray-600 focus:ring-indigo-400" %>
           <%= label_tag "dish_#{dish.id}", dish.name, class: "text-gray-300" %>
@@ -30,7 +30,7 @@
     <h3 class="font-semibold text-red-500">Você não possui bebidas cadastradas</h3>
   <% else %>
     <div class="flex flex-wrap gap-2">
-      <% @restaurant.drinks.each do |drink| %>
+      <% @restaurant.drinks.where(active: true).each do |drink| %>
         <div class="flex items-center space-x-2 bg-gray-700 p-2 rounded-md">
           <%= check_box_tag "menu[drink_ids][]", drink.id, @menu.drinks.include?(drink), id: "drink_#{drink.id}", class: "form-checkbox text-indigo-500 bg-gray-800 border-gray-600 focus:ring-indigo-400" %>
           <%= label_tag "drink_#{drink.id}", drink.name, class: "text-gray-300" %>
