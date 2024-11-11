@@ -5,7 +5,7 @@ class OrdersController < ApplicationController
   skip_before_action :authorize_employee_access
 
   def index
-    @orders = @restaurant.orders
+    @orders = @restaurant.orders.order(created_at: :desc)
   end
 
   def show
