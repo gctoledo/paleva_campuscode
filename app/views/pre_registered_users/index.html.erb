@@ -1,0 +1,41 @@
+<div class="flex items-center justify-between mb-10">
+  <h2 class="text-2xl font-semibold">Funcionários</h2>
+
+  <div class="flex gap-6 items-center">
+    <%= link_to 'Cadastrar', new_pre_registered_user_path, class: "cursor-pointer bg-[#5395cf] py-3 rounded-lg font-bold hover:bg-[#3f729e] duration-200 px-3"%>
+  </div>
+</div>
+
+<% if @pre_registered_users.any? %>
+  <div class="overflow-x-auto">
+    <table class="w-full text-left border-collapse">
+      <thead>
+        <tr class="bg-gray-800 text-gray-300">
+          <th class="px-4 py-3">E-mail</th>
+          <th class="px-4 py-3">CPF</th>
+          <th class="px-4 py-3">Status</th>
+          <th class="px-4 py-3">Data de pré-cadastro</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @pre_registered_users.each do |user| %>
+          <tr class="bg-gray-800 hover:bg-gray-700 transition duration-200">
+            <td class="px-4 py-3 text-gray-100"><%= user.email %></td>
+            <td class="px-4 py-3 text-gray-100"><%= user.cpf %></td>
+            <td class="px-4 py-3 text-gray-100">
+              <% if user.used? %>
+                <span class="inline-block bg-green-500 text-white text-xs font-semibold px-2 py-1 rounded">Utilizado</span>
+              <% else %>
+                <span class="inline-block bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded">Não utilizado</span>
+              <% end %>
+            </td>
+            <td class="px-4 py-3 text-gray-100"><%= user.created_at.strftime("%d/%m/%Y") %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <p class="text-gray-300 mt-4">Não há usuários pré-cadastrados no momento.</p>
+<% end %>
+</div>

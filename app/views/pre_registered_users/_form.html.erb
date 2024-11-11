@@ -1,0 +1,29 @@
+<%= form_with model: @pre_registered_user, local: true, html: { class: 'space-y-4', id: 'employee-form' } do |f| %>
+  <div class="space-y-2">
+    <%= f.label :email, class: "block text-gray-300 font-semibold" %>
+    <%= f.email_field :email, class: "form-input w-full bg-gray-700 text-white border-gray-600 rounded-md" %>
+    <% if @pre_registered_user.errors[:email].any? %>
+      <div class="text-red-500 text-sm">
+        <% @pre_registered_user.errors.full_messages_for(:email).each do |message| %>
+          <p><%= message %></p>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="space-y-2">
+    <%= f.label :cpf, class: "block text-gray-300 font-semibold" %>
+    <%= f.text_field :cpf, class: "form-input w-full bg-gray-700 text-white border-gray-600 rounded-md" %>
+    <% if @pre_registered_user.errors[:cpf].any? %>
+      <div class="text-red-500 text-sm">
+        <% @pre_registered_user.errors.full_messages_for(:cpf).each do |message| %>
+          <p><%= message %></p>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="flex justify-center">
+    <%= f.submit "Cadastrar usuário", class: "bg-blue-500 text-white font-bold py-2 px-6 rounded-md hover:bg-blue-600 transition duration-200 cursor-pointer" %>
+  </div>
+<% end %>

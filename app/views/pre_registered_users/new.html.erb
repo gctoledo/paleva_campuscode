@@ -1,0 +1,11 @@
+<%= render partial: 'components/session_title', locals: { title: 'Cadastro de funcionários' } %>
+
+<div class="flex justify-center mt-10">
+  <div class="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-lg">
+    <%= render 'pre_registered_users/form' %>
+
+    <div class="text-center mt-6">
+      <%= link_to 'Voltar', pre_registered_users_path, class: "text-blue-500 hover:underline cursor-pointer" %>
+    </div>
+  </div>
+</div>

@@ -2,7 +2,15 @@
   <div>
     <h1 class="font-bold text-3xl text-center mb-4"><%= current_user&.restaurant&.trade_name || "" %></h1>
 
-    <p class="text-xl text-center">Olá, <span class="font-bold"><%= current_user.first_name %></span></p>
+    <p class="text-xl text-center mb-4">Olá, <span class="font-bold"><%= current_user.first_name %></span></p>
+
+    <p class="text-center">
+      <% if current_user.owner? %>
+        Proprietário
+      <% else %>
+        Funcionário
+      <% end %>
+    </p>
 
     <nav class="w-full mt-10">
       <ul class="flex flex-col gap-4">
@@ -12,16 +20,26 @@
           </li>
         <% end %>
 
+        <% if current_user.owner? %>
+          <%= link_to pre_registered_users_path do %>
+            <li class="nav-item">
+              Funcionários
+            </li>
+          <% end %>
+        <% end %>
+
         <%= link_to orders_path do %>
           <li class="nav-item">
             Pedidos
           </li>
         <% end %>
 
-        <%= link_to opentimes_path do %>
-          <li class="nav-item">
-            Horários
-          </li>
+        <% if current_user.owner? %>
+          <%= link_to opentimes_path do %>
+            <li class="nav-item">
+              Horários
+            </li>
+          <% end %>
         <% end %>
 
         <%= link_to dishes_path do %>
