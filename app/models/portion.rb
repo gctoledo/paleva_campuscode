@@ -1,6 +1,7 @@
 class Portion < ApplicationRecord
   belongs_to :portionable, polymorphic: true
   has_many :price_histories, class_name: "PortionPriceHistory", dependent: :destroy
+  has_many :order_items
 
   before_update :store_price_history
 

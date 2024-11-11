@@ -2,6 +2,8 @@ class Drink < ApplicationRecord
   belongs_to :restaurant
   has_one_attached :image
 
+  default_scope { where(deleted_at: nil) }
+
   has_many :portions, as: :portionable, dependent: :destroy
   has_many :menu_drinks
   has_many :menus, through: :menu_drinks

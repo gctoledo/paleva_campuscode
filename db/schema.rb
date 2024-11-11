@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_11_05_165036) do
+ActiveRecord::Schema[7.2].define(version: 2024_11_07_190141) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -47,6 +47,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_05_165036) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "active", default: true
+    t.datetime "deleted_at"
     t.index ["restaurant_id"], name: "index_dishes_on_restaurant_id"
   end
 
@@ -67,6 +68,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_05_165036) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "active", default: true
+    t.datetime "deleted_at"
     t.index ["restaurant_id"], name: "index_drinks_on_restaurant_id"
   end
 
@@ -106,6 +108,35 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_05_165036) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["restaurant_id"], name: "index_opentimes_on_restaurant_id"
+  end
+
+  create_table "order_items", force: :cascade do |t|
+    t.integer "order_id", null: false
+    t.integer "portion_id", null: false
+    t.integer "dish_id"
+    t.integer "drink_id"
+    t.string "note"
+    t.decimal "price", precision: 10, scale: 2, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["dish_id"], name: "index_order_items_on_dish_id"
+    t.index ["drink_id"], name: "index_order_items_on_drink_id"
+    t.index ["order_id"], name: "index_order_items_on_order_id"
+    t.index ["portion_id"], name: "index_order_items_on_portion_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.string "customer_name", null: false
+    t.string "customer_cpf"
+    t.string "customer_email"
+    t.string "customer_phone"
+    t.integer "restaurant_id", null: false
+    t.string "code", null: false
+    t.integer "status", default: 0, null: false
+    t.decimal "total_price", precision: 10, scale: 2, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["restaurant_id"], name: "index_orders_on_restaurant_id"
   end
 
   create_table "portion_price_histories", force: :cascade do |t|
@@ -179,6 +210,11 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_05_165036) do
   add_foreign_key "menu_drinks", "menus"
   add_foreign_key "menus", "restaurants"
   add_foreign_key "opentimes", "restaurants"
+  add_foreign_key "order_items", "dishes"
+  add_foreign_key "order_items", "drinks"
+  add_foreign_key "order_items", "orders"
+  add_foreign_key "order_items", "portions"
+  add_foreign_key "orders", "restaurants"
   add_foreign_key "portion_price_histories", "portions"
   add_foreign_key "restaurants", "users"
   add_foreign_key "tags", "restaurants"
