@@ -1,4 +1,6 @@
 class SearchController < ApplicationController
+  skip_before_action :authorize_employee_access
+
   def index
     query = params[:query]
 

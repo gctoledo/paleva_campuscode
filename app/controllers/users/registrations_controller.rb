@@ -11,18 +11,33 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   def create
-    pre_registration = PreRegisteredUser.find_by(email: sign_up_params[:email], cpf: sign_up_params[:cpf])
-    
+    pre_registration = PreRegisteredUser.find_by(email: sign_up_params[:email]) || PreRegisteredUser.find_by(cpf: sign_up_params[:cpf])
+  
     if pre_registration
-      super do |user|
-        user.restaurant = pre_registration.restaurant
-        user.role = 1
-        pre_registration.update!(used: true)
+      if pre_registration.email == sign_up_params[:email] && pre_registration.cpf == sign_up_params[:cpf]
+        self.resource = User.new(sign_up_params)
+        resource.restaurant_id = pre_registration.restaurant_id
+        resource.role = 1
+  
+        if resource.save
+          pre_registration.update!(used: true)
+          sign_in(resource)
+          redirect_to after_sign_up_path_for(resource), notice: 'Cadastro realizado com sucesso!'
+        else
+          clean_up_passwords resource
+          set_minimum_password_length
+          render :new, status: :unprocessable_entity
+        end
+      else
+        self.resource = User.new(sign_up_params)
+        flash.now[:alert] = "O e-mail ou CPF já está reservado."
+        render :new, status: :unprocessable_entity
       end
     else
       super
     end
   end
+  
 
   # GET /resource/edit
   # def edit

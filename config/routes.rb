@@ -45,4 +45,6 @@ Rails.application.routes.draw do
   end
 
   resources :orders, only: [ :index, :show, :new, :create ]
+
+  resources :pre_registered_users, only: [:index, :new, :create]
 end

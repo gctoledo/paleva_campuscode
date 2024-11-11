@@ -2,6 +2,7 @@ class MenusController < ApplicationController
   before_action :authorize_menu_access, only: [:show, :edit, :update, :destroy]
   before_action :set_menu, only: [:show, :edit, :update, :destroy]
   skip_before_action :check_opentimes, only: [:index]
+  skip_before_action :authorize_employee_access, only: [:index, :show]
 
   def index
     @menus = @restaurant.menus

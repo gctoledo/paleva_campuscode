@@ -2,6 +2,7 @@ class OrdersController < ApplicationController
   before_action :authorize_order_access, only: [:show]
   before_action :authorize_menu_access, only: [:new, :create]
   before_action :set_order, only: [:show]
+  skip_before_action :authorize_employee_access
 
   def index
     @orders = @restaurant.orders

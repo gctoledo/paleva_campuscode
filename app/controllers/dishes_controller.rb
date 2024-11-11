@@ -1,6 +1,7 @@
 class DishesController < ApplicationController
   before_action :authorize_dishes_access, only: [:show, :edit, :update, :activate, :disable, :destroy]
   before_action :set_dish, only: [:show, :edit, :update, :activate, :disable, :destroy]
+  skip_before_action :authorize_employee_access, only: [:index, :show]
 
   def index
     @dishes = @restaurant.dishes.includes(:tags)
