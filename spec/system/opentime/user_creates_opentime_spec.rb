@@ -23,6 +23,16 @@ describe 'User visits opentime creation page' do
     expect(page).to have_field('Fechado')
   end
 
+  it 'and is kicked out because is employee' do
+    employee = User.create!(email: 'mary@jane.com', cpf: CPF.generate, first_name: 'Mary', last_name: 'Jane', password: 'password123456', restaurant_id: @r.id, role: 1)
+    login_as(employee)
+
+    visit new_opentime_path
+
+    expect(current_path).to eq root_path
+    expect(page).to have_content('Acesso não autorizado')
+  end
+
   it 'and cant create a opentime when week day already registered' do
     
     @r.opentimes.create!(week_day: 0, open: '08:30', close: '18:00')

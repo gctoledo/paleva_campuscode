@@ -36,6 +36,59 @@ describe 'User visits registration page' do
     #Assert
     expect(current_path).to eq new_restaurants_path
     expect(page).to have_content('Você precisa cadastrar seu restaurante antes de continuar.')
+    expect(page).to have_content('Proprietário')
+  end
+
+  it 'and sign up as employee' do
+    #Arrange
+    @r = create_restaurant()
+    User.create!(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456', restaurant_id: @r.id)
+    create_opentime(@r)
+    pre_registered = @r.pre_registered_users.create!(email: 'mary@jane.com', cpf: CPF.generate)
+
+    #Act
+    visit root_path
+    click_on 'Não possui conta? Cadastre-se agora!'
+    within('#create-user-form') do
+      fill_in 'Nome', with: 'Mary'
+      fill_in 'Sobrenome', with: 'Jane'
+      fill_in 'E-mail', with: pre_registered.email
+      fill_in 'CPF', with: pre_registered.cpf
+      fill_in 'Senha', with: 'password123456'
+      fill_in 'Senha de confirmação', with: 'password123456'
+    end
+    click_on 'Cadastrar'
+    pre_registered.reload
+    
+    #Assert
+    expect(current_path).to eq root_path
+    expect(page).to have_content('Mary')
+    expect(page).to have_content('Funcionário')
+    expect(pre_registered.used).to eq true
+  end
+
+  it 'and try sign up as employee with CPF or e-mail invalid' do
+    #Arrange
+    @r = create_restaurant()
+    User.create!(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456', restaurant_id: @r.id)
+    create_opentime(@r)
+    pre_registered = @r.pre_registered_users.create!(email: 'mary@jane.com', cpf: CPF.generate)
+
+    #Act
+    visit root_path
+    click_on 'Não possui conta? Cadastre-se agora!'
+    within('#create-user-form') do
+      fill_in 'Nome', with: 'Mary'
+      fill_in 'Sobrenome', with: 'Jane'
+      fill_in 'E-mail', with: pre_registered.email
+      fill_in 'CPF', with: CPF.generate
+      fill_in 'Senha', with: 'password123456'
+      fill_in 'Senha de confirmação', with: 'password123456'
+    end
+    click_on 'Cadastrar'
+    
+    #Assert
+    expect(page).to have_content('O e-mail ou CPF já está reservado.')
   end
 
   it 'and try sign up with incorrect params' do

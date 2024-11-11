@@ -24,6 +24,16 @@ describe 'User visits drink creation page' do
     expect(page).to have_field('Imagem')
   end
 
+  it 'and is kicked out because is employee' do
+    employee = User.create!(email: 'mary@jane.com', cpf: CPF.generate, first_name: 'Mary', last_name: 'Jane', password: 'password123456', restaurant_id: @r.id, role: 1)
+    login_as(employee)
+
+    visit new_drink_path
+
+    expect(current_path).to eq root_path
+    expect(page).to have_content('Acesso não autorizado')
+  end
+
   it 'and cant create drink with incorrect params' do
     #Act
     visit new_drink_path
