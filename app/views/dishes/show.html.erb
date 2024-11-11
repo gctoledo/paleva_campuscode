@@ -16,15 +16,16 @@
   </div>
 
   <div class="flex gap-6 items-center">
-    <%= link_to 'Editar', edit_dish_path(@dish.id), class: "cursor-pointer bg-[#5395cf] py-3 rounded-lg font-bold hover:bg-[#3f729e] duration-200 px-3"%>
-    <%= link_to 'Adicionar porção', new_dish_portion_path(@dish.id), class: "cursor-pointer bg-[#5395cf] py-3 rounded-lg font-bold hover:bg-[#3f729e] duration-200 px-3"%>
-    <% if @dish.active %>
-      <%= button_to 'Desativar', disable_dish_path(@dish), method: :patch, class: 'cursor-pointer bg-red-500 py-3 rounded-lg font-bold hover:bg-red-700 duration-200 px-3' %>
-    <% else %>
-      <%= button_to 'Ativar', activate_dish_path(@dish), method: :patch, class: 'cursor-pointer bg-green-500 py-3 rounded-lg font-bold hover:bg-green-700 duration-200 px-3' %>
+    <% if current_user.owner? %>
+      <%= link_to 'Editar', edit_dish_path(@dish.id), class: "cursor-pointer bg-[#5395cf] py-3 rounded-lg font-bold hover:bg-[#3f729e] duration-200 px-3"%>
+      <%= link_to 'Adicionar porção', new_dish_portion_path(@dish.id), class: "cursor-pointer bg-[#5395cf] py-3 rounded-lg font-bold hover:bg-[#3f729e] duration-200 px-3"%>
+      <% if @dish.active %>
+        <%= button_to 'Desativar', disable_dish_path(@dish), method: :patch, class: 'cursor-pointer bg-red-500 py-3 rounded-lg font-bold hover:bg-red-700 duration-200 px-3' %>
+      <% else %>
+        <%= button_to 'Ativar', activate_dish_path(@dish), method: :patch, class: 'cursor-pointer bg-green-500 py-3 rounded-lg font-bold hover:bg-green-700 duration-200 px-3' %>
+      <% end %>
+      <%= button_to 'Apagar', dish_path(@dish), method: :delete, data: { confirm: 'Tem certeza que deseja excluir este prato?' }, class: 'cursor-pointer bg-red-500 py-3 rounded-lg font-bold hover:bg-red-700 duration-200 px-3' %>
     <% end %>
-    <%= button_to 'Apagar', dish_path(@dish), method: :delete, data: { confirm: 'Tem certeza que deseja excluir este prato?' }, class: 'cursor-pointer bg-red-500 py-3 rounded-lg font-bold hover:bg-red-700 duration-200 px-3' %>
-
   </div>
 </div>
 

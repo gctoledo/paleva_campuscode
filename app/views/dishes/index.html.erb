@@ -2,8 +2,10 @@
   <h2 class="text-2xl font-semibold">Pratos</h2>
 
   <div class="flex gap-6 items-center">
-    <%= link_to 'Marcadores', tags_path, class: "cursor-pointer bg-[#a39440] py-3 rounded-lg font-bold hover:bg-[#685e28] duration-200 px-3"%>
-    <%= link_to 'Cadastrar', new_dish_path, class: "cursor-pointer bg-[#5395cf] py-3 rounded-lg font-bold hover:bg-[#3f729e] duration-200 px-3"%>
+    <% if current_user.owner? %>
+      <%= link_to 'Marcadores', tags_path, class: "cursor-pointer bg-[#a39440] py-3 rounded-lg font-bold hover:bg-[#685e28] duration-200 px-3"%>
+      <%= link_to 'Cadastrar', new_dish_path, class: "cursor-pointer bg-[#5395cf] py-3 rounded-lg font-bold hover:bg-[#3f729e] duration-200 px-3"%>
+    <% end %>
   </div>
 </div>
 

@@ -2,7 +2,9 @@
   <h2 class="text-2xl font-semibold">Cardápios</h2>
 
   <div class="flex gap-6 items-center">
-    <%= link_to 'Cadastrar', new_menu_path, class: "cursor-pointer bg-[#5395cf] py-3 rounded-lg font-bold hover:bg-[#3f729e] duration-200 px-3"%>
+    <% if current_user.owner? %>
+      <%= link_to 'Cadastrar', new_menu_path, class: "cursor-pointer bg-[#5395cf] py-3 rounded-lg font-bold hover:bg-[#3f729e] duration-200 px-3"%>
+    <% end %>
   </div>
 </div>
 
@@ -16,8 +18,9 @@
 
         <div class="flex space-x-4">
           <%= link_to 'Ver detalhes', menu_path(menu), class: "cursor-pointer bg-[#5395cf] text-white py-2 px-4 rounded-lg font-bold hover:bg-[#3f729e] duration-200" %>
-
-          <%= button_to 'Excluir', menu_path(menu), method: :delete, data: { confirm: 'Tem certeza que deseja excluir este cardápio?' }, class: "cursor-pointer bg-red-600 text-white py-2 px-4 rounded-lg font-bold hover:bg-red-500 duration-200" %>
+          <% if current_user.owner? %>
+            <%= button_to 'Excluir', menu_path(menu), method: :delete, data: { confirm: 'Tem certeza que deseja excluir este cardápio?' }, class: "cursor-pointer bg-red-600 text-white py-2 px-4 rounded-lg font-bold hover:bg-red-500 duration-200" %>
+          <% end %>
         </div>
       </div>
     <% end %>

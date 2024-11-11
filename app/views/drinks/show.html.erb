@@ -15,16 +15,18 @@
     <% end %>
   </div>
 
-  <div class="flex gap-6 items-center">
-    <%= link_to 'Editar', edit_drink_path(@drink.id), class: "cursor-pointer bg-[#5395cf] py-3 rounded-lg font-bold hover:bg-[#3f729e] duration-200 px-3"%>
-    <%= link_to 'Adicionar porção', new_drink_portion_path(@drink.id), class: "cursor-pointer bg-[#5395cf] py-3 rounded-lg font-bold hover:bg-[#3f729e] duration-200 px-3"%>
-    <% if @drink.active %>
-      <%= button_to 'Desativar', disable_drink_path(@drink), method: :patch, class: 'cursor-pointer bg-red-500 py-3 rounded-lg font-bold hover:bg-red-700 duration-200 px-3' %>
-    <% else %>
-      <%= button_to 'Ativar', activate_drink_path(@drink), method: :patch, class: 'cursor-pointer bg-green-500 py-3 rounded-lg font-bold hover:bg-green-700 duration-200 px-3' %>
-    <% end %>
-    <%= button_to 'Apagar', drink_path(@drink), method: :delete, data: { confirm: 'Tem certeza que deseja excluir essa bebida?' }, class: 'cursor-pointer bg-red-500 py-3 rounded-lg font-bold hover:bg-red-700 duration-200 px-3' %>
-  </div>
+  <% if current_user.owner? %>
+    <div class="flex gap-6 items-center">
+      <%= link_to 'Editar', edit_drink_path(@drink.id), class: "cursor-pointer bg-[#5395cf] py-3 rounded-lg font-bold hover:bg-[#3f729e] duration-200 px-3"%>
+      <%= link_to 'Adicionar porção', new_drink_portion_path(@drink.id), class: "cursor-pointer bg-[#5395cf] py-3 rounded-lg font-bold hover:bg-[#3f729e] duration-200 px-3"%>
+      <% if @drink.active %>
+        <%= button_to 'Desativar', disable_drink_path(@drink), method: :patch, class: 'cursor-pointer bg-red-500 py-3 rounded-lg font-bold hover:bg-red-700 duration-200 px-3' %>
+      <% else %>
+        <%= button_to 'Ativar', activate_drink_path(@drink), method: :patch, class: 'cursor-pointer bg-green-500 py-3 rounded-lg font-bold hover:bg-green-700 duration-200 px-3' %>
+      <% end %>
+      <%= button_to 'Apagar', drink_path(@drink), method: :delete, data: { confirm: 'Tem certeza que deseja excluir essa bebida?' }, class: 'cursor-pointer bg-red-500 py-3 rounded-lg font-bold hover:bg-red-700 duration-200 px-3' %>
+    </div>
+  <% end %>
 </div>
 
 <div class="flex gap-4">

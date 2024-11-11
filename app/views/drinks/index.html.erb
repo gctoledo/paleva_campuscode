@@ -2,7 +2,9 @@
   <h2 class="text-2xl font-semibold">Bebidas</h2>
 
   <div class="flex gap-6 items-center">
-    <%= link_to 'Cadastrar', new_drink_path, class: "cursor-pointer bg-[#5395cf] py-3 rounded-lg font-bold hover:bg-[#3f729e] duration-200 px-3"%>
+    <% if current_user.owner? %>
+      <%= link_to 'Cadastrar', new_drink_path, class: "cursor-pointer bg-[#5395cf] py-3 rounded-lg font-bold hover:bg-[#3f729e] duration-200 px-3"%>
+    <% end %>
   </div>
 </div>
 

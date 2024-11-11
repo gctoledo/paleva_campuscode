@@ -3,8 +3,11 @@
 
   <div class="flex gap-6 items-center">
     <%= link_to 'Novo pedido', new_menu_order_path(@menu), class: "cursor-pointer bg-[#5395cf] py-3 rounded-lg font-bold hover:bg-[#3f729e] duration-200 px-3"%>
-    <%= link_to 'Editar', edit_menu_path(@menu), data: { confirm: 'Tem certeza que deseja excluir este cardápio?' }, class: 'cursor-pointer bg-[#5395cf] py-3 rounded-lg font-bold hover:bg-[#3f729e] duration-200 px-3' %>
-    <%= button_to 'Apagar', menu_path(@menu), method: :delete, data: { confirm: 'Tem certeza que deseja excluir este cardápio?' }, class: 'cursor-pointer bg-red-500 py-3 rounded-lg font-bold hover:bg-red-700 duration-200 px-3' %>
+
+    <% if current_user.owner? %>
+      <%= link_to 'Editar', edit_menu_path(@menu), data: { confirm: 'Tem certeza que deseja excluir este cardápio?' }, class: 'cursor-pointer bg-[#5395cf] py-3 rounded-lg font-bold hover:bg-[#3f729e] duration-200 px-3' %>
+      <%= button_to 'Apagar', menu_path(@menu), method: :delete, data: { confirm: 'Tem certeza que deseja excluir este cardápio?' }, class: 'cursor-pointer bg-red-500 py-3 rounded-lg font-bold hover:bg-red-700 duration-200 px-3' %>
+    <% end %>
   </div>
 </div>
 
