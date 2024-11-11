@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 describe 'User visits homepage' do
+
+  ##! CRIAR UM ARQUIVO USER_ACCESS_SPEC.RB NA PASTA AUTH E TESTAR ACESSO DO USUARIO NAS PAGINAS RESTRITAS A USUARIOS LOGADOS
+
   it 'and is kicked out because he is not authenticated' do
     #Arrange
     
