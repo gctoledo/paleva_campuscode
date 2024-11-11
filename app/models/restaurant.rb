@@ -1,5 +1,6 @@
 class Restaurant < ApplicationRecord
   has_many :users
+  has_many :pre_registered_users
   has_many :opentimes, dependent: :destroy
   has_many :dishes, dependent: :destroy
   has_many :drinks, dependent: :destroy

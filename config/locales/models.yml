@@ -10,11 +10,13 @@ pt-BR:
       tag: 'Marcador'
       menu: 'Cardápio'
       order: 'Pedido'
+      pre_registered_user: 'Pré cadastro de usuário'
     attributes:
       user:
         password: 'Senha'
         first_name: 'Nome'
         last_name: 'Sobrenome'
+        email: 'E-mail'
         cpf: 'CPF'
       restaurant:
         trade_name: 'Nome fantasia'
@@ -53,6 +55,9 @@ pt-BR:
         customer_phone: 'Telefone do cliente'
         customer_email: 'E-mail do cliente'
         status: "Status"
+      pre_registered_user:
+        email: 'E-mail'
+        cpf: 'CPF'
         
     enums:
       order:
