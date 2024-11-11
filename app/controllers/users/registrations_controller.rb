@@ -10,10 +10,19 @@ class Users::RegistrationsController < Devise::RegistrationsController
   #   super
   # end
 
-  # POST /resource
-  # def create
-  #   super
-  # end
+  def create
+    pre_registration = PreRegisteredUser.find_by(email: sign_up_params[:email], cpf: sign_up_params[:cpf])
+    
+    if pre_registration
+      super do |user|
+        user.restaurant = pre_registration.restaurant
+        user.role = 1
+        pre_registration.update!(used: true)
+      end
+    else
+      super
+    end
+  end
 
   # GET /resource/edit
   # def edit

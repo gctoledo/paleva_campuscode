@@ -1,5 +1,5 @@
 class Restaurant < ApplicationRecord
-  belongs_to :user
+  has_many :users
   has_many :opentimes, dependent: :destroy
   has_many :dishes, dependent: :destroy
   has_many :drinks, dependent: :destroy

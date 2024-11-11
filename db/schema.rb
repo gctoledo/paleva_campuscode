@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_11_07_190141) do
+ActiveRecord::Schema[7.2].define(version: 2024_11_11_131548) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -156,6 +156,16 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_07_190141) do
     t.index ["portionable_type", "portionable_id"], name: "index_portions_on_portionable"
   end
 
+  create_table "pre_registered_users", force: :cascade do |t|
+    t.string "email", null: false
+    t.string "cpf", null: false
+    t.integer "restaurant_id", null: false
+    t.boolean "used", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["restaurant_id"], name: "index_pre_registered_users_on_restaurant_id"
+  end
+
   create_table "restaurants", force: :cascade do |t|
     t.string "trade_name", null: false
     t.string "legal_name", null: false
@@ -164,14 +174,12 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_07_190141) do
     t.string "phone", null: false
     t.string "email", null: false
     t.string "code", null: false
-    t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["cnpj"], name: "index_restaurants_on_cnpj", unique: true
     t.index ["code"], name: "index_restaurants_on_code", unique: true
     t.index ["email"], name: "index_restaurants_on_email", unique: true
     t.index ["legal_name"], name: "index_restaurants_on_legal_name", unique: true
-    t.index ["user_id"], name: "index_restaurants_on_user_id"
   end
 
   create_table "tags", force: :cascade do |t|
@@ -193,6 +201,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_07_190141) do
     t.string "last_name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "role"
+    t.integer "restaurant_id"
     t.index ["cpf"], name: "index_users_on_cpf", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
@@ -216,6 +226,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_07_190141) do
   add_foreign_key "order_items", "portions"
   add_foreign_key "orders", "restaurants"
   add_foreign_key "portion_price_histories", "portions"
-  add_foreign_key "restaurants", "users"
+  add_foreign_key "pre_registered_users", "restaurants"
   add_foreign_key "tags", "restaurants"
 end

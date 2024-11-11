@@ -10,9 +10,11 @@ class RestaurantsController < ApplicationController
   end
 
   def create
-    @restaurant = current_user.build_restaurant(restaurant_params)
-
+    @restaurant = Restaurant.new(restaurant_params)
+  
     if @restaurant.save
+      current_user.update!(restaurant_id: @restaurant.id)
+      
       flash[:notice] = "Restaurante cadastrado com sucesso!"
       redirect_to root_path
     else
@@ -20,6 +22,7 @@ class RestaurantsController < ApplicationController
       render :new, status: :unprocessable_entity
     end
   end
+  
 
   private
 
