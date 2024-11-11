@@ -1,0 +1,129 @@
+<%= form_with model: @order, html: { class: 'space-y-6', id: 'order-form' } do |f| %>
+  <div class="bg-gray-900 p-6 rounded-lg shadow-md space-y-4">
+    <h2 class="text-xl font-bold text-white">Dados do Cliente</h2>
+
+    <div class="grid grid-cols-2 gap-4">
+      <div class="space-y-1">
+        <%= f.label :customer_name, class: "text-gray-300 font-semibold" %>
+        <%= f.text_field :customer_name, class: "form-input w-full text-gray-900" %>
+        <% if @order.errors[:customer_name].any? %>
+          <div class="text-red-600">
+            <% @order.errors.full_messages_for(:customer_name).each do |message| %>
+              <p><%= message %></p>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="space-y-1">
+        <%= f.label :customer_phone, class: "text-gray-300 font-semibold" %>
+        <%= f.telephone_field :customer_phone, class: "form-input w-full text-gray-900" %>
+        <% if @order.errors[:customer_phone].any? %>
+          <div class="text-red-600">
+            <% @order.errors.full_messages_for(:customer_phone).each do |message| %>
+              <p><%= message %></p>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="space-y-1">
+        <%= f.label :customer_email, class: "text-gray-300 font-semibold" %>
+        <%= f.email_field :customer_email, class: "form-input w-full text-gray-900" %>
+        <% if @order.errors[:customer_email].any? %>
+          <div class="text-red-600">
+            <% @order.errors.full_messages_for(:customer_email).each do |message| %>
+              <p><%= message %></p>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="space-y-1">
+        <%= f.label :customer_cpf, "CPF do cliente (opcional)", class: "text-gray-300 font-semibold" %>
+        <%= f.text_field :customer_cpf, class: "form-input w-full text-gray-900" %>
+        <% if @order.errors[:customer_cpf].any? %>
+          <div class="text-red-600">
+            <% @order.errors.full_messages_for(:customer_cpf).each do |message| %>
+              <p><%= message %></p>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <% if @order.errors[:base].any? %>
+    <div class="text-red-600">
+      <% @order.errors.full_messages_for(:base).each do |message| %>
+        <p><%= message %></p>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% if @dishes.empty? && @drinks.empty? %>
+    <p class="text-red-500 font-bold text-center">Você precisa cadastrar bebidas ou pratos para fazer um pedido!</p>
+  <% end %>
+
+  <% if @dishes.any? %>
+    <div class="bg-gray-900 p-6 rounded-lg shadow-md space-y-2">
+      <h2 class="text-xl font-bold text-white">Selecione os Pratos</h2>
+
+      <p class="text-red-500">Apenas pratos com porções podem ser cadastrados em um pedido!</p>
+
+      <div class="grid grid-cols-4 gap-6">
+        <% @dishes.each do |dish| %>
+          <% if dish.portions.any? %>
+            <div class="p-4 rounded-lg bg-gray-800 shadow-md space-y-2">
+              <p><%= dish.name %></p>
+
+              <%= select_tag "order[order_items][dishes][#{dish.id}][portion_id]", 
+              options_from_collection_for_select(dish.portions, :id, ->(portion) { "#{portion.description} - R$ #{'%.2f' % portion.price}" }), 
+              include_blank: "Selecione uma porção", 
+              class: "form-select portion-select w-full bg-gray-700 text-white border-gray-600 rounded-md" %>
+
+              <%= text_field_tag "order[order_items][dishes][#{dish.id}][note]", nil, 
+              placeholder: "Observação para #{dish.name} (opcional)", 
+              class: "form-input note-field w-full bg-gray-700 text-white border-gray-600 rounded-md mt-2" %>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <% if @drinks.any? %>
+    <div class="bg-gray-900 p-6 rounded-lg shadow-md space-y-2">
+      <h2 class="text-xl font-bold text-white">Selecione as Bebidas</h2>
+
+      <p class="text-red-500">Apenas bebidas com porções podem ser cadastrados em um pedido!</p>
+
+      <div class="grid grid-cols-4 gap-6">
+        <% @drinks.each do |drink| %>
+          <% if drink.portions.any? %>
+            <div class="p-4 rounded-lg bg-gray-800 shadow-md space-y-2">
+              <p><%= drink.name %></p>
+
+              <%= select_tag "order[order_items][drinks][#{drink.id}][portion_id]", 
+              options_from_collection_for_select(drink.portions, :id, ->(portion) { "#{portion.description} - R$ #{'%.2f' % portion.price}" }), 
+              include_blank: "Selecione uma porção", 
+              class: "form-select portion-select w-full bg-gray-700 text-white border-gray-600 rounded-md" %>
+
+              <%= text_field_tag "order[order_items][drinks][#{drink.id}][note]", nil, 
+              placeholder: "Observação para #{drink.name} (opcional)", 
+              class: "form-input note-field w-full bg-gray-700 text-white border-gray-600 rounded-md mt-2" %>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="text-right text-lg font-semibold text-gray-300 mt-6">
+    Total: R$ <span id="total-price">0.00</span>
+  </div>
+
+  <div class="flex justify-center">
+    <%= f.submit "Salvar pedido", class: "mt-8 cursor-pointer bg-[#5395cf] py-3 px-4 rounded-lg font-bold hover:bg-[#3f729e] duration-200" %>
+  </div>
+<% end %>

@@ -1,5 +1,13 @@
 pt-BR:
   activerecord:
+    attributes:
+      order:
+        status:
+          awaiting_confirmation: "Aguardando confirmação"
+          preparing: "Em preparação"
+          canceled: "Cancelado"
+          ready: "Pronto"
+          delivered: "Entregue"
     errors:
       messages:
         record_invalid: 'A validação falhou: %{errors}'
