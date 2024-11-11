@@ -2,9 +2,9 @@ require 'rails_helper'
 
 describe 'User visits opentime creation page' do
   before(:each) do
-    user = User.create!(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456')
+    @r = create_restaurant()
+    user = User.create!(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456', restaurant_id: @r.id)
     login_as(user)
-    @r = create_restaurant(user)
   end
 
   it 'and sees all form inputs' do

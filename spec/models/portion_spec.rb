@@ -4,9 +4,9 @@ RSpec.describe Portion, type: :model do
   describe '#valid?' do
     it 'false when description is empty' do
       #Arrange
-      user = User.new(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456')
-      Restaurant.new(trade_name: 'Burguer King', legal_name: 'Burguer King', cnpj: CNPJ.generate, address: 'United Stated', phone: '11111111111', email: 'burger@king.com', user: user)
-      dish = user.restaurant.dishes.new(name: 'Parmegiana', description: 'É bom!')
+      restaurant = Restaurant.new(trade_name: 'Burguer King', legal_name: 'Burguer King', cnpj: CNPJ.generate, address: 'United Stated', phone: '11111111111', email: 'burger@king.com')
+      User.new(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456', restaurant_id: restaurant.id)
+      dish = restaurant.dishes.new(name: 'Parmegiana', description: 'É bom!')
       dish.image.attach(
         io: File.open('spec/fixtures/test_image.png'),
         filename: 'test_image.png',
@@ -23,9 +23,9 @@ RSpec.describe Portion, type: :model do
 
     it 'false when price is empty' do
       #Arrange
-      user = User.new(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456')
-      Restaurant.new(trade_name: 'Burguer King', legal_name: 'Burguer King', cnpj: CNPJ.generate, address: 'United Stated', phone: '11111111111', email: 'burger@king.com', user: user)
-      dish = user.restaurant.dishes.new(name: 'Parmegiana', description: 'É bom!')
+      restaurant = Restaurant.new(trade_name: 'Burguer King', legal_name: 'Burguer King', cnpj: CNPJ.generate, address: 'United Stated', phone: '11111111111', email: 'burger@king.com')
+      User.new(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456', restaurant_id: restaurant.id)
+      dish = restaurant.dishes.new(name: 'Parmegiana', description: 'É bom!')
       dish.image.attach(
         io: File.open('spec/fixtures/test_image.png'),
         filename: 'test_image.png',
@@ -42,9 +42,9 @@ RSpec.describe Portion, type: :model do
 
     it 'false when price have two more decimals' do
       #Arrange
-      user = User.new(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456')
-      Restaurant.new(trade_name: 'Burguer King', legal_name: 'Burguer King', cnpj: CNPJ.generate, address: 'United Stated', phone: '11111111111', email: 'burger@king.com', user: user)
-      dish = user.restaurant.dishes.new(name: 'Parmegiana', description: 'É bom!')
+      restaurant = Restaurant.new(trade_name: 'Burguer King', legal_name: 'Burguer King', cnpj: CNPJ.generate, address: 'United Stated', phone: '11111111111', email: 'burger@king.com')
+      User.new(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456', restaurant_id: restaurant.id)
+      dish = restaurant.dishes.new(name: 'Parmegiana', description: 'É bom!')
       dish.image.attach(
         io: File.open('spec/fixtures/test_image.png'),
         filename: 'test_image.png',
@@ -61,9 +61,9 @@ RSpec.describe Portion, type: :model do
 
     it 'with success' do
       #Arrange
-      user = User.new(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456')
-      Restaurant.new(trade_name: 'Burguer King', legal_name: 'Burguer King', cnpj: CNPJ.generate, address: 'United Stated', phone: '11111111111', email: 'burger@king.com', user: user)
-      dish = user.restaurant.dishes.new(name: 'Parmegiana', description: 'É bom!')
+      restaurant = Restaurant.new(trade_name: 'Burguer King', legal_name: 'Burguer King', cnpj: CNPJ.generate, address: 'United Stated', phone: '11111111111', email: 'burger@king.com')
+      User.new(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456', restaurant_id: restaurant.id)
+      dish = restaurant.dishes.new(name: 'Parmegiana', description: 'É bom!')
       dish.image.attach(
         io: File.open('spec/fixtures/test_image.png'),
         filename: 'test_image.png',

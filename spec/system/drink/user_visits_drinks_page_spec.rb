@@ -2,10 +2,10 @@ require 'rails_helper'
 
 describe 'User visits drinks pages' do
   before(:each) do
-    user = User.create!(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456')
+    @r = create_restaurant()
+    user = User.create!(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456', restaurant_id: @r.id)
     login_as(user)
-    create_restaurant(user)
-    create_opentime(user)
+    create_opentime(@r)
     @drink = user.restaurant.drinks.new(name: 'Coca-cola', description: 'Refrigerante de cola.')
     @drink.image.attach(
       io: File.open('spec/fixtures/test_image.png'),

@@ -2,10 +2,10 @@ require 'rails_helper'
 
 describe 'User visits dish edition page' do
   before(:each) do
-    user = User.create!(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456')
+    @r = create_restaurant()
+    user = User.create!(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456', restaurant_id: @r.id)
     login_as(user)
-    @r = create_restaurant(user)
-    create_opentime(user)
+    create_opentime(@r)
     @dish = @r.dishes.new(name: 'Parmegiana', description: 'É bom!')
     @dish.image.attach(
       io: File.open('spec/fixtures/test_image.png'),
@@ -33,9 +33,9 @@ describe 'User visits dish edition page' do
   end
 
   it 'and cant visit edit dish page from another restaurant' do
-    second_user = User.create!(email: 'mary@jane.com', cpf: CPF.generate, first_name: 'Mary', last_name: 'Jane', password: 'password123456')
-    Restaurant.create!(trade_name: 'McDonalds', legal_name: 'McDonalds', cnpj: CNPJ.generate, address: 'United Stated', phone: '11111111111', email: 'mc@donalds.com', user: second_user)
-    create_opentime(second_user)
+    second_restaurant = Restaurant.create!(trade_name: 'McDonalds', legal_name: 'McDonalds', cnpj: CNPJ.generate, address: 'United Stated', phone: '11111111111', email: 'mc@donalds.com')
+    second_user = User.create!(email: 'mary@jane.com', cpf: CPF.generate, first_name: 'Mary', last_name: 'Jane', password: 'password123456', restaurant_id: second_restaurant.id)
+    create_opentime(second_restaurant)
     login_as(second_user)
 
     #Act

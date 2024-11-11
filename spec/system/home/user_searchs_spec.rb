@@ -3,10 +3,10 @@ require 'rails_helper'
 describe 'User searchs' do
   it 'from navbar in homepage' do
     #Arrange
-    user = User.create!(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456')
+    r = create_restaurant()
+    user = User.create!(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456', restaurant_id: r.id)
     login_as(user)
-    create_restaurant(user)
-    create_opentime(user)
+    create_opentime(r)
   
     drink = user.restaurant.drinks.new(name: 'Coca-cola', description: 'Refrigerante de cola.')
     drink.image.attach(
@@ -39,10 +39,10 @@ describe 'User searchs' do
 
   it 'and cant find anything' do
     #Arrange
-    user = User.create!(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456')
+    r = create_restaurant()
+    user = User.create!(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456', restaurant_id: r.id)
     login_as(user)
-    create_restaurant(user)
-    create_opentime(user)
+    create_opentime(r)
     
     #Act
     visit root_path

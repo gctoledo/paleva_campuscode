@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe OrderItem, type: :model do
   before(:each) do
-    user = User.new(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456')
-    @restaurant = Restaurant.new(trade_name: 'Burguer King', legal_name: 'Burguer King', cnpj: CNPJ.generate, address: 'United Stated', phone: '11111111111', email: 'burger@king.com', user: user)
+    @restaurant = Restaurant.new(trade_name: 'Burguer King', legal_name: 'Burguer King', cnpj: CNPJ.generate, address: 'United Stated', phone: '11111111111', email: 'burger@king.com')
+    User.new(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456', restaurant_id: @restaurant.id)
 
     @dish = @restaurant.dishes.new(name: 'Parmegiana', description: 'É muito bom!')
     @dish.image.attach(

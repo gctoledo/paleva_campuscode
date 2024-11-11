@@ -20,9 +20,9 @@ describe 'User visits restaurant creation page' do
 
   it 'and is redirected because already has a restaurant' do
     #Arrange
-    user = User.create!(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456')
+    r = create_restaurant()
+    user = User.create!(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456', restaurant_id: r.id)
     login_as(user)
-    create_restaurant(user)
 
     #Act
     visit new_restaurants_path

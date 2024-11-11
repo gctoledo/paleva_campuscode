@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe 'User visits homepage' do
 
-  ##! CRIAR UM ARQUIVO USER_ACCESS_SPEC.RB NA PASTA AUTH E TESTAR ACESSO DO USUARIO NAS PAGINAS RESTRITAS A USUARIOS LOGADOS
+  ##! CRIAR UM ARQUIVO USER_ACCESS_SPEC.RB NA PASTA AUTH E TESTAR ACESSO DO USUARIO NAS PAGINAS RESTRITAS A USUARIOS LOGADOSS
 
   it 'and is kicked out because he is not authenticated' do
     #Arrange
@@ -44,9 +44,9 @@ describe 'User visits homepage' do
 
   it 'with success' do
     #Arrange
-    user = User.create!(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456')
+    r = create_restaurant()
+    user = User.create!(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456', restaurant_id: r.id)
     login_as(user)
-    create_restaurant(user)
     
     #Act
     visit root_path

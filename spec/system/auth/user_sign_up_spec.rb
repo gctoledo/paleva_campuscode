@@ -77,9 +77,9 @@ describe 'User visits registration page' do
 
   it 'and try sign up if already authenticated' do
     #Arrange
-    user = User.create!(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456')
+    r = create_restaurant()
+    user = User.create!(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456', restaurant_id: r.id)
     login_as(user)
-    create_restaurant(user)
 
     #Act
     visit new_user_registration_path

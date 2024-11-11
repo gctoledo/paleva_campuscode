@@ -2,10 +2,10 @@ require 'rails_helper'
 
 describe 'User visits dishes pages' do
   before(:each) do
-    @user = User.create!(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456')
-    login_as(@user)
-    @r = create_restaurant(@user)
-    create_opentime(@user)
+    @r = create_restaurant()
+    user = User.create!(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456', restaurant_id: @r.id)
+    login_as(user)
+    create_opentime(@r)
     @dish = @r.dishes.new(name: 'Parmegiana', description: 'É bom!')
     @dish.image.attach(
       io: File.open('spec/fixtures/test_image.png'),
@@ -71,7 +71,7 @@ describe 'User visits dishes pages' do
     tag = @r.tags.create!(name: 'Vegetariano')
     @dish.tags << tag
     @dish.save
-    second_dish = @user.restaurant.dishes.new(name: 'Macarronada', description: 'Também é bom!')
+    second_dish = @r.dishes.new(name: 'Macarronada', description: 'Também é bom!')
     second_dish.image.attach(
       io: File.open('spec/fixtures/test_image.png'),
       filename: 'test_image.png',
