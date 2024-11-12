@@ -181,4 +181,66 @@ describe 'Orders API' do
       expect(response.status).to eq 500
     end
   end
+
+  context 'PATCH /api/v1/restaurants/:restaurant_code/orders/:code/ready' do
+    before(:each) do
+      @restaurant = create_restaurant()
+      dish = create_dish(restaurant: @restaurant)
+      @order = @restaurant.orders.new(customer_name: 'John Doe', customer_email: 'john@doe.com')
+      @order.add_order_item(dish: dish, portion: dish.portions.first)
+      @order.status = "preparing"
+      @order.save
+    end
+
+    it 'success' do
+      patch ready_api_v1_restaurant_order_path(@restaurant.code, @order.code)
+
+      @order.reload
+      json_response = JSON.parse(response.body)
+
+      expect(response.status).to eq 200
+      expect(response.content_type).to include 'application/json'
+      expect(@order.status).to eq 'ready'
+      expect(json_response["message"]).to eq 'Status atualizado para "pronto".'
+    end
+
+    it 'fail because order is not preparing' do
+      @order.delivered!
+      patch ready_api_v1_restaurant_order_path(@restaurant.code, @order.code)
+
+      json_response = JSON.parse(response.body)
+
+      expect(response.status).to eq 409
+      expect(response.content_type).to include 'application/json'
+      expect(json_response["error"]).to eq 'O pedido não estava em preparação.'
+    end
+
+    it 'fail with invalid restaurant code' do
+      patch ready_api_v1_restaurant_order_path('invalid_code', @order.code)
+
+      json_response = JSON.parse(response.body)
+
+      expect(response.status).to eq 404
+      expect(response.content_type).to include 'application/json'
+      expect(json_response["error"]).to eq 'Nenhum registro encontrado'
+    end
+
+    it 'fail with invalid order code' do
+      patch ready_api_v1_restaurant_order_path(@restaurant.code, 'invalid_code')
+
+      json_response = JSON.parse(response.body)
+
+      expect(response.status).to eq 404
+      expect(response.content_type).to include 'application/json'
+      expect(json_response["error"]).to eq 'Nenhum registro encontrado'
+    end
+
+    it 'fail with internal server error' do
+      allow(Order).to receive(:find_by!).and_raise(ActiveRecord::ActiveRecordError)
+
+      patch ready_api_v1_restaurant_order_path(@restaurant.code, @order.code)
+
+      expect(response.status).to eq 500
+    end
+  end
 end
