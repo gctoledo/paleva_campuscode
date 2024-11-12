@@ -47,4 +47,12 @@ Rails.application.routes.draw do
   resources :orders, only: [ :index, :show, :new, :create ]
 
   resources :pre_registered_users, only: [:index, :new, :create]
+
+  namespace :api, defaults: { format: :json } do
+    namespace :v1 do
+      resources :restaurants, only: [], param: :code do
+        resources :orders, only: [:index]
+      end
+    end
+  end
 end
