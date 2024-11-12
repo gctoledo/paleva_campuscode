@@ -33,6 +33,17 @@ class Api::V1::OrdersController < Api::V1::ApiController
     ), status: 200
   end
 
+  def preparing
+    order = Order.find_by!(restaurant_id: @restaurant.id, code: params[:code])
+
+    if order.awaiting_confirmation?
+      order.preparing!
+      render json: { message: 'Status atualizado para "em preparação".' }, status: 200
+    else
+      render json: { error: "O pedido não está aguardando confirmação." }, status: 409
+    end
+  end
+
   private
 
   def set_restaurant

@@ -51,7 +51,12 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
       resources :restaurants, only: [], param: :code do
-        resources :orders, only: [:index, :show], param: :code
+        resources :orders, only: [:index, :show], param: :code do
+          member do
+            patch :preparing
+            patch :ready
+          end
+        end
       end
     end
   end
