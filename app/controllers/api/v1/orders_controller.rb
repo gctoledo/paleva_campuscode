@@ -11,10 +11,27 @@ class Api::V1::OrdersController < Api::V1::ApiController
                 Order.where(restaurant_id: @restaurant.id).order(created_at: :desc)
                )
   
-      render json: orders.as_json(except: [:created_at, :updated_at]), status: :ok
+      render json: orders.as_json(except: [:created_at, :updated_at]), status: 200
     end
   end
-  
+
+  def show
+    order = Order.includes(order_items: [:dish, :drink, :portion]).find_by!(code: params[:code], restaurant_id: @restaurant.id)
+
+    render json: order.as_json(
+      except: [:updated_at, :customer_email, :customer_cpf, :restaurant_id],
+      include: {
+        order_items: {
+          only: [:price, :note],
+          include: {
+            portion: { only: [:description] },
+            drink: { only: [:name] },
+            dish: { only: [:name] }
+          }
+        }
+      }
+    ), status: 200
+  end
 
   private
 

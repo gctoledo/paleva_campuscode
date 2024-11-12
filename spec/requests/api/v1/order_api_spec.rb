@@ -14,7 +14,7 @@ describe 'Orders API' do
     end
 
     it 'success' do
-      get "/api/v1/restaurants/#{@restaurant.code}/orders"
+      get api_v1_restaurant_orders_path(@restaurant.code)
 
       json_response = JSON.parse(response.body)
 
@@ -26,7 +26,7 @@ describe 'Orders API' do
     end
 
     it 'success with status' do
-      get "/api/v1/restaurants/#{@restaurant.code}/orders?status=awaiting_confirmation"
+      get "#{api_v1_restaurant_orders_path(@restaurant.code)}?status=awaiting_confirmation"
 
       json_response = JSON.parse(response.body)
 
@@ -38,7 +38,7 @@ describe 'Orders API' do
     end
 
     it 'fail with invalid status' do
-      get "/api/v1/restaurants/#{@restaurant.code}/orders?status=invalid_status"
+      get "#{api_v1_restaurant_orders_path(@restaurant.code)}?status=invalid_status"
 
       json_response = JSON.parse(response.body)
 
@@ -48,7 +48,7 @@ describe 'Orders API' do
     end
 
     it 'fail with invalid restaurant code' do
-      get "/api/v1/restaurants/invalid_code/orders"
+      get api_v1_restaurant_orders_path('invalid_code')
 
       json_response = JSON.parse(response.body)
 
@@ -60,7 +60,7 @@ describe 'Orders API' do
     it 'fail with internal server error' do
       allow(Order).to receive(:where).and_raise(ActiveRecord::ActiveRecordError)
 
-      get "/api/v1/restaurants/#{@restaurant.code}/orders"
+      get api_v1_restaurant_orders_path(@restaurant.code)
 
       expect(response.status).to eq 500
     end
@@ -78,7 +78,7 @@ describe 'Orders API' do
     end
 
     it 'success' do
-      get "/api/v1/restaurants/#{@restaurant.code}/orders/#{@first_order.code}"
+      get api_v1_restaurant_order_path(@restaurant.code, @first_order.code)
 
       json_response = JSON.parse(response.body)
 
@@ -93,7 +93,7 @@ describe 'Orders API' do
     end
 
     it 'fail with invalid restaurant code' do
-      get "/api/v1/restaurants/invalid_code/orders/#{@first_order.code}"
+      get api_v1_restaurant_order_path('invalid_code', @first_order.code)
 
       json_response = JSON.parse(response.body)
 
@@ -103,7 +103,7 @@ describe 'Orders API' do
     end
 
     it 'fail with invalid order code' do
-      get "/api/v1/restaurants/#{@restaurant.code}/orders/invalid_code"
+      get api_v1_restaurant_order_path(@restaurant.code, 'invalid_code')
 
       json_response = JSON.parse(response.body)
 
@@ -113,11 +113,15 @@ describe 'Orders API' do
     end
 
     it 'fail with internal server error' do
-      allow(Order).to receive(:where).and_raise(ActiveRecord::ActiveRecordError)
+      allow(Order).to receive(:includes).and_raise(ActiveRecord::ActiveRecordError)
 
-      get "/api/v1/restaurants/#{@restaurant.code}/orders"
+      get api_v1_restaurant_order_path(@restaurant.code, @first_order.code)
 
       expect(response.status).to eq 500
     end
+  end
+
+  context 'PATCH /api/v1/restaurants/:restaurant_code/orders/:code/update_status' do
+    
   end
 end
