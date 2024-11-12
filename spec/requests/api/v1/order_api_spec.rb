@@ -71,14 +71,14 @@ describe 'Orders API' do
       @restaurant = create_restaurant()
       dish = create_dish(restaurant: @restaurant)
       drink = create_drink(restaurant: @restaurant)
-      @first_order = @restaurant.orders.new(customer_name: 'John Doe', customer_email: 'john@doe.com')
-      @first_order.add_order_item(dish: dish, portion: dish.portions.first)
-      @first_order.add_order_item(drink: drink, portion: drink.portions.first)
-      @first_order.save
+      @order = @restaurant.orders.new(customer_name: 'John Doe', customer_email: 'john@doe.com')
+      @order.add_order_item(dish: dish, portion: dish.portions.first)
+      @order.add_order_item(drink: drink, portion: drink.portions.first)
+      @order.save
     end
 
     it 'success' do
-      get api_v1_restaurant_order_path(@restaurant.code, @first_order.code)
+      get api_v1_restaurant_order_path(@restaurant.code, @order.code)
 
       json_response = JSON.parse(response.body)
 
@@ -93,7 +93,7 @@ describe 'Orders API' do
     end
 
     it 'fail with invalid restaurant code' do
-      get api_v1_restaurant_order_path('invalid_code', @first_order.code)
+      get api_v1_restaurant_order_path('invalid_code', @order.code)
 
       json_response = JSON.parse(response.body)
 
@@ -115,13 +115,70 @@ describe 'Orders API' do
     it 'fail with internal server error' do
       allow(Order).to receive(:includes).and_raise(ActiveRecord::ActiveRecordError)
 
-      get api_v1_restaurant_order_path(@restaurant.code, @first_order.code)
+      get api_v1_restaurant_order_path(@restaurant.code, @order.code)
 
       expect(response.status).to eq 500
     end
   end
 
-  context 'PATCH /api/v1/restaurants/:restaurant_code/orders/:code/update_status' do
-    
+  context 'PATCH /api/v1/restaurants/:restaurant_code/orders/:code/preparing' do
+    before(:each) do
+      @restaurant = create_restaurant()
+      dish = create_dish(restaurant: @restaurant)
+      @order = @restaurant.orders.new(customer_name: 'John Doe', customer_email: 'john@doe.com')
+      @order.add_order_item(dish: dish, portion: dish.portions.first)
+      @order.save
+    end
+
+    it 'success' do
+      patch preparing_api_v1_restaurant_order_path(@restaurant.code, @order.code)
+
+      @order.reload
+      json_response = JSON.parse(response.body)
+
+      expect(response.status).to eq 200
+      expect(response.content_type).to include 'application/json'
+      expect(@order.status).to eq 'preparing'
+      expect(json_response["message"]).to eq 'Status atualizado para "em preparação".'
+    end
+
+    it 'fail because order is not awaiting confirmation' do
+      @order.delivered!
+      patch preparing_api_v1_restaurant_order_path(@restaurant.code, @order.code)
+
+      json_response = JSON.parse(response.body)
+
+      expect(response.status).to eq 409
+      expect(response.content_type).to include 'application/json'
+      expect(json_response["error"]).to eq 'O pedido não está aguardando confirmação.'
+    end
+
+    it 'fail with invalid restaurant code' do
+      patch preparing_api_v1_restaurant_order_path('invalid_code', @order.code)
+
+      json_response = JSON.parse(response.body)
+
+      expect(response.status).to eq 404
+      expect(response.content_type).to include 'application/json'
+      expect(json_response["error"]).to eq 'Nenhum registro encontrado'
+    end
+
+    it 'fail with invalid order code' do
+      patch preparing_api_v1_restaurant_order_path(@restaurant.code, 'invalid_code')
+
+      json_response = JSON.parse(response.body)
+
+      expect(response.status).to eq 404
+      expect(response.content_type).to include 'application/json'
+      expect(json_response["error"]).to eq 'Nenhum registro encontrado'
+    end
+
+    it 'fail with internal server error' do
+      allow(Order).to receive(:find_by!).and_raise(ActiveRecord::ActiveRecordError)
+
+      patch preparing_api_v1_restaurant_order_path(@restaurant.code, @order.code)
+
+      expect(response.status).to eq 500
+    end
   end
 end
