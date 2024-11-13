@@ -44,6 +44,17 @@ class Api::V1::OrdersController < Api::V1::ApiController
     end
   end
 
+  def ready
+    order = Order.find_by!(restaurant_id: @restaurant.id, code: params[:code])
+
+    if order.preparing?
+      order.ready!
+      render json: { message: 'Status atualizado para "pronto".' }, status: 200
+    else
+      render json: { error: "O pedido não estava em preparação." }, status: 409
+    end
+  end
+
   private
 
   def set_restaurant
