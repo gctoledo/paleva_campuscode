@@ -7,11 +7,11 @@ class Api::V1::OrdersController < Api::V1::ApiController
     else
       orders = (
                 params[:status].present? ?
-                Order.where(status: params[:status], restaurant_id: @restaurant.id).order(created_at: :desc) :
-                Order.where(restaurant_id: @restaurant.id).order(created_at: :desc)
+                Order.where(status: params[:status], restaurant_id: @restaurant.id).order(created_at: :asc) :
+                Order.where(restaurant_id: @restaurant.id).order(created_at: :asc)
                )
   
-      render json: orders.as_json(except: [:created_at, :updated_at]), status: 200
+      render json: orders.as_json(except: [:updated_at]), status: 200
     end
   end
 

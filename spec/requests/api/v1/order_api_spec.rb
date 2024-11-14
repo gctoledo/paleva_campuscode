@@ -21,8 +21,8 @@ describe 'Orders API' do
       expect(response.status).to eq 200
       expect(response.content_type).to include 'application/json'
       expect(json_response.length).to eq 2
-      expect(json_response[0]["customer_name"]).to eq 'Mary Jane'
-      expect(json_response[1]["customer_name"]).to eq 'John Doe'
+      expect(json_response[0]["customer_name"]).to eq 'John Doe'
+      expect(json_response[1]["customer_name"]).to eq 'Mary Jane'
     end
 
     it 'success with status' do
@@ -33,8 +33,8 @@ describe 'Orders API' do
       expect(response.status).to eq 200
       expect(response.content_type).to include 'application/json'
       expect(json_response.length).to eq 2
-      expect(json_response[0]["customer_name"]).to eq 'Mary Jane'
-      expect(json_response[1]["customer_name"]).to eq 'John Doe'
+      expect(json_response[0]["customer_name"]).to eq 'John Doe'
+      expect(json_response[1]["customer_name"]).to eq 'Mary Jane'
     end
 
     it 'fail with invalid status' do
