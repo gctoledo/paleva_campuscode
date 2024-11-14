@@ -24,6 +24,7 @@ gem "ostruct"
 gem "devise", "~> 4.9"
 gem "cpf_cnpj"
 gem "active_storage_validations"
+gem 'rack-cors'
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
