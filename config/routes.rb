@@ -55,6 +55,7 @@ Rails.application.routes.draw do
           member do
             patch :preparing
             patch :ready
+            patch :cancel
           end
         end
       end
