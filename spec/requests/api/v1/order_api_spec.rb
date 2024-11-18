@@ -243,4 +243,78 @@ describe 'Orders API' do
       expect(response.status).to eq 500
     end
   end
+
+  context 'PATCH /api/v1/restaurants/:restaurant_code/orders/:code/cancel' do
+    before(:each) do
+      @restaurant = create_restaurant()
+      dish = create_dish(restaurant: @restaurant)
+      @order = @restaurant.orders.new(customer_name: 'John Doe', customer_email: 'john@doe.com')
+      @order.add_order_item(dish: dish, portion: dish.portions.first)
+      @order.status = "preparing"
+      @order.save
+    end
+
+    it 'success' do
+      patch cancel_api_v1_restaurant_order_path(@restaurant.code, @order.code), params: { reason: "Cliente desistiu" }
+
+      @order.reload
+      json_response = JSON.parse(response.body)
+
+      expect(response.status).to eq 200
+      expect(response.content_type).to include 'application/json'
+      expect(@order.status).to eq 'canceled'
+      expect(@order.cancellation_reason).to eq 'Cliente desistiu'
+      expect(json_response["message"]).to eq 'Status atualizado para "cancelado".'
+    end
+
+    it 'fail because order status is not "awaiting_confirmation" or "preparing"' do
+      @order.delivered!
+      patch cancel_api_v1_restaurant_order_path(@restaurant.code, @order.code), params: { reason: "Cliente desistiu" }
+
+      @order.reload
+      json_response = JSON.parse(response.body)
+
+      expect(response.status).to eq 409
+      expect(response.content_type).to include 'application/json'
+      expect(json_response["error"]).to eq 'Somente pedidos aguardando confirmação ou em preparação podem ser cancelados.'
+    end
+
+    it 'fail if cancellation reason is not provided' do
+      patch cancel_api_v1_restaurant_order_path(@restaurant.code, @order.code)
+
+      json_response = JSON.parse(response.body)
+
+      expect(response.status).to eq 400
+      expect(response.content_type).to include 'application/json'
+      expect(json_response["error"]).to eq 'Motivo do cancelamento é obrigatório.'
+    end
+
+    it 'fail with invalid restaurant code' do
+      patch cancel_api_v1_restaurant_order_path('invalid_code', @order.code), params: { reason: "Cliente desistiu" }
+
+      json_response = JSON.parse(response.body)
+
+      expect(response.status).to eq 404
+      expect(response.content_type).to include 'application/json'
+      expect(json_response["error"]).to eq 'Nenhum registro encontrado'
+    end
+
+    it 'fail with invalid order code' do
+      patch cancel_api_v1_restaurant_order_path(@restaurant.code, 'invalid_code'), params: { reason: "Cliente desistiu" }
+
+      json_response = JSON.parse(response.body)
+
+      expect(response.status).to eq 404
+      expect(response.content_type).to include 'application/json'
+      expect(json_response["error"]).to eq 'Nenhum registro encontrado'
+    end
+
+    it 'fail with internal server error' do
+      allow(Order).to receive(:find_by!).and_raise(ActiveRecord::ActiveRecordError)
+
+      patch cancel_api_v1_restaurant_order_path(@restaurant.code, @order.code), params: { reason: "Cliente desistiu" }
+
+      expect(response.status).to eq 500
+    end
+  end
 end
