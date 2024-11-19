@@ -49,6 +49,8 @@ pt-BR:
         name: 'Nome'
       menu:
         name: 'Nome'
+        start_date: 'Data de abertura'
+        end_date: 'Data de encerramento'
       order:
         customer_name: 'Nome do cliente'
         customer_cpf: 'CPF do cliente'

@@ -9,7 +9,7 @@ class Opentime < ApplicationRecord
 
   def validate_time
     if open.present? && close.present? && open >= close
-      errors.add(:close, "deve ser maior que o horário de abertura")
+      errors.add(:close, "deve ser posterior ao horário de abertura")
     end
   end
 end

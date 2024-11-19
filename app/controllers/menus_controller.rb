@@ -5,8 +5,14 @@ class MenusController < ApplicationController
   skip_before_action :authorize_employee_access, only: [:index, :show]
 
   def index
-    @menus = @restaurant.menus
+    today = Date.today
+
+    @menus = @restaurant.menus.where(
+    "(start_date IS NULL AND end_date IS NULL) OR (start_date <= ? AND end_date >= ?)",
+    today, today
+    )
   end
+  
 
   def show
     @active_dishes = @menu.dishes.where(active: true)
@@ -45,7 +51,7 @@ class MenusController < ApplicationController
   private
 
   def menu_params
-    params.require(:menu).permit(:name, dish_ids: [], drink_ids: [])
+    params.require(:menu).permit(:name, :start_date, :end_date, dish_ids: [], drink_ids: [] )
   end
 
   def set_menu

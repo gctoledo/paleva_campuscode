@@ -1,5 +1,11 @@
 <div class="flex items-center justify-between mb-10">
-  <h2 class="text-2xl font-semibold mb-6"><%= @menu.name %> - Detalhes</h2>
+  <h2 class="text-2xl font-semibold mb-6">
+    <%= @menu.name %>
+    <% if @menu.end_date.present? %>
+      <% days_left = (@menu.end_date - Date.today).to_i %>
+      <span class="text-red-500 font-normal text-base"> - Expira em <%= days_left %> dia(s)</span>
+    <% end %>
+  </h2>
 
   <div class="flex gap-6 items-center">
     <%= link_to 'Novo pedido', new_menu_order_path(@menu), class: "cursor-pointer bg-[#5395cf] py-3 rounded-lg font-bold hover:bg-[#3f729e] duration-200 px-3"%>
