@@ -35,6 +35,7 @@ end
 RSpec.configure do |config|
   config.before(type: :system) do
     driven_by(:rack_test)
+    config.include ActiveSupport::Testing::TimeHelpers
   end
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
