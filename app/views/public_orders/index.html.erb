@@ -1,0 +1,21 @@
+<%= form_with url: search_track_orders_path, html: { class: 'bg-white p-4 rounded-lg shadow-md', id: 'search-order-form' } do %>
+  <div class="mb-4">
+    <label for="public_order_code" class="block text-gray-700 font-semibold text-center">Código do Pedido</label>
+    <input
+      type="text"
+      id="public_order_code"
+      name="public_order_code"
+      placeholder="Digite o código do pedido"
+      class="w-full mt-2 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
+      required
+    />
+  </div>
+  <div class="flex justify-center">
+    <button
+      type="submit"
+      class="bg-blue-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-600 transition duration-200"
+    >
+      Buscar Pedido
+    </button>
+  </div>
+<% end %>

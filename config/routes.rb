@@ -61,4 +61,11 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  resources :track_orders, controller: 'public_orders', only: [:index, :show], param: :code do
+    collection do
+      post :search
+    end
+  end
+    
 end

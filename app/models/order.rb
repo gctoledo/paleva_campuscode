@@ -9,6 +9,8 @@ class Order < ApplicationRecord
 
   before_save :calculate_total
 
+  before_update :set_status_timestamps, if: :will_save_change_to_status?
+
   validates :customer_name, presence: true
   validates :customer_phone, format: { with: /\A\d{10,11}\z/, message: "deve ter 10 ou 11 dígitos" }, presence: true, unless: -> { customer_email.present? }
   validates :customer_email, format: { with: /\A[\w\-\.]+@([\w\-]+\.)+[\w\-]{2,4}\z/, message: "não é válido" }, presence: true, unless: -> { customer_phone.present? }
@@ -44,6 +46,17 @@ class Order < ApplicationRecord
     self.code = loop do
       random_code = SecureRandom.alphanumeric(8).upcase
       break random_code unless Order.exists?(code: random_code)
+    end
+  end
+
+  def set_status_timestamps
+    case status
+    when "preparing"
+      self.preparing_at = Time.current
+    when "ready"
+      self.ready_at = Time.current
+    when "delivered"
+      self.delivered_at = Time.current
     end
   end
 end
