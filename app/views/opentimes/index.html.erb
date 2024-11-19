@@ -4,16 +4,43 @@
   <% if @opentimes.length < 7 %>
     <%= link_to 'Cadastrar', new_opentime_path, class: "cursor-pointer bg-[#5395cf] py-3 rounded-lg font-bold hover:bg-[#3f729e] duration-200 px-3"%>
   <% end %>
-
 </div>
 
 <div>
   <% if !@opentimes.empty? %>
-    <% @opentimes.each do |o| %>
-      <%= o.week_day %>
-    <% end %>
+    <div class="grid grid-cols-3 gap-4">
+      <% (0..6).each do |day_index| %>
+        <% day_name = I18n.t('date.day_names')[day_index].capitalize %>
+        <% opentime = @opentimes.find { |o| o.week_day == day_index } %>
+        <div class="p-4 rounded-lg shadow-md text-center <%= opentime && !opentime.closed? ? 'bg-green-500 text-white' : 'bg-red-500 text-white' %>">
+          <div class="w-full h-full flex flex-col items-center justify-center">
+            <% if opentime %>
+              <%= link_to day_name, edit_opentime_path(opentime), class: "text-lg font-bold" %>
+            <% else %>
+              <h2 class="text-lg font-semibold"><%= day_name %></h2>
+            <% end %>
+            <% if opentime %>
+              <p class="text-sm mt-2">
+                <span class="font-medium">Abertura:</span> <%= opentime.open.strftime('%H:%M') %>
+              </p>
+              <p class="text-sm">
+                <span class="font-medium">Encerramento:</span> <%= opentime.close.strftime('%H:%M') %>
+              </p>
+
+              <% if !opentime.closed? %>
+                <p class="text-sm mt-2">Aberto</p>
+              <% else %>
+                <p class="text-sm mt-2">Fechado</p>
+              <% end %>
+            <% else %>
+              <p class="text-sm mt-2">Não cadastrado</p>
+              <p class="text-sm mt-2">Fechado</p>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
   <% else %>
     <p class="text-lg">Você não possui horários cadastrados. Por favor, adicione-os.</p>
   <% end %>
-
 </div>

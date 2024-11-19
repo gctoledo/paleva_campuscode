@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   
   resource :restaurants, only: [ :new, :create ]
 
-  resources :opentimes, only: [ :index, :new, :create ]
+  resources :opentimes, only: [ :index, :new, :create, :edit, :update ]
 
   resources :dishes do
     member do

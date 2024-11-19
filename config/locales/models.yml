@@ -30,7 +30,7 @@ pt-BR:
         week_day: 'Dia da semana'
         open: 'Horário de abertura'
         close: 'Horário de encerramento'
-        closed: 'Fechado'
+        closed: 'Fechado?'
       dish:
         name: 'Nome'
         description: 'Descrição'
