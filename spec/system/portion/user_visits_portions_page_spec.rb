@@ -58,6 +58,42 @@ describe 'User visists portion' do
     expect(page).to have_content('R$ 25,00')
   end
 
+  it 'and is authenticated' do
+    dish = @r.dishes.new(name: 'Parmegiana', description: 'É bom!')
+    dish.image.attach(
+      io: File.open('spec/fixtures/test_image.png'),
+      filename: 'test_image.png',
+      content_type: 'image/png'
+    )
+    dish.portions.new(description: 'Grande', price: 25)
+    dish.save
+
+    visit root_path
+    within('nav') do
+      click_on 'Pratos'
+    end
+    click_on 'Parmegiana'
+    
+    expect(current_path).to eq dish_path(dish.id)
+  end
+
+  it 'and is not authenticated' do
+    dish = @r.dishes.new(name: 'Parmegiana', description: 'É bom!')
+    dish.image.attach(
+      io: File.open('spec/fixtures/test_image.png'),
+      filename: 'test_image.png',
+      content_type: 'image/png'
+    )
+    dish.portions.new(description: 'Grande', price: 25)
+    dish.save
+    logout()
+
+    visit dish_path(dish.id)
+
+    expect(current_path).to eq new_user_session_path
+    expect(page).to have_content('Para continuar, faça login ou registre-se.')
+  end
+
   it 'and have not portions registred' do
     #Arrange
     dish = @r.dishes.new(name: 'Parmegiana', description: 'É bom!')

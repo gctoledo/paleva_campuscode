@@ -9,12 +9,27 @@ describe 'User visits menu edition page' do
     @menu = @r.menus.create!(name: 'Almoço')
   end
 
-  it 'and sees all form inputs' do
+  it 'and is authenticated' do
     visit root_path
     click_on 'Ver detalhes'
     click_on 'Editar'
 
-    expect(current_path).to eq edit_menu_path(@menu.id)
+    expect(current_path).to eq edit_menu_path(@menu)
+  end
+
+  it 'and is not authenticated' do
+    logout()
+
+    visit edit_menu_path(@menu)
+
+    expect(current_path).to eq new_user_session_path
+    expect(page).to have_content('Para continuar, faça login ou registre-se.')
+  end
+
+  it 'and sees all form inputs' do
+    visit edit_menu_path(@menu)
+
+    expect(current_path).to eq edit_menu_path(@menu)
     expect(page).to have_field('Nome')
   end
 
@@ -22,7 +37,7 @@ describe 'User visits menu edition page' do
     employee = User.create!(email: 'mary@jane.com', cpf: CPF.generate, first_name: 'Mary', last_name: 'Jane', password: 'password123456', restaurant_id: @r.id, role: 1)
     login_as(employee)
 
-    visit edit_menu_path(@menu.id)
+    visit edit_menu_path(@menu)
 
     expect(current_path).to eq root_path
     expect(page).to have_content('Acesso não autorizado')
@@ -34,7 +49,7 @@ describe 'User visits menu edition page' do
     create_opentime(second_restaurant)
     login_as(second_user)
 
-    visit edit_menu_path(@menu.id)
+    visit edit_menu_path(@menu)
 
     expect(current_path).to eq root_path
     expect(page).to have_content('Acesso não autorizado')
@@ -49,16 +64,14 @@ describe 'User visits menu edition page' do
     )
     drink.save
 
-    visit root_path
-    click_on 'Ver detalhes'
-    click_on 'Editar'
+    visit edit_menu_path(@menu)
     within('#menu-form') do
       fill_in 'Nome', with: 'Jantar'
       check 'Coca-cola'
     end
     click_on 'Salvar cardápio'
 
-    expect(current_path).to eq menu_path(@menu.id)
+    expect(current_path).to eq menu_path(@menu)
     expect(page).to have_content('Jantar')
     expect(page).to have_content('Coca-cola')
   end

@@ -8,12 +8,27 @@ describe 'User visits tags page' do
     create_opentime(@r)
   end
 
-  it 'and have not tag registered' do
+  it 'and is authenticated' do
     visit root_path
     within('nav') do
       click_on 'Pratos'
     end
     click_on 'Marcadores'
+    
+    expect(current_path).to eq tags_path
+  end
+
+  it 'and is not authenticated' do
+    logout()
+
+    visit tags_path
+
+    expect(current_path).to eq new_user_session_path
+    expect(page).to have_content('Para continuar, faça login ou registre-se.')
+  end
+
+  it 'and have not tag registered' do
+    visit tags_path
 
     expect(current_path).to eq tags_path
     expect(page).to have_content 'Você não possui marcadores cadastrados.'
@@ -22,11 +37,7 @@ describe 'User visits tags page' do
   it 'and already have tag registered' do
     @r.tags.create!(name: 'Vegetariano')
 
-    visit root_path
-    within('nav') do
-      click_on 'Pratos'
-    end
-    click_on 'Marcadores'
+    visit tags_path
 
     expect(current_path).to eq tags_path
     expect(page).to have_content 'Vegetariano'

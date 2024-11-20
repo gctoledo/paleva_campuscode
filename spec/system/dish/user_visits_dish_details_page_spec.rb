@@ -15,6 +15,26 @@ describe 'User visits dish details page' do
     @dish.save
   end
 
+  it 'and is authenticated' do
+    visit root_path
+    within('nav') do
+      click_on 'Pratos'
+    end
+    click_on 'Parmegiana'
+
+    expect(current_path).to eq dish_path(@dish)
+    expect(page).to have_content('Parmegiana')
+  end
+
+  it 'and is not authenticated' do
+    logout()
+
+    visit dish_path(@dish)
+
+    expect(current_path).to eq new_user_session_path
+    expect(page).to have_content('Para continuar, faça login ou registre-se.')
+  end
+
   it 'and is kicked out because dish is from another restaurant' do
     second_restaurant = Restaurant.create!(trade_name: 'McDonalds', legal_name: 'McDonalds', cnpj: CNPJ.generate, address: 'United Stated', phone: '11111111111', email: 'mc@donalds.com')
     second_user = User.create!(email: 'mary@jane.com', cpf: CPF.generate, first_name: 'Mary', last_name: 'Jane', password: 'password123456', restaurant_id: second_restaurant.id)

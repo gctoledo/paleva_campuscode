@@ -15,14 +15,29 @@ describe 'User visits drink edition page' do
     @drink.save
   end
 
-  it 'and sees all form inputs' do
-    #Act
+  it 'and is authenticated' do
     visit root_path
     within('nav') do
       click_on 'Bebidas'
     end
     click_on 'Coca-cola'
     click_on 'Editar'
+
+    expect(current_path).to eq edit_drink_path(@drink.id)
+  end
+
+  it 'and is not authenticated' do
+    logout()
+
+    visit edit_drink_path(@drink.id)
+
+    expect(current_path).to eq new_user_session_path
+    expect(page).to have_content('Para continuar, faça login ou registre-se.')
+  end
+
+  it 'and sees all form inputs' do
+    #Act
+    visit edit_drink_path(@drink.id)
 
     #Assert
     expect(current_path).to eq(edit_drink_path(@drink.id))

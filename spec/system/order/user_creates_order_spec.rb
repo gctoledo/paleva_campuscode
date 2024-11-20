@@ -8,6 +8,21 @@ describe 'User visits order creation page' do
     create_opentime(@r)
   end
 
+  it 'and is authenticated' do
+    visit new_order_path
+
+    expect(current_path).to eq new_order_path
+  end
+
+  it 'and is not authenticated' do
+    logout()
+
+    visit new_order_path
+
+    expect(current_path).to eq new_user_session_path
+    expect(page).to have_content('Para continuar, faça login ou registre-se.')
+  end
+
   it 'through orders page' do
     visit root_path
     within('nav') do

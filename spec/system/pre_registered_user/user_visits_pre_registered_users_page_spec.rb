@@ -8,11 +8,26 @@ describe 'User visits pre registered users page' do
     create_opentime(@r)
   end
 
-  it 'and have no pre registered users registered' do
+  it 'and is authenticated' do
     visit root_path
     within('nav') do
       click_on 'Funcionários'
     end
+    
+    expect(current_path).to eq pre_registered_users_path
+  end
+
+  it 'and is not authenticated' do
+    logout()
+
+    visit pre_registered_users_path
+
+    expect(current_path).to eq new_user_session_path
+    expect(page).to have_content('Para continuar, faça login ou registre-se.')
+  end
+
+  it 'and have no pre registered users registered' do
+    visit pre_registered_users_path
 
     expect(page).to have_content('Não há usuários pré-cadastrados no momento.')
   end

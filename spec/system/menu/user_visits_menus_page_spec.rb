@@ -8,8 +8,31 @@ describe 'User visits menus page' do
     create_opentime(@r)
   end
 
+  it 'and is authenticated' do
+    @r.menus.create!(name: 'Almoço')
+    @r.menus.create!(name: 'Jantar', start_date: (Date.today), end_date: (Date.today + 7))
+
+    visit menus_path
+    within('nav') do
+      click_on 'Cardápios'
+    end
+    
+    expect(page).to have_content('Almoço')
+    expect(page).to have_content('Jantar')
+    expect(page).to have_content('Expira em 7 dia(s)')
+  end
+
+  it 'and is not authenticated' do
+    logout()
+
+    visit menus_path
+
+    expect(current_path).to eq new_user_session_path
+    expect(page).to have_content('Para continuar, faça login ou registre-se.')
+  end
+
   it 'and have no menus registered' do
-    visit root_path
+    visit menus_path
 
     expect(page).to have_content('Nenhum cardápio cadastrado.')
   end
@@ -19,7 +42,7 @@ describe 'User visits menus page' do
     
 
     travel_to(Date.today + 10) do
-      visit root_path
+      visit menus_path
 
       expect(page).to have_content('Nenhum cardápio cadastrado.')
       expect(page).not_to have_content('Almoço')
@@ -31,21 +54,10 @@ describe 'User visits menus page' do
     
 
     travel_to(Date.today - 1) do
-      visit root_path
+      visit menus_path
 
       expect(page).to have_content('Nenhum cardápio cadastrado.')
       expect(page).not_to have_content('Almoço')
     end
-  end
-
-  it 'and sees all menus' do 
-    @r.menus.create!(name: 'Almoço')
-    @r.menus.create!(name: 'Jantar', start_date: (Date.today), end_date: (Date.today + 7))
-    
-    visit root_path
-
-    expect(page).to have_content('Almoço')
-    expect(page).to have_content('Jantar')
-    expect(page).to have_content('Expira em 7 dia(s)')
   end
 end

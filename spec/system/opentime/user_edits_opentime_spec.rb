@@ -8,12 +8,27 @@ describe 'User visits opentime edition page' do
     login_as(user)
   end
 
-  it 'and sees all form inputs' do
+  it 'and is authenticated' do
     visit root_path
     within('nav') do
       click_on 'Horários'
     end
     click_on 'Domingo'
+
+    expect(current_path).to eq edit_opentime_path(@opentime.id)
+  end
+
+  it 'and is not authenticated' do
+    logout()
+
+    visit edit_opentime_path(@opentime.id)
+
+    expect(current_path).to eq new_user_session_path
+    expect(page).to have_content('Para continuar, faça login ou registre-se.')
+  end
+
+  it 'and sees all form inputs' do
+    visit edit_opentime_path(@opentime.id)
 
     expect(current_path).to eq edit_opentime_path(@opentime)
     expect(page).to have_content('Domingo')

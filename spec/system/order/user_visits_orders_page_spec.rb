@@ -8,6 +8,24 @@ describe 'User visits orders page' do
     create_opentime(@r)
   end
 
+  it 'and is authenticated' do
+    visit root_path
+    within('nav') do
+      click_on 'Pedidos'
+    end
+    
+    expect(current_path).to eq orders_path
+  end
+
+  it 'and is not authenticated' do
+    logout()
+
+    visit orders_path
+
+    expect(current_path).to eq new_user_session_path
+    expect(page).to have_content('Para continuar, faça login ou registre-se.')
+  end
+
   it 'and have no orders registered' do
     visit orders_path
 

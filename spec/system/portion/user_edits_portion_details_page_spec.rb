@@ -16,6 +16,29 @@ describe 'User visits portion edition page' do
     @drink.save
   end
 
+  it 'and is authenticated' do
+    visit root_path
+    within('nav') do
+      click_on 'Bebidas'
+    end
+    click_on 'Coca-cola'
+    within('table') do
+      click_on 'Editar'
+    end
+
+    expect(current_path).to eq edit_drink_portion_path(@drink.id, @portion.id)
+  end
+
+  it 'and is not authenticated' do
+    logout()
+
+    visit edit_drink_portion_path(@drink.id, @portion.id)
+
+    expect(current_path).to eq new_user_session_path
+    expect(page).to have_content('Para continuar, faça login ou registre-se.')
+  end
+
+
   it 'and cant visit edit portion page from other restaurants' do
     second_restaurant = Restaurant.create!(trade_name: 'McDonalds', legal_name: 'McDonalds', cnpj: CNPJ.generate, address: 'United Stated', phone: '11111111111', email: 'mc@donalds.com')
     second_user = User.create!(email: 'mary@jane.com', cpf: CPF.generate, first_name: 'Mary', last_name: 'Jane', password: 'password123456', restaurant_id: second_restaurant.id)

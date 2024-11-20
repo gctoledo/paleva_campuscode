@@ -8,13 +8,28 @@ describe 'Users visits opentimes page' do
     login_as(user)
   end
 
-  it 'and have no opentimes registered' do
-    Opentime.destroy_all
-
+  it 'and is authenticated' do
     visit root_path
     within('nav') do
       click_on 'Horários'
     end
+    
+    expect(current_path).to eq opentimes_path
+  end
+
+  it 'and is not authenticated' do
+    logout()
+
+    visit opentimes_path
+
+    expect(current_path).to eq new_user_session_path
+    expect(page).to have_content('Para continuar, faça login ou registre-se.')
+  end
+
+  it 'and have no opentimes registered' do
+    Opentime.destroy_all
+
+    visit opentimes_path
 
     expect(page).to have_content('Você não possui horários cadastrados. Por favor, adicione-os.')
   end

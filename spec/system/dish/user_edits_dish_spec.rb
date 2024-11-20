@@ -15,14 +15,29 @@ describe 'User visits dish edition page' do
     @dish.save
   end
 
-  it 'and sees all form inputs' do
-    #Act
+  it 'and is authenticated' do
     visit root_path
     within('nav') do
       click_on 'Pratos'
     end
     click_on 'Parmegiana'
     click_on 'Editar'
+
+    expect(current_path).to eq edit_dish_path(@dish.id)
+  end
+
+  it 'and is not authenticated' do
+    logout()
+
+    visit edit_dish_path(@dish.id)
+
+    expect(current_path).to eq new_user_session_path
+    expect(page).to have_content('Para continuar, faça login ou registre-se.')
+  end
+
+  it 'and sees all form inputs' do
+    #Act
+    visit edit_dish_path(@dish.id)
 
     #Assert
     expect(current_path).to eq(edit_dish_path(@dish.id))

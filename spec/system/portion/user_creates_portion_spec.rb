@@ -8,6 +8,38 @@ describe 'User visits portion creation page' do
     create_opentime(@r)
   end
 
+  it 'and is authenticated' do
+    dish = @r.dishes.new(name: 'Parmegiana', description: 'É bom!')
+    dish.image.attach(
+      io: File.open('spec/fixtures/test_image.png'),
+      filename: 'test_image.png',
+      content_type: 'image/png'
+    )
+    dish.save
+
+    visit new_dish_portion_path(dish)
+
+    expect(page).to have_field('Descrição')
+    expect(page).to have_field('Preço')  
+  end
+
+  it 'and is not authenticated' do
+    dish = @r.dishes.new(name: 'Parmegiana', description: 'É bom!')
+    dish.image.attach(
+      io: File.open('spec/fixtures/test_image.png'),
+      filename: 'test_image.png',
+      content_type: 'image/png'
+    )
+    dish.save
+    logout()
+
+    visit new_dish_portion_path(dish)
+
+    expect(current_path).to eq new_user_session_path
+    expect(page).to have_content('Para continuar, faça login ou registre-se.')
+  end
+
+
   it 'through dish details page and sees all form inputs in creation form' do
     #Arrange
     dish = @r.dishes.new(name: 'Parmegiana', description: 'É bom!')
@@ -27,7 +59,7 @@ describe 'User visits portion creation page' do
     click_on 'Adicionar porção'
 
     #Assert
-    expect(current_path).to eq new_dish_portion_path(dish.id)
+    expect(current_path).to eq new_dish_portion_path(dish)
     expect(page).to have_field('Descrição')
     expect(page).to have_field('Preço')
   end

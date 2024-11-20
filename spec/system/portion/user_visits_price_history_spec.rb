@@ -16,13 +16,28 @@ describe 'User visits price history page' do
     @dish.save
   end
 
-  it 'after create a new portion' do
+  it 'and is authenticated' do
     visit root_path
     within('nav') do
       click_on 'Pratos'
     end
     click_on 'Parmegiana'
     click_on 'Grande'
+    
+    expect(current_path).to eq price_history_dish_portion_path(@dish.id, @p.id)
+  end
+
+  it 'and is not authenticated' do
+    logout()
+
+    visit price_history_dish_portion_path(@dish.id, @p.id)
+
+    expect(current_path).to eq new_user_session_path
+    expect(page).to have_content('Para continuar, faça login ou registre-se.')
+  end
+
+  it 'after create a new portion' do
+    visit price_history_dish_portion_path(@dish.id, @p.id)
 
     expect(page).to have_content 'Não houve alteração de preço dessa porção!'
   end

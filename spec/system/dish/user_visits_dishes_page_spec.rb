@@ -3,8 +3,8 @@ require 'rails_helper'
 describe 'User visits dishes pages' do
   before(:each) do
     @r = create_restaurant()
-    user = User.create!(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456', restaurant_id: @r.id)
-    login_as(user)
+    @user = User.create!(email: 'john@doe.com', cpf: CPF.generate, first_name: 'John', last_name: 'Doe', password: 'password123456', restaurant_id: @r.id)
+    login_as(@user)
     create_opentime(@r)
     @dish = @r.dishes.new(name: 'Parmegiana', description: 'É bom!')
     @dish.image.attach(
@@ -15,37 +15,28 @@ describe 'User visits dishes pages' do
     @dish.save
   end
 
-  it 'and sees all dishes' do 
-    #Act
+  it 'and is authenticated' do
     visit root_path
     within('nav') do
       click_on 'Pratos'
     end
 
-    #Assert
     expect(current_path).to eq dishes_path
     expect(page).to have_content('Parmegiana')
   end
 
-  it 'and can access your dishes' do
-    #Act
-    visit root_path
-    within('nav') do
-      click_on 'Pratos'
-    end
-    click_on 'Parmegiana'
+  it 'and is not authenticated' do
+    logout()
 
-    #Assert
-    expect(current_path).to eq dish_path(@dish.id)
-    expect(page).to have_content('Parmegiana')
+    visit dishes_path
+
+    expect(current_path).to eq new_user_session_path
+    expect(page).to have_content('Para continuar, faça login ou registre-se.')
   end
 
   it 'and can see status of your dishes' do
     #Act
-    visit root_path
-    within('nav') do
-      click_on 'Pratos'
-    end
+    visit dishes_path
 
     #Assert
     expect(page).to have_content('Parmegiana')
@@ -56,10 +47,7 @@ describe 'User visits dishes pages' do
     @r.tags.create!(name: 'Vegetariano')
 
     #Act
-    visit root_path
-    within('nav') do
-      click_on 'Pratos'
-    end
+    visit dishes_path
 
     #Assert
     expect(page).to have_content('Parmegiana')
@@ -80,10 +68,7 @@ describe 'User visits dishes pages' do
     second_dish.save
 
     #Act
-    visit root_path
-    within('nav') do
-      click_on 'Pratos'
-    end
+    visit dishes_path
     click_on 'Vegetariano'
 
     #Assert
