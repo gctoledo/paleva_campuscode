@@ -1,24 +1,37 @@
-# README
+# PaLeva
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+PaLeva é uma aplicação de gestão para restaurantes, integrando funcionalidades como cadastro de usuários e restaurantes, gerenciamento de cardápios e pedidos, e aplicação de descontos personalizados. A solução inclui uma API para integração com outros sistemas e um painel Vue.js para o gerenciamento prático de pedidos pela cozinha.
 
-Things you may want to cover:
+### 🔨 Guia de instalação
 
-* Ruby version
+Para visualizar o projeto é necessário possuir o Ruby instalado em sua máquina. Você pode fazer um clone do repositório e executar os seguintes comandos no terminal para visualizar o projeto:
 
-* System dependencies
+Clone o projeto
 
-* Configuration
+```
+  git clone https://github.com/gctoledo/paleva_campuscode
+```
 
-* Database creation
+Entre no diretório do projeto
 
-* Database initialization
+```
+  cd paleva_campuscode
+```
 
-* How to run the test suite
+Instale as dependências
 
-* Services (job queues, cache servers, search engines, etc.)
+```
+  bundle install
+```
 
-* Deployment instructions
+Inicie o servidor
 
-* ...
+```
+  bin/dev
+```
+
+## 📦 Tecnologias usadas:
+
+- ![Ruby](https://img.shields.io/badge/ruby-%23CC342D.svg?style=for-the-badge&logo=ruby&logoColor=white)
+- ![Rails](https://img.shields.io/badge/rails-%23CC0000.svg?style=for-the-badge&logo=ruby-on-rails&logoColor=white)
+- ![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
