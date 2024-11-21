@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_11_19_171506) do
+ActiveRecord::Schema[7.2].define(version: 2024_11_21_021150) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -214,24 +214,25 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_19_171506) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "dishes", "restaurants"
-  add_foreign_key "dishes_tags", "dishes"
-  add_foreign_key "dishes_tags", "tags"
-  add_foreign_key "drinks", "restaurants"
-  add_foreign_key "menu_dishes", "dishes"
-  add_foreign_key "menu_dishes", "menus"
-  add_foreign_key "menu_drinks", "drinks"
-  add_foreign_key "menu_drinks", "menus"
-  add_foreign_key "menus", "restaurants"
-  add_foreign_key "opentimes", "restaurants"
-  add_foreign_key "order_items", "dishes"
-  add_foreign_key "order_items", "drinks"
-  add_foreign_key "order_items", "orders"
-  add_foreign_key "order_items", "portions"
-  add_foreign_key "orders", "restaurants"
-  add_foreign_key "portion_price_histories", "portions"
-  add_foreign_key "pre_registered_users", "restaurants"
-  add_foreign_key "tags", "restaurants"
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id", on_delete: :cascade
+  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id", on_delete: :cascade
+  add_foreign_key "dishes", "restaurants", on_delete: :cascade
+  add_foreign_key "dishes_tags", "dishes", on_delete: :cascade
+  add_foreign_key "dishes_tags", "tags", on_delete: :cascade
+  add_foreign_key "drinks", "restaurants", on_delete: :cascade
+  add_foreign_key "menu_dishes", "dishes", on_delete: :cascade
+  add_foreign_key "menu_dishes", "menus", on_delete: :cascade
+  add_foreign_key "menu_drinks", "drinks", on_delete: :cascade
+  add_foreign_key "menu_drinks", "menus", on_delete: :cascade
+  add_foreign_key "menus", "restaurants", on_delete: :cascade
+  add_foreign_key "opentimes", "restaurants", on_delete: :cascade
+  add_foreign_key "order_items", "dishes", on_delete: :cascade
+  add_foreign_key "order_items", "drinks", on_delete: :cascade
+  add_foreign_key "order_items", "orders", on_delete: :cascade
+  add_foreign_key "order_items", "portions", on_delete: :cascade
+  add_foreign_key "orders", "restaurants", on_delete: :cascade
+  add_foreign_key "portion_price_histories", "portions", on_delete: :cascade
+  add_foreign_key "portion_price_histories", "portions", on_delete: :cascade
+  add_foreign_key "pre_registered_users", "restaurants", on_delete: :cascade
+  add_foreign_key "tags", "restaurants", on_delete: :cascade
 end
